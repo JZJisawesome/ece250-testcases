@@ -4,7 +4,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 
 # Sweet, but how do I use them?
 
-As recommended ime and time again by the teaching staff, it is highly recommended you do your testing from an eceubuntu server.
+As recommended time and time again by the teaching staff, it is highly recommended you do your testing from an eceubuntu server.
 Steps to connect to such a server is beyond the scope of this README.
 
 Once you're logged into an eceubuntu server (or a local Unix/Linux system of your own), clone this repository:
@@ -33,11 +33,11 @@ $ valgrind ./a.out < path/to/testcase.in
 
 You can then compare the results to the corresponding file in the "output" folder to ensure your program produces the correct output!
 
-In the future, I (John) will be writing an "autograder" of my own that will eventually automate this process for you!
+In the future, I (John) will be writing an "autograder" of my own that will eventually automate this process for you (not the git clone part)!
 
 # Contributing
 
-By having your testcases included in this repository, you agree to having them released under the MIT license (of course you retain copyright).
+By having your testcases included in this repository, you agree to having them released under the MIT License (of course you retain copyright).
 You'll get a spot in the following "Contributors" section of the README for your contributions, indicating which test files are yours.
 
 Only input files with a corresponding expected output file will be accepted for inclusion.
@@ -48,4 +48,4 @@ Just submit a PR to participate, or if you're a big enough contributor, I'll gra
 
 | Contributor | Testcases contributed |
 |-------------|-------------------|
-| John Jekel | supports_double, |
+| John Jekel (JZJ) | supports_double, |
