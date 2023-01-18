@@ -14,7 +14,12 @@ import os.path
 
 #Functions
 def main():
-    print("\x1b[95mJekel AutoGrader\x1b[0m")
+    print("\x1b[95m     _      _        _      _         _         ____               _\x1b[0m")
+    print("\x1b[95m    | | ___| | _____| |    / \\  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __\x1b[0m")
+    print("\x1b[95m _  | |/ _ \\ |/ / _ \\ |   / _ \\| | | | __/ _ \\| |  _| '__/ _` |/ _` |/ _ \\ '__|\x1b[0m")
+    print("\x1b[95m| |_| |  __/   <  __/ |  / ___ \\ |_| | || (_) | |_| | | | (_| | (_| |  __/ |\x1b[0m")
+    print("\x1b[95m \\___/ \\___|_|\\_\\___|_| /_/   \\_\\__,_|\\__\\___/ \\____|_|  \\__,_|\\__,_|\\___|_|\x1b[0m")
+
     print("\x1b[90mCopyright (c) 2023 John Jekel\x1b[0m\n")
 
     ensure_testcases_are_locatable_or_die()
