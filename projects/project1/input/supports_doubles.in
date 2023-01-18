@@ -1,0 +1,12 @@
+CRT 3
+DEF pi 3.141592654
+DEF e 2.78
+DEF g 9.79
+SUB pi e pi
+PRT pi
+REM pi
+ADD pi e g
+DEF pi2 6.28
+ADD pi2 e g
+PRT g
+END
