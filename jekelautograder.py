@@ -34,9 +34,11 @@ def main():
 
     extract_tarball_and_compile(tarball_info[0], tarball_info[1], tarball_info[2])
 
-    manifest = read_manifest(tarball_info[2])
+    testcases = read_manifest(tarball_info[2])
 
-    die("The autograder isn't quite finished yet", "John is working on it :)")
+    test_results = run_testcases(tarball_info, testcases)
+
+    summarize_and_grade(test_results)
 
     print("\x1b[95mWhelp, that's all from me. Thanks for using the Jekel AutoGrader :)\x1b[0m")
 
@@ -151,10 +153,10 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     if not os.path.exists(testing_path + "/a.out"):
         unrecoverable_project_mistake("Your makefile didn't produce a.out", "Please ensure there are no errors above, and that you haven't used GCC's -o option")
 
-    print("Sweet, your Makefile sucessfully produced an a.out binary!")
+    print("Sweet, your Makefile sucessfully produced an a.out binary!\n")
 
 def read_manifest(project_num):
-    print("Reading the manifest file for Project " + str(project_num) + " and ensuring I can find all of the testcases...")
+    print("Reading the manifest file for Project " + str(project_num) + " and \x1b[4mensuring I can find all of the testcases\x1b[0m...")
 
     #TODO error checking json parsing
 
@@ -162,7 +164,7 @@ def read_manifest(project_num):
     testcases_path = "projects/project" + str(project_num)
     manifest_path = testcases_path + "/manifest.json"
     manifest_file = open(manifest_path)
-    manifest = json.load(manifest_file)
+    manifest = json.load(manifest_file)#TODO handle exceptions here
 
     if not "testcases" in manifest:
         die("The manifest.json for the current project is missing a testcases array", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
@@ -177,15 +179,25 @@ def read_manifest(project_num):
         if not os.path.exists(testcases_path + "/output/" + testcase["name"] + ".out"):
             die("The output file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", "Add the file or remove the entry from the manifest, or contact jzjekel@uwaterloo.ca")
 
-    print("Sweet, I found all of the testcases in the manifest!")
-    return manifest
+    print("Awesome, all " + str(len(manifest["testcases"])) + " testcase(s) in the manifest exist!\n")
+    return manifest["testcases"]
 
-def run_testcases():#TODO parameters
+def run_testcases(tarball_info, testcases):#TODO parameters
+    print("Alright, we're finally getting to the good part: actually running testcases!")
+
+    testcase_num = 1
+    for testcase in testcases:
+        print("Running testcase " + str(testcase_num) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m...", end="")
+
+        #TODO
+        die("The autograder isn't quite finished yet", "John is working on it :)")
+
+        testcase_num = testcase_num + 1
+
     die("The autograder isn't quite finished yet", "John is working on it :)")
 
-#TODO function to run testcases and collect results
-
-#TODO function to summarize and grade
+def summarize_and_grade():
+    die("The autograder isn't quite finished yet", "John is working on it :)")
 
 def recoverable_project_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
