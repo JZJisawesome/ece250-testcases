@@ -48,7 +48,7 @@ The autograder implementation included in this repo, called the Jekel AutoGrader
 Note down the path to your submission tarball, and open a terminal in the root. You can then test your tarball with
 
 ```
-$ python3 jekelautograder.py path/to/your/tarball.tar.gz
+$ python3 jekelautograder.py path/to/your/tarball/example_p1.tar.gz
      _      _        _      _         _         ____               _
     | | ___| | _____| |    / \  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __
  _  | |/ _ \ |/ / _ \ |   / _ \| | | | __/ _ \| |  _| '__/ _` |/ _` |/ _ \ '__|
@@ -60,8 +60,8 @@ Performing some basic sanity checks before we get started...
 Looking good, I think I'm set to go!
 
 To begin, let's check your tarball's file name and path...
-Excellent! Based on the name of the tarball, jzjekel_p1.tar.gz, I've deduced the following:
-Your UWID is: jzjekel
+Excellent! Based on the name of the tarball, example_p1.tar.gz, I've deduced the following:
+Your UWID is: example
 Your tarball is for: Project 1
 [...]
 ```
