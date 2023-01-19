@@ -5,6 +5,9 @@
 #
 # Useful script for autograding your project with the testcases in the repository
 
+# Constants
+TESTING_DIR = "~/.jekelautograder"
+
 # Imports
 
 import argparse
@@ -24,6 +27,8 @@ def main():
     basic_sanity_checks()
 
     tarball_info = get_info_about_tarball()
+
+    extract_tarball_and_compile(tarball_info[0], tarball_info[1], tarball_info[2])
 
     die("The autograder isn't quite finished yet", "John is working on it :)")
 
@@ -87,9 +92,16 @@ def get_info_about_tarball():
     print("Excellent! Based on the name of the tarball, \x1b[96m" + tarball_name + "\x1b[0m, I've deduced the following:")
     print("Your UWID is: \x1b[96m" + uwid + "\x1b[0m")
     print("Your tarball is for: \x1b[96mProject " + str(project_num) + "\x1b[0m")
+    if (uwid == "jzjekel"):
+        print("You are my creator :)")
+    print("")
+
+    return normalized_path, uwid, project_num
+
+def extract_tarball_and_compile(tarball_path, uwid, project_num):
+    print("Okay, now I'm going to \x1b[4mextract your tarball\x1b[0m to a temporary location...")
 
     die("The autograder isn't quite finished yet", "John is working on it :)")
-
 
 #TODO function to get path to all testcases (input and output)
 
@@ -101,7 +113,7 @@ def recoverable_project_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
     print("\x1b[93;1mShoot, I might have found a mistake in your project: \x1b[0m\x1b[93;4m" + mistake_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
-    print("\x1b[95mFrom the ashes of disaster grow the roses of success!\x1b[0m")
+    print("\x1b[95mEvery shiny dream that fades and dies, generates the steam for two more tries!\x1b[0m")
     print("\x1b[90m---------- snip snip ----------\x1b[0m")
 
 def unrecoverable_project_mistake(mistake_string, tip):
@@ -113,7 +125,7 @@ def unrecoverable_project_mistake(mistake_string, tip):
 
 def general_unrecoverable_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
-    print("\x1b[93;1mShoot, I might have found a mistake: \x1b[0m\x1b[93;4m" + mistake_string + "\x1b[0m")
+    print("\x1b[91;1mShoot, I might have found a mistake: \x1b[0m\x1b[91;4m" + mistake_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mFrom the ashes of disaster grow the roses of success!\x1b[0m")
     sys.exit(1)
