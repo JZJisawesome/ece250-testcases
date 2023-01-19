@@ -11,8 +11,10 @@ TESTING_DIR = "~/.jekelautograder"
 # Imports
 
 import argparse
-import os.path
+import os
+import shutil
 import sys
+import tarfile
 
 #Functions
 def main():
@@ -100,6 +102,27 @@ def get_info_about_tarball():
 
 def extract_tarball_and_compile(tarball_path, uwid, project_num):
     print("Okay, now I'm going to \x1b[4mextract your tarball\x1b[0m to a temporary location...")
+
+    testing_path = os.path.expanduser(TESTING_DIR)
+
+    #TODO better error checking
+
+    #Delete the testing directory if it already existed before
+    if os.path.exists(testing_path):
+        shutil.rmtree(testing_path)
+
+    #Create the testing directory
+    os.mkdir(testing_path)
+
+    #Copy the tarball to the testing directory
+    new_tarball_path = testing_path + "/tarball.tar.gz"
+    shutil.copyfile(tarball_path, new_tarball_path)
+
+    #Extract it
+    tarball = tarfile.open(new_tarball_path)
+    tarball.extractall(testing_path)
+    tarball.close()
+
 
     die("The autograder isn't quite finished yet", "John is working on it :)")
 
