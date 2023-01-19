@@ -11,6 +11,7 @@ TESTING_DIR = "~/.jekelautograder"
 # Imports
 
 import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -41,9 +42,17 @@ def basic_sanity_checks():
     print("Performing some \x1b[4mbasic sanity checks\x1b[0m before we get started...")
 
     if not os.path.exists("projects"):
-        die("Couldn't locate any testcases", "Are you running the script from the checked-out repository directory?")
+        die("Couldn't locate the projects directory", "Are you running the script from the checked-out repository directory?")
 
-    #TODO other checks
+    for i in range(1, 4):
+        if not os.path.exists("projects/project" + str(i)):
+            die("Couldn't locate the projects/project" + str(i) + " directory", "Are you running the script from the checked-out repository directory?")
+        if not os.path.exists("projects/project" + str(i) + "/manifest.json"):
+            die("Couldn't locate the projects/project" + str(i) + "/manifest.json file", "Are you running the script from the checked-out repository directory?")
+        if not os.path.exists("projects/project" + str(i) + "/input"):
+            die("Couldn't locate the projects/project" + str(i) + "/input directory", "Are you running the script from the checked-out repository directory?")
+        if not os.path.exists("projects/project" + str(i) + "/output"):
+            die("Couldn't locate the projects/project" + str(i) + "/output directory", "Are you running the script from the checked-out repository directory?")
 
     print("Looking good, I think I'm set to go!\n")
 
