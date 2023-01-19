@@ -5,7 +5,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 # Sweet, but how do I use them?
 
 As recommended time and time again by the teaching staff, it is highly recommended you do your testing from an eceubuntu server.
-Steps to connect to such a server is beyond the scope of this README.
+Steps to connect to such a server are beyond the scope of this README.
 
 Once you're logged into an eceubuntu server (or a local Unix/Linux system of your own), clone this repository:
 
