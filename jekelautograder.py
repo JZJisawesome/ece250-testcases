@@ -141,6 +141,8 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     design_doc_name = uwid + "_design_p" + str(project_num) + ".pdf"
     if not design_doc_name in tarball.getnames():
         recoverable_project_mistake("Your design doc is missing or named incorrectly", "It should be named \"" + design_doc_name + "\"")
+    else:
+        print("The name looks good! ", end="")
 
     print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
     if not "Makefile" in tarball.getnames():
@@ -183,16 +185,37 @@ def read_manifest(project_num):
     return manifest["testcases"]
 
 def run_testcases(tarball_info, testcases):#TODO parameters
-    print("Alright, we're finally getting to the good part: actually running testcases!")
+    print("Alright, we're finally getting to the good part. Let's run some testcases!")
+
+    testing_path = os.path.expanduser(TESTING_DIR)
+
+    failed_testcases = []
+    failed_testcases_correct_lines = []
+    failed_testcases_total_lines = []
+    failed_testcases_memory_unsafety = []
+    #TODO list containing if the testcase passed or failed, the number of same lines, and if valgrind passed or failed
+
+    #TODO make this multithreaded otherwise this will be quite slow
 
     testcase_num = 1
     for testcase in testcases:
         print("Running testcase " + str(testcase_num) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m...", end="")
 
-        #TODO
+        #test_subprocess = subprocess.Popen(["valgrind", "./a.out"], cwd=testing_path)
+        #test_subprocess.wait
+        #if successful:
+        #   print("\x1b[92mSuccessful! :)\x1b[0m")
+        #else if vargrind_failed_but_output_correct:
+        #   print("\x1b[93mMemory unsafety detected :(\x1b[0m")
+        #else:
+        #   print("\x1b[91mDid not get the expected output :(\x1b[0m")
+
         die("The autograder isn't quite finished yet", "John is working on it :)")
 
         testcase_num = testcase_num + 1
+
+    #if at_least_one_failed:
+    #    recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
 
     die("The autograder isn't quite finished yet", "John is working on it :)")
 
