@@ -56,6 +56,13 @@ $ python3 jekelautograder.py path/to/your/tarball.tar.gz
  \___/ \___|_|\_\___|_| /_/   \_\__,_|\__\___/ \____|_|  \__,_|\__,_|\___|_|
 Copyright (c) 2023 John Jekel
 
+Performing some basic sanity checks before we get started...
+Looking good, I think I'm set to go!
+
+To begin, let's check your tarball's file name and path...
+Excellent! Based on the name of the tarball, jzjekel_p1.tar.gz, I've deduced the following:
+Your UWID is: jzjekel
+Your tarball is for: Project 1
 [...]
 ```
 
