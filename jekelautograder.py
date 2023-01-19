@@ -34,6 +34,8 @@ def main():
 
     extract_tarball_and_compile(tarball_info[0], tarball_info[1], tarball_info[2])
 
+    manifest = read_manifest(tarball_info[2])
+
     die("The autograder isn't quite finished yet", "John is working on it :)")
 
     print("\x1b[95mWhelp, that's all from me. Thanks for using the Jekel AutoGrader :)\x1b[0m")
@@ -136,7 +138,7 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     print("Done! Let me just double check your \x1b[4mdesign doc\x1b[0m...")
     design_doc_name = uwid + "_design_p" + str(project_num) + ".pdf"
     if not design_doc_name in tarball.getnames():
-        recoverable_project_mistake("Your design doc is missing or named incorrectly", "It should be named " + design_doc_name)
+        recoverable_project_mistake("Your design doc is missing or named incorrectly", "It should be named \"" + design_doc_name + "\"")
 
     print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
     if not "Makefile" in tarball.getnames():
@@ -152,8 +154,31 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     print("Sweet, your Makefile sucessfully produced an a.out binary!")
 
 def read_manifest(project_num):
-    #TODO function to get path to all testcases (input and output)
-    die("The autograder isn't quite finished yet", "John is working on it :)")
+    print("Reading the manifest file for Project " + str(project_num) + " and ensuring I can find all of the testcases...")
+
+    #TODO error checking json parsing
+
+    #We can already assume the manifest exists (it was checked by sanity checks)
+    testcases_path = "projects/project" + str(project_num)
+    manifest_path = testcases_path + "/manifest.json"
+    manifest_file = open(manifest_path)
+    manifest = json.load(manifest_file)
+
+    if not "testcases" in manifest:
+        die("The manifest.json for the current project is missing a testcases array", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
+
+    for testcase in manifest["testcases"]:
+        if not "name" in testcase:
+            die("A testcase in the manifest.json is missing a name.", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
+        if not "author" in testcase:
+            die("The \"" + testcase["name"] + "\" testcase in the manifest.json is missing an author.", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
+        if not os.path.exists(testcases_path + "/input/" + testcase["name"] + ".in"):
+            die("The input file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", "Add the file or remove the entry from the manifest, or contact jzjekel@uwaterloo.ca")
+        if not os.path.exists(testcases_path + "/output/" + testcase["name"] + ".out"):
+            die("The output file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", "Add the file or remove the entry from the manifest, or contact jzjekel@uwaterloo.ca")
+
+    print("Sweet, I found all of the testcases in the manifest!")
+    return manifest
 
 def run_testcases():#TODO parameters
     die("The autograder isn't quite finished yet", "John is working on it :)")
