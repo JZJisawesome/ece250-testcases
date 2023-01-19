@@ -13,6 +13,7 @@ TESTING_DIR = "~/.jekelautograder"
 import argparse
 import os
 import shutil
+import subprocess
 import sys
 import tarfile
 
@@ -121,12 +122,32 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     #Extract it
     tarball = tarfile.open(new_tarball_path)
     tarball.extractall(testing_path)
+
+    #Check for a design doc
+    print("Done! Let me just double check your \x1b[4mdesign doc\x1b[0m...")
+    design_doc_name = uwid + "_design_p" + str(project_num) + ".pdf"
+    if not design_doc_name in tarball.getnames():
+        recoverable_project_mistake("Your design doc is missing or named incorrectly", "It should be named " + design_doc_name)
+
+    print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
+    if not "Makefile" in tarball.getnames():
+        tarball.close()
+        unrecoverable_project_mistake("Your Makefile is missing!", "Please ensure your tarball includes a file called Makefile and try again")
     tarball.close()
 
+    make_subprocess = subprocess.Popen(["make"], cwd=testing_path)
+    make_subprocess.wait()
+    if not os.path.exists(testing_path + "/a.out"):
+        unrecoverable_project_mistake("Your makefile didn't produce a.out", "Please ensure there are no errors above, and that you haven't used GCC's -o option")
 
+    print("Sweet, your Makefile sucessfully produced an a.out binary!")
+
+def read_manifest(project_num):
+    #TODO function to get path to all testcases (input and output)
     die("The autograder isn't quite finished yet", "John is working on it :)")
 
-#TODO function to get path to all testcases (input and output)
+def run_testcases():#TODO parameters
+    die("The autograder isn't quite finished yet", "John is working on it :)")
 
 #TODO function to run testcases and collect results
 
