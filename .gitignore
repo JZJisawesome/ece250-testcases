@@ -1,0 +1,11 @@
+*.c
+*.cpp
+*.h
+*.hpp
+*.tpp
+a.out
+*.bak
+*Makefile
+*_design_*
+*tar*
+*.gz
