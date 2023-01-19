@@ -48,7 +48,7 @@ The autograder implementation included in this repo, called the Jekel AutoGrader
 Note down the path to your submission tarball, and open a terminal in the root. You can then test your tarball with
 
 ```
-$ jekelautograder.sh path/to/your/tarball.tar.gz
+$ python3 jekelautograder.py path/to/your/tarball.tar.gz
      _      _        _      _         _         ____               _
     | | ___| | _____| |    / \  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __
  _  | |/ _ \ |/ / _ \ |   / _ \| | | | __/ _ \| |  _| '__/ _` |/ _` |/ _ \ '__|
