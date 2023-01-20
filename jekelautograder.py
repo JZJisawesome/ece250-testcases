@@ -58,6 +58,9 @@ def basic_sanity_checks():
         if not os.path.exists("projects/project" + str(i) + "/output"):
             die("Couldn't locate the projects/project" + str(i) + "/output directory", "Are you running the script from the checked-out repository directory?")
 
+    if shutil.which("valgrind") is None:
+            die("Couldn't locate the \"valgrind\" executable in the PATH", "Do you have Valgrind installed?")
+
     print("Looking good, I think I'm set to go!\n")
 
 def get_info_about_tarball():
@@ -119,8 +122,6 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
 
     testing_path = os.path.expanduser(TESTING_DIR)
 
-    #TODO better error checking
-
     #Delete the testing directory if it already existed before
     if os.path.exists(testing_path):
         shutil.rmtree(testing_path)
@@ -128,13 +129,33 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     #Create the testing directory
     os.mkdir(testing_path)
 
-    #Copy the tarball to the testing directory
+    #Copy the tarball to the testing directory (we can assume both exist)
     new_tarball_path = testing_path + "/tarball.tar.gz"
-    shutil.copyfile(tarball_path, new_tarball_path)
+    try:
+        shutil.copyfile(tarball_path, new_tarball_path)
+    except IsADirectoryError:
+        unrecoverable_project_mistake("Tarball is actually a directory", "Nice try breaking the autograder. Better luck next time :)")
 
     #Extract it
-    tarball = tarfile.open(new_tarball_path)
-    tarball.extractall(testing_path)
+    try:
+        tarball = tarfile.open(new_tarball_path)
+    except tarfile.HeaderError:
+        unrecoverable_project_mistake("Corrupted tarball", "Recreate the tarball and try again")
+    except tarfile.ReadError:
+        unrecoverable_project_mistake("Couldn't open the tarball for reading", "Do you have read permissions?")
+    except tarfile.CompressionError:
+        unrecoverable_project_mistake("Unsupported tarball compression method", "Your tarball should be gzip-compressed")
+    try:
+        tarball.extractall(testing_path)
+    except tarfile.HeaderError:
+        unrecoverable_project_mistake("Corrupted tarball", "Recreate the tarball and try again")
+    except tarfile.CompressionError:
+        unrecoverable_project_mistake("Problem when decompressing tarball", "Your tarball should be gzip-compressed; perhaps it is corrupt?")
+
+    #Ensure the tarball dosn't contain any directories
+    for member in tarball.getmembers():
+        if member.isdir():
+            recoverable_project_mistake("You have a directory in your tarball!", "There should be no directories in the tarball whatsoever as mentioned by the ECE250 teaching staff!")
 
     #Check for a design doc
     print("Done! Let me just double check your \x1b[4mdesign doc\x1b[0m...")
@@ -147,11 +168,15 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     #Test the user's makefile
     print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
     if not "Makefile" in tarball.getnames():
+        unrecoverable_project_mistake("Your Makefile is missing!", "Please ensure your tarball includes a file called Makefile in the root and try again")
+
+    #Ensure a.out wasn't bundled with the tarball accidentally
+    if "a.out" in tarball.getnames():
         tarball.close()
-        unrecoverable_project_mistake("Your Makefile is missing!", "Please ensure your tarball includes a file called Makefile and try again")
+        unrecoverable_project_mistake("Your tarball already contains an a.out binary", "Please ensure your tarball does not include any pre-compiled code whatsoever!")
     tarball.close()
 
-    make_subprocess = subprocess.Popen(["make"], cwd=testing_path)
+    make_subprocess = subprocess.Popen(["make", "-j"], cwd=testing_path)
     make_subprocess.wait()
     if not os.path.exists(testing_path + "/a.out"):
         unrecoverable_project_mistake("Your makefile didn't produce a.out", "Please ensure there are no errors above, and that you haven't used GCC's -o option")
@@ -169,7 +194,6 @@ def read_manifest(project_num):
         manifest = json.load(manifest_file)
     except json.decoder.JSONDecodeError:
         die("The manifest.json for the current project is formatted incorrectly", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
-
     manifest_file.close()
 
     #Ensure we found a "testcases" key in the manifest
@@ -317,6 +341,8 @@ def unrecoverable_project_mistake(mistake_string, tip):
     print("\x1b[91;1mShoot, there's potentially a mistake in your project we can't ignore: \x1b[0m\x1b[91;4m" + mistake_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mHappiness can be found even in the darkest of times, if one only remembers to turn on the the light.\x1b[0m")
+    testing_path = os.path.expanduser(TESTING_DIR)
+    shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
     sys.exit(1)
 
 def general_unrecoverable_mistake(mistake_string, tip):
@@ -324,6 +350,8 @@ def general_unrecoverable_mistake(mistake_string, tip):
     print("\x1b[91;1mShoot, I might have found a mistake: \x1b[0m\x1b[91;4m" + mistake_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mFrom the ashes of disaster grow the roses of success!\x1b[0m")
+    testing_path = os.path.expanduser(TESTING_DIR)
+    shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
     sys.exit(1)
 
 def die(error_string, tip):
@@ -331,6 +359,8 @@ def die(error_string, tip):
     print("\x1b[91;1mShoot, an error occured: \x1b[0m\x1b[91;4m" + error_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mOh a spoonful of sugar helps the medicine go down, in the most delightful way!\x1b[0m")
+    testing_path = os.path.expanduser(TESTING_DIR)
+    shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
     sys.exit(1)
 
 #On script entry, call main()

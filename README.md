@@ -53,6 +53,8 @@ The autograder will then test your tarball not only on the testcases for the cor
 - That the tarball is named correctly (it must be in order for the script to successfully infer the project version)
 - That your design document is present and named correctly (matches the uwid in your tarball's name, etc.)
 - That your Makefile is present and successfully produces an a.out file
+- That you didn't accidentally include a precompiled a.out file in your tarball
+- That your tarball dosn't contain any directories
 
 Just like the real thing, the autograder will use valgrind, so it is quite comprehensive at catching mistakes!
 
