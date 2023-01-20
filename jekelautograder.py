@@ -59,7 +59,7 @@ def basic_sanity_checks():
             die("Couldn't locate the projects/project" + str(i) + "/output directory", "Are you running the script from the checked-out repository directory?")
 
     if shutil.which("valgrind") is None:
-            die("Couldn't locate the \"valgrind\" executable in the PATH", "Do you have Valgrind installed?")
+        die("Couldn't locate the \"valgrind\" executable in the PATH", "Do you have Valgrind installed?")
 
     print("Looking good, I think I'm set to go!\n")
 
@@ -181,7 +181,7 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     if not os.path.exists(testing_path + "/a.out"):
         unrecoverable_project_mistake("Your makefile didn't produce a.out", "Please ensure there are no errors above, and that you haven't used GCC's -o option")
 
-    print("Sweet, your Makefile sucessfully produced an a.out binary!\n")
+    print("Sweet, your Makefile sucessfully \x1b[4mproduced an a.out binary\x1b[0m!\n")
 
 def read_manifest(project_num):
     print("Reading the manifest file for Project " + str(project_num) + " and \x1b[4mensuring I can find all of the testcases\x1b[0m...")
@@ -342,7 +342,8 @@ def unrecoverable_project_mistake(mistake_string, tip):
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mHappiness can be found even in the darkest of times, if one only remembers to turn on the the light.\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
-    shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+    if os.path.exists(testing_path):
+        shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
     sys.exit(1)
 
 def general_unrecoverable_mistake(mistake_string, tip):
@@ -351,7 +352,8 @@ def general_unrecoverable_mistake(mistake_string, tip):
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mFrom the ashes of disaster grow the roses of success!\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
-    shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+    if os.path.exists(testing_path):
+        shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
     sys.exit(1)
 
 def die(error_string, tip):
@@ -360,7 +362,8 @@ def die(error_string, tip):
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mOh a spoonful of sugar helps the medicine go down, in the most delightful way!\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
-    shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+    if os.path.exists(testing_path):
+        shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
     sys.exit(1)
 
 #On script entry, call main()

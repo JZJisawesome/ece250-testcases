@@ -56,7 +56,7 @@ The autograder will then test your tarball not only on the testcases for the cor
 - That you didn't accidentally include a precompiled a.out file in your tarball
 - That your tarball dosn't contain any directories
 
-Just like the real thing, the autograder will use valgrind, so it is quite comprehensive at catching mistakes!
+Just like the real thing, the autograder will use Valgrind, so it is quite good at catching mistakes!
 
 ## Manual Testing
 
