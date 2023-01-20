@@ -1,0 +1,12 @@
+CRT 10
+DEF x 10
+DEF y 20
+DEF z 0
+ADD z y x
+PRT x
+DEF t 55
+SUB t x z
+PRT z
+SUB z z z
+PRT z
+END
