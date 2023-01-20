@@ -26,7 +26,7 @@ def main():
     print("\x1b[95m| |_| |  __/   <  __/ |  / ___ \\ |_| | || (_) | |_| | | | (_| | (_| |  __/ |\x1b[0m")
     print("\x1b[95m \\___/ \\___|_|\\_\\___|_| /_/   \\_\\__,_|\\__\\___/ \\____|_|  \\__,_|\\__,_|\\___|_|\x1b[0m")
 
-    print("\x1b[90mCopyright (c) 2023 John Jekel\x1b[0m\n")
+    print("\x1b[90mCopyright (c) 2023 John Jekel\x1b[0m")
 
     basic_sanity_checks()
 
@@ -36,11 +36,11 @@ def main():
 
     testcases = read_manifest(tarball_info[2])
 
-    test_results = run_testcases(tarball_info, testcases)
+    test_results = run_testcases(tarball_info[2], testcases)
 
-    summarize_and_grade(test_results)
+    summarize_and_grade(tarball_info[1], tarball_info[2], testcases, test_results)
 
-    print("\x1b[95mWhelp, that's all from me. Thanks for using the Jekel AutoGrader :)\x1b[0m")
+    print("Whelp, that's all from me. Good luck on your project! - JZJ")
 
 def basic_sanity_checks():
     print("Performing some \x1b[4mbasic sanity checks\x1b[0m before we get started...")
@@ -184,43 +184,85 @@ def read_manifest(project_num):
     print("Awesome, all " + str(len(manifest["testcases"])) + " testcase(s) in the manifest exist!\n")
     return manifest["testcases"]
 
-def run_testcases(tarball_info, testcases):#TODO parameters
+def run_testcases(project_num, testcases):#TODO parameters
     print("Alright, we're finally getting to the good part. Let's run some testcases!")
 
+    testcases_path = "projects/project" + str(project_num)
     testing_path = os.path.expanduser(TESTING_DIR)
 
     failed_testcases = []
-    failed_testcases_correct_lines = []
-    failed_testcases_total_lines = []
-    failed_testcases_memory_unsafety = []
-    #TODO list containing if the testcase passed or failed, the number of same lines, and if valgrind passed or failed
 
     #TODO make this multithreaded otherwise this will be quite slow
 
     testcase_num = 1
     for testcase in testcases:
-        print("Running testcase " + str(testcase_num) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m...", end="")
+        print("Running testcase " + str(testcase_num) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m... ", end="")
 
-        #test_subprocess = subprocess.Popen(["valgrind", "./a.out"], cwd=testing_path)
-        #test_subprocess.wait
-        #if successful:
-        #   print("\x1b[92mSuccessful! :)\x1b[0m")
-        #else if vargrind_failed_but_output_correct:
-        #   print("\x1b[93mMemory unsafety detected :(\x1b[0m")
-        #else:
-        #   print("\x1b[91mDid not get the expected output :(\x1b[0m")
+        testcase_input_file = open(testcases_path + "/input/" + testcase["name"] + ".in")
 
-        die("The autograder isn't quite finished yet", "John is working on it :)")
+        test_subprocess = subprocess.Popen(["valgrind", "./a.out"], stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
+        test_subprocess.wait()
+        testcase_input_file.close()
+
+        test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate()
+
+        if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode():
+            memory_safe = True
+        else:
+            memory_safe = False
+
+        stdout_as_lines = test_subprocess_stdout.decode().splitlines()
+        testcase_output_file = open(testcases_path + "/output/" + testcase["name"] + ".out")
+        expected_output_as_lines = testcase_output_file.read().splitlines()
+        testcase_output_file.close()
+
+        mismatched_line = -1
+        correct_output = True
+        for i in range(len(expected_output_as_lines)):
+            if (i >= len(stdout_as_lines)) or (stdout_as_lines[i] != expected_output_as_lines[i]):
+                correct_output = False
+                mismatched_line = i
+                break
+
+        if not correct_output:
+           print("\x1b[91mLine " + mismatched_line + " mismatched the expected output :( (Line)\x1b[0m")
+        elif not memory_safe:
+           print("\x1b[93mMemory unsafety detected :(\x1b[0m")
+        else:
+           print("\x1b[92mSuccessful! :)\x1b[0m")
+
+        if (not correct_output) or (not memory_safe):
+            failed_testcases.append(testcase["name"], correct_output, mismatched_line, memory_safe)
 
         testcase_num = testcase_num + 1
 
-    #if at_least_one_failed:
-    #    recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
+    if len(failed_testcases) != 0:
+        recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
 
-    die("The autograder isn't quite finished yet", "John is working on it :)")
+    print("")
 
-def summarize_and_grade():
-    die("The autograder isn't quite finished yet", "John is working on it :)")
+    return failed_testcases
+
+def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
+    if len(failed_testcases) == 0:
+        print("\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m\x1b[92m You passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
+
+    print("Here is a breakdown of your grade: ")
+    print("Testcases passed: \x1b[96m" + str(len(testcases) - len(failed_testcases))+ " out of " + str(len(testcases)) + "\x1b[0m")
+    print("Testcases failed: \x1b[96m" + str(len(failed_testcases))+ " out of " + str(len(testcases)) + "\x1b[0m")
+
+    failed_with_output_mismatches = 0
+    failed_with_memory_unsafety = 0
+    for testcase in failed_testcases:
+        if failed_testcases[1]:
+            failed_with_output_mismatches = failed_with_output_mismatches + 1
+        if failed_testcases[3]:
+            failed_with_memory_unsafety = failed_with_memory_unsafety + 1
+
+    print("Testcases with output mismatches: \x1b[96m" + str(failed_with_output_mismatches)+ " out of " + str(len(testcases)) + "\x1b[0m")
+    print("Testcases with memory unsafety: \x1b[96m" + str(failed_with_memory_unsafety)+ " out of " + str(len(testcases)) + "\x1b[0m")
+
+    print("\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
 
 def recoverable_project_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
