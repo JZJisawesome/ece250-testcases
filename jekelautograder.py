@@ -241,6 +241,8 @@ def run_testcases(project_num, testcases):#TODO parameters
 
     print("")
 
+    shutil.rmtree(testing_path)#We no longer need it anymore!
+
     return failed_testcases
 
 def summarize_and_grade(uwid, project_num, testcases, failed_testcases):

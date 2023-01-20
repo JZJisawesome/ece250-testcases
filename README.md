@@ -4,7 +4,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 
 # Sweet, but how do I use them?
 
-Follow through the instructions in the "Setup" section, then actually test your project by following the "Manual Testing" or "Automatic Testing" sections based on your preference.
+Follow through the instructions in the "Setup" section, then actually test your project by following the "Automatic Testing" section.
 
 ## Setup
 
@@ -24,25 +24,7 @@ Receiving objects: 100% (12/12), done.
 Resolving deltas: 100% (1/1), done.
 ```
 
-## Manual Testing
-
-The projects/ folder contains several subdirectories, one for each project.
-Within the project folder you're interested in, there is an "input" and an "output" folder.
-
-Each file in "input" is a testcase you can run with the following command (assuming you have
-Valgrind installed and your code is compiled to the binary a.out)
-
-```
-$ valgrind ./a.out < path/to/testcase.in
-[...]
-```
-
-You can then compare the results to the corresponding file in the "output" folder to ensure your program produces the correct output!
-
 ## Automatic Testing
-
-In the future, I will be writing an "autograder" of my own that will eventually automate this process for you (not the git clone part)!
-So the following steps will be roughly how it works once it is implemented.
 
 The autograder implementation included in this repo, called the Jekel AutoGrader, must be run from the project root directory.
 Note down the path to your submission tarball, and open a terminal in the root. You can then test your tarball with
@@ -73,6 +55,23 @@ The autograder will then test your tarball not only on the testcases for the cor
 - That your Makefile is present and successfully produces an a.out file
 
 Just like the real thing, the autograder will use valgrind, so it is quite comprehensive at catching mistakes!
+
+## Manual Testing
+
+This is useful if you are debugging an issue with your code that is triggered by a particular test case
+
+The projects/ folder contains several subdirectories, one for each project.
+Within the project folder you're interested in, there is an "input" and an "output" folder.
+
+Each file in "input" is a testcase you can run with the following command (assuming you have
+Valgrind installed and your code is compiled to the binary a.out)
+
+```
+$ valgrind ./a.out < path/to/testcase.in
+[...]
+```
+
+You can then compare the results to the corresponding file in the "output" folder to ensure your program produces the correct output!
 
 # Contributing
 
