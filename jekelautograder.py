@@ -16,7 +16,7 @@ FIX_MANIFEST = "Fix the manifest, or contact jzjekel@uwaterloo.ca"
 # 8 alphanumeric characters. Some number (1, inf) of
 # alphabetic characters, (0,4) numbers, and another
 # (1,inf) of alphabetic characters
-UWID_REGEX = r"^(?=.{8}$)(?=[A-Za-z]+\d{0,4}[A-Za-z]+$).+$"
+UWID_REGEX = r"^(?=.{3,8}$)(?=[a-z]+\d{0,4}[a-z]+$).+$"
 
 import json
 import multiprocessing
