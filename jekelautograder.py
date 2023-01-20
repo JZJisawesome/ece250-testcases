@@ -81,7 +81,7 @@ def get_info_about_tarball():
 
     uwid = split_by_underscore[0]
 
-    if (len(uwid) == 0) or (len(uwid) > 8) or (not uwid.isalpha()):
+    if (len(uwid) == 0) or (len(uwid) > 8) or (not uwid[0].isalpha()):
         unrecoverable_project_mistake("You're not using your eight-letter-or-less UW ID", "Check out the requirements for tarball naming on LEARN and try again")
 
     split_last_part_by_dot = split_by_underscore[1].split(".")
@@ -144,6 +144,7 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     else:
         print("The name looks good! ", end="")
 
+    #Test the user's makefile
     print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
     if not "Makefile" in tarball.getnames():
         tarball.close()
@@ -160,17 +161,22 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
 def read_manifest(project_num):
     print("Reading the manifest file for Project " + str(project_num) + " and \x1b[4mensuring I can find all of the testcases\x1b[0m...")
 
-    #TODO error checking json parsing
-
-    #We can already assume the manifest exists (it was checked by sanity checks)
+    #We can already assume the manifest exists (it was checked earlier)
     testcases_path = "projects/project" + str(project_num)
     manifest_path = testcases_path + "/manifest.json"
     manifest_file = open(manifest_path)
-    manifest = json.load(manifest_file)#TODO handle exceptions here
+    try:
+        manifest = json.load(manifest_file)
+    except json.decoder.JSONDecodeError:
+        die("The manifest.json for the current project is formatted incorrectly", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
 
+    manifest_file.close()
+
+    #Ensure we found a "testcases" key in the manifest
     if not "testcases" in manifest:
         die("The manifest.json for the current project is missing a testcases array", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
 
+    #Check that all of the testcases in the manifest are sane and actually exist
     for testcase in manifest["testcases"]:
         if not "name" in testcase:
             die("A testcase in the manifest.json is missing a name.", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
@@ -184,33 +190,40 @@ def read_manifest(project_num):
     print("Awesome, all " + str(len(manifest["testcases"])) + " testcase(s) in the manifest exist!\n")
     return manifest["testcases"]
 
-def run_testcases(project_num, testcases):#TODO parameters
+def run_testcases(project_num, testcases):
     print("Alright, we're finally getting to the good part. Let's run some testcases!")
 
+    #Various paths we will be using later
     testcases_path = "projects/project" + str(project_num)
     testing_path = os.path.expanduser(TESTING_DIR)
 
+    #List of failed testcases
     failed_testcases = []
 
     #TODO make this multithreaded otherwise this will be quite slow
 
+    #Loop through all testcases to test
     testcase_num = 1
     for testcase in testcases:
         print("Running testcase " + str(testcase_num) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m... ", end="")
 
+        #Open the testcase and pipe it to the process
         testcase_input_file = open(testcases_path + "/input/" + testcase["name"] + ".in")
 
         test_subprocess = subprocess.Popen(["valgrind", "./a.out"], stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
         test_subprocess.wait()
         testcase_input_file.close()
 
+        #Get the stdout and stderr of the process
         test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate()
 
+        #Check stderr to see if Valgrind reported any errors
         if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode():
             memory_safe = True
         else:
             memory_safe = False
 
+        #Loop through the lines to check if stdout matches what was expected
         stdout_as_lines = test_subprocess_stdout.decode().splitlines()
         testcase_output_file = open(testcases_path + "/output/" + testcase["name"] + ".out")
         expected_output_as_lines = testcase_output_file.read().splitlines()
@@ -224,6 +237,7 @@ def run_testcases(project_num, testcases):#TODO parameters
                 mismatched_line = i
                 break
 
+        #Print the status based on that
         if not correct_output:
            print("\x1b[91mLine " + str(mismatched_line) + " mismatched the expected output :(\x1b[0m")
         elif not memory_safe:
@@ -231,6 +245,7 @@ def run_testcases(project_num, testcases):#TODO parameters
         else:
            print("\x1b[92mSuccessful! :)\x1b[0m")
 
+        #Add the testcase to the failed_testcases list if it failed
         if (not correct_output) or (not memory_safe):
             failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe))
 
@@ -241,7 +256,7 @@ def run_testcases(project_num, testcases):#TODO parameters
 
     print("")
 
-    shutil.rmtree(testing_path)#We no longer need it anymore!
+    shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
 
     return failed_testcases
 
@@ -256,9 +271,9 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     failed_with_output_mismatches = 0
     failed_with_memory_unsafety = 0
     for testcase in failed_testcases:
-        if not testcase[1]:
+        if not testcase[1]:#Corresponds to mismatched output
             failed_with_output_mismatches = failed_with_output_mismatches + 1
-        if not testcase[3]:
+        if not testcase[3]:#Corresponds to memory unsafety
             failed_with_memory_unsafety = failed_with_memory_unsafety + 1
 
     print("Testcases with output mismatches: \x1b[96m" + str(failed_with_output_mismatches)+ " out of " + str(len(testcases)) + "\x1b[0m")

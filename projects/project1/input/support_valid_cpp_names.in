@@ -3,8 +3,24 @@ DEF sanity 456
 DEF _i_n_s_a_n_i_t_y 789
 DEF _ 3
 DEF $$$money$$$$ 399
+DEF _ThisVariableIsReallyLongImeanreallylonglikeifyouarestoringthisinafixedsizedarrayhagoodluckbudpassingthisonealrightthatsallfrommecya 1234
+DEF _123_abc_456_275_384 42
 PRT sanity
 PRT _i_n_s_a_n_i_t_y
 PRT _
 PRT $$$money$$$$
+PRT _ThisVariableIsReallyLongImeanreallylonglikeifyouarestoringthisinafixedsizedarrayhagoodluckbudpassingthisonealrightthatsallfrommecya
+PRT _123_abc_456_275_384
+ADD sanity sanity sanity
+PRT sanity
+ADD _i_n_s_a_n_i_t_y _i_n_s_a_n_i_t_y _i_n_s_a_n_i_t_y
+PRT _i_n_s_a_n_i_t_y
+ADD _ _ _
+PRT _
+SUB $$$money$$$$ $$$money$$$$ $$$money$$$$
+PRT $$$money$$$$
+SUB _ThisVariableIsReallyLongImeanreallylonglikeifyouarestoringthisinafixedsizedarrayhagoodluckbudpassingthisonealrightthatsallfrommecya _ThisVariableIsReallyLongImeanreallylonglikeifyouarestoringthisinafixedsizedarrayhagoodluckbudpassingthisonealrightthatsallfrommecya _ThisVariableIsReallyLongImeanreallylonglikeifyouarestoringthisinafixedsizedarrayhagoodluckbudpassingthisonealrightthatsallfrommecya
+PRT _ThisVariableIsReallyLongImeanreallylonglikeifyouarestoringthisinafixedsizedarrayhagoodluckbudpassingthisonealrightthatsallfrommecya
+SUB _123_abc_456_275_384 _123_abc_456_275_384 _123_abc_456_275_384
+PRT _123_abc_456_275_384
 END
