@@ -89,4 +89,4 @@ Just submit a PR to participate, or if you're a big enough contributor, I'll gra
 
 | Contributor | Testcases contributed |
 |-------------|-------------------|
-| John Jekel (JZJ) | sanity, supports_double, |
+| John Jekel (JZJ) | sanity, supports_double, support_valid_cpp_names |

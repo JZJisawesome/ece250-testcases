@@ -1,0 +1,10 @@
+CRT 100
+DEF sanity 456
+DEF _i_n_s_a_n_i_t_y 789
+DEF _ 3
+DEF $$$money$$$$ 399
+PRT sanity
+PRT _i_n_s_a_n_i_t_y
+PRT _
+PRT $$$money$$$$
+END
