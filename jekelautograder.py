@@ -5,10 +5,18 @@
 #
 # Useful script for autograding your project with the testcases in the repository
 
-# Constants
 TESTING_DIR = "~/.jekelautograder"
+TARBALL_REQUIREMENTS = "Check out the requirements for tarball naming on LEARN and try again"
+RUNNING_FROM_CHECKOUT_REPO = "Are you running the script from the checked-out repository directory?"
+FMT_INCORRECT = "The format of your tarball's name is incorrect"
+COULD_NOT_LOCATE = "Couldn't locate the projects/project"
+FIX_MANIFEST = "Fix the manifest, or contact jzjekel@uwaterloo.ca"
 
-# Imports
+# A UWID is expected to be in the following format.
+# 8 alphanumeric characters. Some number (1, inf) of
+# alphabetic characters, (0,4) numbers, and another
+# (1,inf) of alphabetic characters
+UWID_REGEX = r"^(?=.{8}$)(?=[A-Za-z]+\d{0,4}[A-Za-z]+$).+$"
 
 import json
 import multiprocessing
@@ -17,6 +25,8 @@ import shutil
 import subprocess
 import sys
 import tarfile
+import platform
+import re
 
 #Functions
 def main():
@@ -46,17 +56,17 @@ def basic_sanity_checks():
     print("Performing some \x1b[4mbasic sanity checks\x1b[0m before we get started...")
 
     if not os.path.exists("projects"):
-        die("Couldn't locate the projects directory", "Are you running the script from the checked-out repository directory?")
+        die("Couldn't locate the projects directory", RUNNING_FROM_CHECKOUT_REPO)
 
     for i in range(1, 4):
         if not os.path.exists("projects/project" + str(i)):
-            die("Couldn't locate the projects/project" + str(i) + " directory", "Are you running the script from the checked-out repository directory?")
+            die(COULD_NOT_LOCATE + str(i) + " directory", RUNNING_FROM_CHECKOUT_REPO)
         if not os.path.exists("projects/project" + str(i) + "/manifest.json"):
-            die("Couldn't locate the projects/project" + str(i) + "/manifest.json file", "Are you running the script from the checked-out repository directory?")
+            die(COULD_NOT_LOCATE + str(i) + "/manifest.json file", RUNNING_FROM_CHECKOUT_REPO)
         if not os.path.exists("projects/project" + str(i) + "/input"):
-            die("Couldn't locate the projects/project" + str(i) + "/input directory", "Are you running the script from the checked-out repository directory?")
+            die(COULD_NOT_LOCATE + str(i) + "/input directory", RUNNING_FROM_CHECKOUT_REPO)
         if not os.path.exists("projects/project" + str(i) + "/output"):
-            die("Couldn't locate the projects/project" + str(i) + "/output directory", "Are you running the script from the checked-out repository directory?")
+            die(COULD_NOT_LOCATE + str(i) + "/output directory", RUNNING_FROM_CHECKOUT_REPO)
 
     print("Looking good, I think I'm set to go!\n")
 
@@ -77,33 +87,34 @@ def get_info_about_tarball():
     split_by_underscore = tarball_name.split("_")
 
     if len(split_by_underscore) != 2:
-        unrecoverable_project_mistake("The format of your tarball's name is incorrect", "Check out the requirements for tarball naming on LEARN and try again")
+        unrecoverable_project_mistake(FMT_INCORRECT, TARBALL_REQUIREMENTS)
 
     uwid = split_by_underscore[0]
+    pattern = re.compile(UWID_REGEX)
 
-    if (len(uwid) == 0) or (len(uwid) > 8) or (not uwid[0].isalpha()):
-        unrecoverable_project_mistake("You're not using your eight-letter-or-less UW ID", "Check out the requirements for tarball naming on LEARN and try again")
+    if not pattern.match(uwid):
+        unrecoverable_project_mistake("You're not using your eight-character UW ID", "Check out the requirements for tarball naming on LEARN and try again")
 
     split_last_part_by_dot = split_by_underscore[1].split(".")
 
     if len(split_last_part_by_dot) != 3:
-        unrecoverable_project_mistake("The format of your tarball's name is incorrect", "Check out the requirements for tarball naming on LEARN and try again")
+        unrecoverable_project_mistake(FMT_INCORRECT, TARBALL_REQUIREMENTS)
 
     project_num_str = split_last_part_by_dot[0]
 
     if (len(project_num_str) != 2) or (project_num_str[:1] != "p"):
-        unrecoverable_project_mistake("The format of your tarball's name is incorrect", "Check out the requirements for tarball naming on LEARN and try again")
+        unrecoverable_project_mistake(FMT_INCORRECT, TARBALL_REQUIREMENTS)
 
     try:
         project_num = int(project_num_str[1:2])
     except ValueError:
-        unrecoverable_project_mistake("The project number is missing", "Check out the requirements for tarball naming on LEARN and try again")
+        unrecoverable_project_mistake("The project number is missing", TARBALL_REQUIREMENTS)
 
     if (project_num == 0) or (project_num > 4):
-        unrecoverable_project_mistake("The project number is invalid", "Check out the requirements for tarball naming on LEARN and try again")
+        unrecoverable_project_mistake("The project number is invalid", TARBALL_REQUIREMENTS)
 
     if (split_last_part_by_dot[1] != "tar") or (split_last_part_by_dot[2] != "gz"):
-        unrecoverable_project_mistake("Bad file extension", "Check out the requirements for tarball naming on LEARN and try again")
+        unrecoverable_project_mistake("Bad file extension", TARBALL_REQUIREMENTS)
 
     print("Excellent! Based on the name of the tarball, \x1b[96m" + tarball_name + "\x1b[0m, I've deduced the following:")
     print("Your UWID is: \x1b[96m" + uwid + "\x1b[0m")
@@ -168,20 +179,20 @@ def read_manifest(project_num):
     try:
         manifest = json.load(manifest_file)
     except json.decoder.JSONDecodeError:
-        die("The manifest.json for the current project is formatted incorrectly", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
+        die("The manifest.json for the current project is formatted incorrectly", FIX_MANIFEST)
 
     manifest_file.close()
 
     #Ensure we found a "testcases" key in the manifest
     if not "testcases" in manifest:
-        die("The manifest.json for the current project is missing a testcases array", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
+        die("The manifest.json for the current project is missing a testcases array", FIX_MANIFEST)
 
     #Check that all of the testcases in the manifest are sane and actually exist
     for testcase in manifest["testcases"]:
         if not "name" in testcase:
-            die("A testcase in the manifest.json is missing a name.", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
+            die("A testcase in the manifest.json is missing a name.", FIX_MANIFEST)
         if not "author" in testcase:
-            die("The \"" + testcase["name"] + "\" testcase in the manifest.json is missing an author.", "Fix the manifest, or contact jzjekel@uwaterloo.ca")
+            die("The \"" + testcase["name"] + "\" testcase in the manifest.json is missing an author.", FIX_MANIFEST)
         if not os.path.exists(testcases_path + "/input/" + testcase["name"] + ".in"):
             die("The input file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", "Add the file or remove the entry from the manifest, or contact jzjekel@uwaterloo.ca")
         if not os.path.exists(testcases_path + "/output/" + testcase["name"] + ".out"):
