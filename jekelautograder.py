@@ -26,7 +26,7 @@ def main():
     print("\x1b[95m| |_| |  __/   <  __/ |  / ___ \\ |_| | || (_) | |_| | | | (_| | (_| |  __/ |\x1b[0m")
     print("\x1b[95m \\___/ \\___|_|\\_\\___|_| /_/   \\_\\__,_|\\__\\___/ \\____|_|  \\__,_|\\__,_|\\___|_|\x1b[0m")
 
-    print("\x1b[90mCopyright (c) 2023 John Jekel\x1b[0m")
+    print("\x1b[90mCopyright (c) 2023 John Jekel\x1b[0m\n")
 
     basic_sanity_checks()
 
@@ -225,14 +225,14 @@ def run_testcases(project_num, testcases):#TODO parameters
                 break
 
         if not correct_output:
-           print("\x1b[91mLine " + mismatched_line + " mismatched the expected output :( (Line)\x1b[0m")
+           print("\x1b[91mLine " + str(mismatched_line) + " mismatched the expected output :(\x1b[0m")
         elif not memory_safe:
            print("\x1b[93mMemory unsafety detected :(\x1b[0m")
         else:
            print("\x1b[92mSuccessful! :)\x1b[0m")
 
         if (not correct_output) or (not memory_safe):
-            failed_testcases.append(testcase["name"], correct_output, mismatched_line, memory_safe)
+            failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe))
 
         testcase_num = testcase_num + 1
 
@@ -254,9 +254,9 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     failed_with_output_mismatches = 0
     failed_with_memory_unsafety = 0
     for testcase in failed_testcases:
-        if failed_testcases[1]:
+        if not testcase[1]:
             failed_with_output_mismatches = failed_with_output_mismatches + 1
-        if failed_testcases[3]:
+        if not testcase[3]:
             failed_with_memory_unsafety = failed_with_memory_unsafety + 1
 
     print("Testcases with output mismatches: \x1b[96m" + str(failed_with_output_mismatches)+ " out of " + str(len(testcases)) + "\x1b[0m")
