@@ -88,4 +88,5 @@ Just submit a PR to participate, or if you're a big enough contributor, I'll gra
 
 | Contributor | Testcases contributed |
 |-------------|-------------------|
+| ECE 250 Teaching Staff | LEARN_test01, LEARN_test02, LEARN_test03 |
 | John Jekel (JZJ) | sanity, supports_double, support_valid_cpp_names |
