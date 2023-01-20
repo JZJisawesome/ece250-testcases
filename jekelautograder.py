@@ -10,8 +10,8 @@ TESTING_DIR = "~/.jekelautograder"
 
 # Imports
 
-import argparse
 import json
+import multiprocessing
 import os
 import shutil
 import subprocess
@@ -200,42 +200,25 @@ def run_testcases(project_num, testcases):
     #List of failed testcases
     failed_testcases = []
 
-    #TODO make this multithreaded otherwise this will be quite slow
+    #Multiprocessing pool-related structures (limits max process to # of detected CPUs instead of launching every testcase at once)
+    test_pool = multiprocessing.Pool()
+    test_results_async = []
 
-    #Loop through all testcases to test
-    testcase_num = 1
+    #Launch all testcases using the pool
     for testcase in testcases:
-        print("Running testcase " + str(testcase_num) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m... ", end="")
+        test_results_async.append(test_pool.apply_async(run_testcase, args=(project_num, testcase["name"])))
 
-        #Open the testcase and pipe it to the process
-        testcase_input_file = open(testcases_path + "/input/" + testcase["name"] + ".in")
+    #Wait for all testcases to finish, printing info about them as we go, and recording info about the ones that fail
+    testcase_num = 0
+    for testcase in testcases:
+        print("Running testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m... ", end="")
 
-        test_subprocess = subprocess.Popen(["valgrind", "./a.out"], stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
-        test_subprocess.wait()
-        testcase_input_file.close()
-
-        #Get the stdout and stderr of the process
-        test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate()
-
-        #Check stderr to see if Valgrind reported any errors
-        if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode():
-            memory_safe = True
-        else:
-            memory_safe = False
-
-        #Loop through the lines to check if stdout matches what was expected
-        stdout_as_lines = test_subprocess_stdout.decode().splitlines()
-        testcase_output_file = open(testcases_path + "/output/" + testcase["name"] + ".out")
-        expected_output_as_lines = testcase_output_file.read().splitlines()
-        testcase_output_file.close()
-
-        mismatched_line = -1
-        correct_output = True
-        for i in range(len(expected_output_as_lines)):
-            if (i >= len(stdout_as_lines)) or (stdout_as_lines[i] != expected_output_as_lines[i]):
-                correct_output = False
-                mismatched_line = i
-                break
+        try:
+            correct_output, mismatched_line, memory_safe = test_results_async[testcase_num].get(timeout=60)
+        except multiprocessing.context.TimeoutError:
+            print("\x1b[91mTimed out :(\x1b[0m")
+            failed_testcases.append((testcase["name"], True, -1, True, False))
+            continue
 
         #Print the status based on that
         if not correct_output:
@@ -247,7 +230,7 @@ def run_testcases(project_num, testcases):
 
         #Add the testcase to the failed_testcases list if it failed
         if (not correct_output) or (not memory_safe):
-            failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe))
+            failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe, True))
 
         testcase_num = testcase_num + 1
 
@@ -260,6 +243,43 @@ def run_testcases(project_num, testcases):
 
     return failed_testcases
 
+def run_testcase(project_num, testcase_name):
+    #Various paths
+    testcases_path = "projects/project" + str(project_num)
+    testing_path = os.path.expanduser(TESTING_DIR)
+
+    #Open the testcase and pipe it to the process
+    testcase_input_file = open(testcases_path + "/input/" + testcase_name + ".in")
+
+    test_subprocess = subprocess.Popen(["valgrind", "./a.out"], stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
+    test_subprocess.wait()
+    testcase_input_file.close()
+
+    #Get the stdout and stderr of the process
+    test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate()
+
+    #Loop through the lines to check if stdout matches what was expected
+    stdout_as_lines = test_subprocess_stdout.decode().splitlines()
+    testcase_output_file = open(testcases_path + "/output/" + testcase_name + ".out")
+    expected_output_as_lines = testcase_output_file.read().splitlines()
+    testcase_output_file.close()
+
+    correct_output = True
+    mismatched_line = -1
+    for i in range(len(expected_output_as_lines)):
+        if (i >= len(stdout_as_lines)) or (stdout_as_lines[i] != expected_output_as_lines[i]):
+            correct_output = False
+            mismatched_line = i
+            break
+
+    #Check stderr to see if Valgrind reported any errors
+    if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode():
+        memory_safe = True
+    else:
+        memory_safe = False
+
+    return correct_output, mismatched_line, memory_safe
+
 def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     if len(failed_testcases) == 0:
         print("\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m\x1b[92m You passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
@@ -270,14 +290,18 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
 
     failed_with_output_mismatches = 0
     failed_with_memory_unsafety = 0
+    failed_with_timeout = 0
     for testcase in failed_testcases:
         if not testcase[1]:#Corresponds to mismatched output
             failed_with_output_mismatches = failed_with_output_mismatches + 1
         if not testcase[3]:#Corresponds to memory unsafety
             failed_with_memory_unsafety = failed_with_memory_unsafety + 1
+        if not testcase[4]:#Corresponds to timeouts (not in on time)
+            failed_with_timeout = failed_with_timeout + 1
 
     print("Testcases with output mismatches: \x1b[96m" + str(failed_with_output_mismatches)+ " out of " + str(len(testcases)) + "\x1b[0m")
     print("Testcases with memory unsafety: \x1b[96m" + str(failed_with_memory_unsafety)+ " out of " + str(len(testcases)) + "\x1b[0m")
+    print("Testcases that timed-out: \x1b[96m" + str(failed_with_timeout)+ " out of " + str(len(testcases)) + "\x1b[0m")
 
     print("\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
 
