@@ -222,7 +222,7 @@ def run_testcases(project_num, testcases):
 
         #Print the status based on that
         if not correct_output:
-           print("\x1b[91mLine " + str(mismatched_line) + " mismatched the expected output :(\x1b[0m")
+           print("\x1b[91mLine " + str(mismatched_line + 1) + " mismatched the expected output :(\x1b[0m")
         elif not memory_safe:
            print("\x1b[93mMemory unsafety detected :(\x1b[0m")
         else:
