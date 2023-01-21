@@ -44,7 +44,7 @@ $ python3 jekelautograder.py path/to/your/tarball/example_p1.tar.gz
  _  | |/ _ \ |/ / _ \ |   / _ \| | | | __/ _ \| |  _| '__/ _` |/ _` |/ _ \ '__|
 | |_| |  __/   <  __/ |  / ___ \ |_| | || (_) | |_| | | | (_| | (_| |  __/ |
  \___/ \___|_|\_\___|_| /_/   \_\__,_|\__\___/ \____|_|  \__,_|\__,_|\___|_|
-Copyright (c) 2023 John Jekel
+Copyright (c) 2023 John Jekel and Aiden Fox Ivey
 
 Performing some basic sanity checks before we get started...
 Looking good, I think I'm set to go!

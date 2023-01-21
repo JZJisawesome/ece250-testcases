@@ -6,11 +6,11 @@
 
 #Constants
 TESTING_DIR = "~/.jekelautograder"
-TARBALL_REQUIREMENTS = "Check out the requirements for tarball naming on LEARN and try again"
-RUNNING_FROM_CHECKOUT_REPO = "Are you running the script from the checked-out repository directory?"
-FMT_INCORRECT = "The format of your tarball's name is incorrect"
-COULD_NOT_LOCATE = "Couldn't locate the projects/project"
-FIX_MANIFEST = "Fix the manifest, or contact jzjekel@uwaterloo.ca"
+TARBALL_REQUIREMENTS_TIP = "Check out the requirements for tarball naming on LEARN and try again"
+RUNNING_FROM_CHECKOUT_REPO_TIP = "Are you running the script from the checked-out repository directory?"
+FMT_INCORRECT_ERROR = "The format of your tarball's name is incorrect"
+COULD_NOT_LOCATE_ERROR_PREFIX = "Couldn't locate the projects/project"
+FIX_MANIFEST_TIP = "Fix the manifest, or contact jzjekel@uwaterloo.ca"
 
 #A UWID is expected to be in the following format.
 #Up to 8 alphanumeric characters. Some number (1, inf) of
@@ -57,17 +57,17 @@ def basic_sanity_checks():
     print("Performing some \x1b[4mbasic sanity checks\x1b[0m before we get started...")
 
     if not os.path.exists("projects"):
-        die("Couldn't locate the projects directory", RUNNING_FROM_CHECKOUT_REPO)
+        die("Couldn't locate the projects directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
 
     for i in range(1, 4):
         if not os.path.exists("projects/project" + str(i)):
-            die(COULD_NOT_LOCATE + str(i) + " directory", RUNNING_FROM_CHECKOUT_REPO)
+            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + " directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
         if not os.path.exists("projects/project" + str(i) + "/manifest.json"):
-            die(COULD_NOT_LOCATE + str(i) + "/manifest.json file", RUNNING_FROM_CHECKOUT_REPO)
+            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + "/manifest.json file", RUNNING_FROM_CHECKOUT_REPO_TIP)
         if not os.path.exists("projects/project" + str(i) + "/input"):
-            die(COULD_NOT_LOCATE + str(i) + "/input directory", RUNNING_FROM_CHECKOUT_REPO)
+            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + "/input directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
         if not os.path.exists("projects/project" + str(i) + "/output"):
-            die(COULD_NOT_LOCATE + str(i) + "/output directory", RUNNING_FROM_CHECKOUT_REPO)
+            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + "/output directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
 
     if shutil.which("valgrind") is None:
         die("Couldn't locate the \"valgrind\" executable in the PATH", "Do you have Valgrind installed?")
@@ -91,7 +91,7 @@ def get_info_about_tarball():
     split_by_underscore = tarball_name.split("_")
 
     if len(split_by_underscore) != 2:
-        unrecoverable_project_mistake(FMT_INCORRECT, TARBALL_REQUIREMENTS)
+        unrecoverable_project_mistake(FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
 
     uwid = split_by_underscore[0]
     pattern = re.compile(UWID_REGEX)
@@ -102,23 +102,23 @@ def get_info_about_tarball():
     split_last_part_by_dot = split_by_underscore[1].split(".")
 
     if len(split_last_part_by_dot) != 3:
-        unrecoverable_project_mistake(FMT_INCORRECT, TARBALL_REQUIREMENTS)
+        unrecoverable_project_mistake(FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
 
     project_num_str = split_last_part_by_dot[0]
 
     if (len(project_num_str) != 2) or (project_num_str[:1] != "p"):
-        unrecoverable_project_mistake(FMT_INCORRECT, TARBALL_REQUIREMENTS)
+        unrecoverable_project_mistake(FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
 
     try:
         project_num = int(project_num_str[1:2])
     except ValueError:
-        unrecoverable_project_mistake("The project number is missing", TARBALL_REQUIREMENTS)
+        unrecoverable_project_mistake("The project number is missing", TARBALL_REQUIREMENTS_TIP)
 
     if (project_num == 0) or (project_num > 4):
-        unrecoverable_project_mistake("The project number is invalid", TARBALL_REQUIREMENTS)
+        unrecoverable_project_mistake("The project number is invalid", TARBALL_REQUIREMENTS_TIP)
 
     if (split_last_part_by_dot[1] != "tar") or (split_last_part_by_dot[2] != "gz"):
-        unrecoverable_project_mistake("Bad file extension", TARBALL_REQUIREMENTS)
+        unrecoverable_project_mistake("Bad file extension", TARBALL_REQUIREMENTS_TIP)
 
     print("Excellent! Based on the name of the tarball, \x1b[96m" + tarball_name + "\x1b[0m, I've deduced the following:")
     print("Your UWID is: \x1b[96m" + uwid + "\x1b[0m")
@@ -205,20 +205,20 @@ def read_manifest(project_num):
     try:
         manifest = json.load(manifest_file)
     except json.decoder.JSONDecodeError:
-        die("The manifest.json for the current project is formatted incorrectly", FIX_MANIFEST)
+        die("The manifest.json for the current project is formatted incorrectly", FIX_MANIFEST_TIP)
 
     manifest_file.close()
 
     #Ensure we found a "testcases" key in the manifest
     if not "testcases" in manifest:
-        die("The manifest.json for the current project is missing a testcases array", FIX_MANIFEST)
+        die("The manifest.json for the current project is missing a testcases array", FIX_MANIFEST_TIP)
 
     #Check that all of the testcases in the manifest are sane and actually exist
     for testcase in manifest["testcases"]:
         if not "name" in testcase:
-            die("A testcase in the manifest.json is missing a name.", FIX_MANIFEST)
+            die("A testcase in the manifest.json is missing a name.", FIX_MANIFEST_TIP)
         if not "author" in testcase:
-            die("The \"" + testcase["name"] + "\" testcase in the manifest.json is missing an author.", FIX_MANIFEST)
+            die("The \"" + testcase["name"] + "\" testcase in the manifest.json is missing an author.", FIX_MANIFEST_TIP)
         if not os.path.exists(testcases_path + "/input/" + testcase["name"] + ".in"):
             die("The input file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", "Add the file or remove the entry from the manifest, or contact jzjekel@uwaterloo.ca")
         if not os.path.exists(testcases_path + "/output/" + testcase["name"] + ".out"):
