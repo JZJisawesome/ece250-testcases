@@ -1,0 +1,11 @@
+CRT 3
+DEF x 2
+DEF y 4
+DEF z 6
+ADD x y z
+PRT z
+REM x
+PRT x
+DEF x 2
+PRT x
+END

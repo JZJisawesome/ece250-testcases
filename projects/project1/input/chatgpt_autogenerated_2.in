@@ -1,0 +1,34 @@
+CRT 10
+DEF a 2
+DEF b 3
+DEF c 4
+DEF d 5
+DEF e 6
+DEF f 7
+DEF g 8
+DEF h 9
+DEF i 10
+DEF j 11
+ADD a b c
+PRT c
+SUB c a b
+PRT b
+REM a
+PRT a
+DEF k 12
+DEF l 13
+DEF m 14
+DEF n 15
+DEF o 16
+DEF p 17
+DEF q 18
+DEF r 19
+DEF s 20
+DEF t 21
+ADD k l m
+PRT m
+SUB m k l
+PRT l
+REM k
+PRT k
+END
