@@ -2,9 +2,11 @@
 # The Jekel AutoGrader
 # By: John Jekel
 # Copyright (c) 2023 John Jekel
+# Copyright (c) 2023 Aiden Fox Ivey
 #
 # Useful script for autograding your project with the testcases in the repository
 
+# Constants
 TESTING_DIR = "~/.jekelautograder"
 TARBALL_REQUIREMENTS = "Check out the requirements for tarball naming on LEARN and try again"
 RUNNING_FROM_CHECKOUT_REPO = "Are you running the script from the checked-out repository directory?"
@@ -13,11 +15,12 @@ COULD_NOT_LOCATE = "Couldn't locate the projects/project"
 FIX_MANIFEST = "Fix the manifest, or contact jzjekel@uwaterloo.ca"
 
 # A UWID is expected to be in the following format.
-# 8 alphanumeric characters. Some number (1, inf) of
+# Up to 8 alphanumeric characters. Some number (1, inf) of
 # alphabetic characters, (0,4) numbers, and another
 # (1,inf) of alphabetic characters
 UWID_REGEX = r"^(?=.{3,8}$)(?=[a-z]+\d{0,4}[a-z]+$).+$"
 
+# Imports
 import json
 import multiprocessing
 import os
@@ -37,6 +40,7 @@ def main():
     print("\x1b[95m \\___/ \\___|_|\\_\\___|_| /_/   \\_\\__,_|\\__\\___/ \\____|_|  \\__,_|\\__,_|\\___|_|\x1b[0m")
 
     print("\x1b[90mCopyright (c) 2023 John Jekel\x1b[0m\n")
+    print("\x1b[90mCopyright (c) 2023 Aiden Fox Ivey\x1b[0m\n")
 
     basic_sanity_checks()
 
@@ -93,7 +97,7 @@ def get_info_about_tarball():
     pattern = re.compile(UWID_REGEX)
 
     if not pattern.match(uwid):
-        unrecoverable_project_mistake("You're not using your eight-character UW ID", "Check out the requirements for tarball naming on LEARN and try again")
+        unrecoverable_project_mistake("You're not using your up-to-eight-character UW ID", "Check out the requirements for tarball naming on LEARN and try again")
 
     split_last_part_by_dot = split_by_underscore[1].split(".")
 
