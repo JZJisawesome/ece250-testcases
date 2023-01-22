@@ -242,6 +242,7 @@ def run_testcases(project_num, testcases):
     test_results_async = []
 
     #Launch all testcases using the pool
+    print("Using up to " + str(multiprocessing.cpu_count()) + " thread(s) to run testcases in parallel...")
     for testcase in testcases:
         test_results_async.append(test_pool.apply_async(run_testcase, args=(project_num, testcase["name"])))
 
