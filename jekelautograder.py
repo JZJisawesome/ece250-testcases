@@ -380,6 +380,5 @@ def die(error_string, tip):
     sys.exit(1)
 
 #On script entry, call main()
-
 if __name__ == "__main__":
     main()

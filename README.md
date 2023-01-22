@@ -32,6 +32,20 @@ Receiving objects: 100% (12/12), done.
 Resolving deltas: 100% (1/1), done.
 ```
 
+If you already have a checkout but want to get the latest testcases and AutoGrader fixes, you can do this instead (from within your previous clone):
+
+```
+$ git pull
+remote: Enumerating objects: 49, done.
+remote: Counting objects: 100% (49/49), done.
+remote: Compressing objects: 100% (19/19), done.
+remote: Total 33 (delta 17), reused 30 (delta 14), pack-reused 0
+Unpacking objects: 100% (33/33), 6.58 KiB | 612.00 KiB/s, done.
+From https://github.com/JZJisawesome/ece250-testcases
+   beb9fdb..2c1b6de  main                 -> origin/main
+[...]
+```
+
 ## Automatic Testing
 
 The autograder implementation included in this repo, called the Jekel AutoGrader, must be run from the project root directory.
