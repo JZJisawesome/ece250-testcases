@@ -139,7 +139,10 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
         shutil.rmtree(testing_path)
 
     #Create the testing directory
-    os.mkdir(testing_path)
+    try:
+        os.mkdir(testing_path)
+    except OSError:
+        die("Unable to create the temporary directory " + TESTING_DIR, "Is there a permissions issue in your home directory?")
 
     #Copy the tarball to the testing directory (we can assume both exist)
     new_tarball_path = testing_path + "/tarball.tar.gz"
@@ -280,7 +283,10 @@ def run_testcases(project_num, testcases):
 
     print("")
 
-    shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+    try:
+        shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+    except OSError:
+        general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
 
     return failed_testcases
 
@@ -360,8 +366,12 @@ def unrecoverable_project_mistake(mistake_string, tip):
     print("\x1b[95mHappiness can be found even in the darkest of times, if one only remembers to turn on the the light.\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
     if os.path.exists(testing_path):
-        shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+        try:
+            shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+        except OSError:
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
     sys.exit(1)
+
 
 def general_unrecoverable_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
@@ -370,8 +380,18 @@ def general_unrecoverable_mistake(mistake_string, tip):
     print("\x1b[95mFrom the ashes of disaster grow the roses of success!\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
     if os.path.exists(testing_path):
-        shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+        try:
+            shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+        except OSError:
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
     sys.exit(1)
+
+def general_warning(warning_string, tip):
+    print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
+    print("\x1b[93;1mShoot, something didn't quite work: \x1b[0m\x1b[93;4m" + warning_string + "\x1b[0m")
+    print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
+    print("\x1b[95mDo, or do not: there is no try.\x1b[0m")
+    print("\x1b[90m---------- snip snip ----------\x1b[0m")
 
 def die(error_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
@@ -380,7 +400,10 @@ def die(error_string, tip):
     print("\x1b[95mOh a spoonful of sugar helps the medicine go down, in the most delightful way!\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
     if os.path.exists(testing_path):
-        shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+        try:
+            shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+        except OSError:
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
     sys.exit(1)
 
 #On script entry, call main()
