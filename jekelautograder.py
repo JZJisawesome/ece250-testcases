@@ -35,7 +35,7 @@ def main():
     print("\x1b[95m    | | ___| | _____| |    / \\  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __\x1b[0m")
     print("\x1b[95m _  | |/ _ \\ |/ / _ \\ |   / _ \\| | | | __/ _ \\| |  _| '__/ _` |/ _` |/ _ \\ '__|\x1b[0m")
     print("\x1b[95m| |_| |  __/   <  __/ |  / ___ \\ |_| | || (_) | |_| | | | (_| | (_| |  __/ |\x1b[0m")
-    print("\x1b[95m \\___/ \\___|_|\\_\\___|_| /_/   \\_\\__,_|\\__\\___/ \\____|_|  \\__,_|\\__,_|\\___|_|\x1b[0m")
+    print("\x1b[95m \\___/ \\___|_|\\_\\___|_| /_/   \\_\\__,_|\\__\\___/ \\____|_|  \\__,_|\\__,_|\\___|_|    for ECE 250\x1b[0m")
 
     print("\x1b[90mCopyright (c) 2023 John Jekel and Aiden Fox Ivey\x1b[0m\n")
 
@@ -226,9 +226,9 @@ def read_manifest(project_num):
         if not "author" in testcase:
             die("The \"" + testcase["name"] + "\" testcase in the manifest.json is missing an author.", FIX_MANIFEST_TIP)
         if not os.path.exists(testcases_path + "/input/" + testcase["name"] + ".in"):
-            die("The input file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", "Add the file or remove the entry from the manifest, or contact jzjekel@uwaterloo.ca")
+            die("The input file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", FIX_MANIFEST_TIP)
         if not os.path.exists(testcases_path + "/output/" + testcase["name"] + ".out"):
-            die("The output file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", "Add the file or remove the entry from the manifest, or contact jzjekel@uwaterloo.ca")
+            die("The output file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", FIX_MANIFEST_TIP)
 
     print("Awesome, all " + str(len(manifest["testcases"])) + " testcase(s) in the manifest exist!\n")
     return manifest["testcases"]
