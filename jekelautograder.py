@@ -160,8 +160,10 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     try:
         tarball.extractall(testing_path)
     except tarfile.HeaderError:
+        tarball.close()
         unrecoverable_project_mistake("Corrupted tarball", "Recreate the tarball and try again")
     except tarfile.CompressionError:
+        tarball.close()
         unrecoverable_project_mistake("Problem when decompressing tarball", "Your tarball should be gzip-compressed; perhaps it is corrupt?")
 
     #Ensure the tarball dosn't contain any directories
@@ -180,6 +182,7 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     #Test the user's makefile
     print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
     if not "Makefile" in tarball.getnames():
+        tarball.close()
         unrecoverable_project_mistake("Your Makefile is missing!", "Please ensure your tarball includes a file called Makefile in the root and try again")
 
     #Ensure a.out wasn't bundled with the tarball accidentally
