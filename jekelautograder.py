@@ -10,7 +10,7 @@ TARBALL_REQUIREMENTS_TIP = "Check out the requirements for tarball naming on LEA
 RUNNING_FROM_CHECKOUT_REPO_TIP = "Are you running the script from the checked-out repository directory?"
 FMT_INCORRECT_ERROR = "The format of your tarball's name is incorrect"
 COULD_NOT_LOCATE_ERROR_PREFIX = "Couldn't locate the projects/project"
-FIX_MANIFEST_TIP = "Fix the manifest, or contact jzjekel@uwaterloo.ca"
+FIX_MANIFEST_TIP = "Fix the manifest, or leave an issue at https://github.com/JZJisawesome/ece250-testcases/issues"
 
 #A UWID is expected to be in the following format.
 #Up to 8 alphanumeric characters. Some number (1, inf) of
@@ -172,7 +172,7 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     #Ensure the tarball dosn't contain any directories
     for member in tarball.getmembers():
         if member.isdir():
-            unrecoverable_project_mistake("You have a directory in your tarball, which confuses the autograder!", "There should be no directories in the tarball whatsoever as mentioned by the ECE 250 teaching staff")
+            unrecoverable_project_mistake("You have a least one directory in your tarball, which confuses the autograder!", "There should be no directories in the tarball whatsoever as mentioned by the ECE 250 teaching staff")
 
     #Check for a design doc
     print("Done! Let me just double check your \x1b[4mdesign doc\x1b[0m...")
