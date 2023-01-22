@@ -1,6 +1,6 @@
 # ECE250 Testcases
 
-NOTE: Some users have been having issues due to improperly created tarballs that contain directories. These issues have been fixed in the latest version. (This message is here temporarily)
+NOTE: Some users have been having issues due to improperly created tarballs that contain directories. Warnings about this have been made more clear in the latest version. (This message is here temporarily)
 
 This repository contains a collection of MIT-licensed testcases for each project in ECE250.
 
