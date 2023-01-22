@@ -1,5 +1,7 @@
 # ECE250 Testcases
 
+NOTE: Some users have been having issues due to improperly created tarballs that contain directories. These issues have been fixed in the latest version. (This message is here temporarily)
+
 This repository contains a collection of MIT-licensed testcases for each project in ECE250.
 
 | Project | Number Of Testcases Available |
@@ -30,6 +32,20 @@ remote: Compressing objects: 100% (8/8), done.
 remote: Total 12 (delta 1), reused 8 (delta 0), pack-reused 0
 Receiving objects: 100% (12/12), done.
 Resolving deltas: 100% (1/1), done.
+```
+
+If you already have a checkout but want to get the latest testcases and AutoGrader fixes, you can do this instead (from within your previous clone):
+
+```
+$ git pull
+remote: Enumerating objects: 49, done.
+remote: Counting objects: 100% (49/49), done.
+remote: Compressing objects: 100% (19/19), done.
+remote: Total 33 (delta 17), reused 30 (delta 14), pack-reused 0
+Unpacking objects: 100% (33/33), 6.58 KiB | 612.00 KiB/s, done.
+From https://github.com/JZJisawesome/ece250-testcases
+   beb9fdb..2c1b6de  main                 -> origin/main
+[...]
 ```
 
 ## Automatic Testing
