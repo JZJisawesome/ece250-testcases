@@ -167,7 +167,7 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     #Ensure the tarball dosn't contain any directories
     for member in tarball.getmembers():
         if member.isdir():
-            recoverable_project_mistake("You have a directory in your tarball!", "There should be no directories in the tarball whatsoever as mentioned by the ECE250 teaching staff!")
+            unrecoverable_project_mistake("You have a directory in your tarball, which confuses the autograder!", "There should be no directories in the tarball whatsoever as mentioned by the ECE 250 teaching staff")
 
     #Check for a design doc
     print("Done! Let me just double check your \x1b[4mdesign doc\x1b[0m...")
@@ -191,7 +191,7 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     make_subprocess = subprocess.Popen(["make", "-j"], cwd=testing_path)
     make_subprocess.wait()
     if not os.path.exists(testing_path + "/a.out"):
-        unrecoverable_project_mistake("Your makefile didn't produce a.out", "Please ensure there are no errors above, and that you haven't used GCC's -o option")
+        unrecoverable_project_mistake("Your Makefile didn't produce a.out", "Please ensure there are no errors above, and that you haven't used GCC's -o option")
 
     print("Sweet, your Makefile sucessfully \x1b[4mproduced an a.out binary\x1b[0m!\n")
 
