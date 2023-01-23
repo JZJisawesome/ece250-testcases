@@ -271,7 +271,7 @@ def run_testcases(project_num, testcases):
             correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get()
 
             #Print the status based on that
-            print("\x1b[s\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
+            print("\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
             if not on_time:
                 print("\x1b[91mTimeout  :(\x1b[0m", end="")
             elif not correct_output:
@@ -280,7 +280,7 @@ def run_testcases(project_num, testcases):
                 print("\x1b[93mMemory   :(\x1b[0m", end="")
             else:
                 print("\x1b[92mSuccess! :)\x1b[0m", end="")
-            print("\x1b[u", end="", flush=True)
+            print("\x1b[" + str(len(testcases) - testcase_num) + "B\x1b[G", end="", flush=True)
 
             #Add the testcase to the failed_testcases list if it failed
             if (not correct_output) or (not memory_safe) or (not on_time):
