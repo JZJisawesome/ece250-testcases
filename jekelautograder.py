@@ -250,26 +250,36 @@ def run_testcases(project_num, testcases):
     test_results_async = []
 
     #Launch all testcases using the pool
+    testcase_num = 0
     print("Using up to " + str(multiprocessing.cpu_count()) + " thread(s) to run testcases in parallel...")
     for testcase in testcases:
+        print("[Running... ]: Testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m")
         test_results_async.append(test_pool.apply_async(run_testcase, args=(project_num, testcase["name"])))
+        testcase_num = testcase_num + 1
 
     #Wait for all testcases to finish, printing info about them as we go, and recording info about the ones that fail
+    #testcase_nums_left = []
+    #for testcase_num in range(len(testcases)):
+    #    testcase_nums_left.append(testcase_num)
+
+    #while len(testcase_nums_left) != 0:
+    #    for testcase_num
+
     testcase_num = 0
     for testcase in testcases:
-        print("Running testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m... ", end="", flush=True)
-
         correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get()
 
         #Print the status based on that
+        print("\x1b[s\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
         if not on_time:
-            print("\x1b[91mTimed out :(\x1b[0m")
+            print("\x1b[91mTimeout  :(\x1b[0m", end="")
         elif not correct_output:
-            print("\x1b[91mLine " + str(mismatched_line + 1) + " mismatched the expected output :(\x1b[0m")
+            print("\x1b[91mMismatch :(\x1b[0m", end="")
         elif not memory_safe:
-            print("\x1b[93mMemory unsafety detected :(\x1b[0m")
+            print("\x1b[93mMemory   :(\x1b[0m", end="")
         else:
-            print("\x1b[92mSuccessful! :)\x1b[0m")
+            print("\x1b[92mSuccess! :)\x1b[0m", end="")
+        print("\x1b[u", end="", flush=True)
 
         #Add the testcase to the failed_testcases list if it failed
         if (not correct_output) or (not memory_safe) or (not on_time):
@@ -279,6 +289,19 @@ def run_testcases(project_num, testcases):
 
     if len(failed_testcases) != 0:
         recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
+        print("\nHere is a summary of the test cases that failed:")
+        for testcase_info in failed_testcases:
+            print("Testcase \x1b[96m" + testcase_info[0] + "\x1b[0m failed due to ", end="")
+            if not testcase_info[1]:
+                print("\x1b[91man output mismatch on line " + str(testcase_info[2]) + "\x1b[0m", end="")
+                if not testcase_info[3]:
+                    print(", and \x1b[93m memory unsafety\x1b[0m")
+                else:
+                    print("")
+            elif not testcase_info[3]:
+                print("\x1b[93mmemory unsafety\x1b[0m")
+            elif not testcase_info[4]:
+                print("\x1b[91mtiming out after " + str(TIMEOUT_TIME_SECS) + " seconds\x1b[0m")
 
     print("")
 
