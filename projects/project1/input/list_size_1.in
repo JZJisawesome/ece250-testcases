@@ -1,0 +1,19 @@
+CRT 1
+DEF x 123
+DEF y 456
+DEF z 789
+DEF a 101112
+PRT x
+PRT y
+PRT z
+PRT a
+REM x
+DEF y 321
+PRT y
+ADD y y y
+PRT y
+SUB y y y
+PRT y
+ADD x y z
+SUB a z y
+END

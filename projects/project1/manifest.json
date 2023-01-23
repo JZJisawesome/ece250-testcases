@@ -7,8 +7,12 @@
         {"name": "LEARN_test01", "author": "ECE 250 Teaching Staff"},
         {"name": "LEARN_test02", "author": "ECE 250 Teaching Staff"},
         {"name": "LEARN_test03", "author": "ECE 250 Teaching Staff"},
+        {"name": "insanity", "author": "John Jekel"},
+        {"name": "list_size_1", "author": "John Jekel"},
+        {"name": "pushpop_yum", "author": "John Jekel"},
         {"name": "sanity", "author": "John Jekel"},
         {"name": "supports_doubles", "author": "John Jekel"},
-        {"name": "support_valid_cpp_names", "author": "John Jekel"}
+        {"name": "support_valid_cpp_names", "author": "John Jekel"},
+        {"name": "test_REM", "author": "Azizul Chowdhury"}
     ]
 }
