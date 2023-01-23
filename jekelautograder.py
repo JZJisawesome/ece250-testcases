@@ -298,13 +298,13 @@ def run_testcases(project_num, testcases):
             if not testcase_info[1]:
                 print("\x1b[91man output mismatch on line " + str(testcase_info[2]) + "\x1b[0m", end="")
                 if not testcase_info[3]:
-                    print(", and \x1b[93m memory unsafety\x1b[0m")
+                    print(", and \x1b[93mmemory unsafety\x1b[0m")
                 else:
                     print("")
             elif not testcase_info[3]:
                 print("\x1b[93mmemory unsafety\x1b[0m")
             elif not testcase_info[4]:
-                print("\x1b[91mtiming out after " + str(TIMEOUT_TIME_SECS) + " seconds\x1b[0m")
+                print("\x1b[91mtiming out after " + str(TIMEOUT_TIME_SECS) + " second(s)\x1b[0m")
 
     print("")
 
