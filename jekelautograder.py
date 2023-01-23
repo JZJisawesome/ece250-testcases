@@ -27,6 +27,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
+import time
 import platform
 import re
 
@@ -258,34 +259,36 @@ def run_testcases(project_num, testcases):
         testcase_num = testcase_num + 1
 
     #Wait for all testcases to finish, printing info about them as we go, and recording info about the ones that fail
-    #testcase_nums_left = []
-    #for testcase_num in range(len(testcases)):
-    #    testcase_nums_left.append(testcase_num)
+    testcase_nums_left = []
+    for testcase_num in range(len(testcases)):
+        testcase_nums_left.append(testcase_num)
 
-    #while len(testcase_nums_left) != 0:
-    #    for testcase_num
+    while len(testcase_nums_left) != 0:
+        for testcase_num in testcase_nums_left:
+            if not test_results_async[testcase_num].ready():
+                continue
 
-    testcase_num = 0
-    for testcase in testcases:
-        correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get()
+            correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get()
 
-        #Print the status based on that
-        print("\x1b[s\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
-        if not on_time:
-            print("\x1b[91mTimeout  :(\x1b[0m", end="")
-        elif not correct_output:
-            print("\x1b[91mMismatch :(\x1b[0m", end="")
-        elif not memory_safe:
-            print("\x1b[93mMemory   :(\x1b[0m", end="")
-        else:
-            print("\x1b[92mSuccess! :)\x1b[0m", end="")
-        print("\x1b[u", end="", flush=True)
+            #Print the status based on that
+            print("\x1b[s\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
+            if not on_time:
+                print("\x1b[91mTimeout  :(\x1b[0m", end="")
+            elif not correct_output:
+                print("\x1b[91mMismatch :(\x1b[0m", end="")
+            elif not memory_safe:
+                print("\x1b[93mMemory   :(\x1b[0m", end="")
+            else:
+                print("\x1b[92mSuccess! :)\x1b[0m", end="")
+            print("\x1b[u", end="", flush=True)
 
-        #Add the testcase to the failed_testcases list if it failed
-        if (not correct_output) or (not memory_safe) or (not on_time):
-            failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe, on_time))
+            #Add the testcase to the failed_testcases list if it failed
+            if (not correct_output) or (not memory_safe) or (not on_time):
+                failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe, on_time))
 
-        testcase_num = testcase_num + 1
+            testcase_nums_left.remove(testcase_num)
+
+        time.sleep(0.01)#Don't completely burn CPU while we are polling
 
     if len(failed_testcases) != 0:
         recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
