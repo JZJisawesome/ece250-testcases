@@ -290,22 +290,6 @@ def run_testcases(project_num, testcases):
 
         time.sleep(0.01)#Don't completely burn CPU while we are polling
 
-    if len(failed_testcases) != 0:
-        recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
-        print("\nHere is a summary of the test cases that failed:")
-        for testcase_info in failed_testcases:
-            print("Testcase \x1b[96m" + testcase_info[0] + "\x1b[0m failed due to ", end="")
-            if not testcase_info[1]:
-                print("\x1b[91man output mismatch on line " + str(testcase_info[2]) + "\x1b[0m", end="")
-                if not testcase_info[3]:
-                    print(", and \x1b[93mmemory unsafety\x1b[0m")
-                else:
-                    print("")
-            elif not testcase_info[3]:
-                print("\x1b[93mmemory unsafety\x1b[0m")
-            elif not testcase_info[4]:
-                print("\x1b[91mtiming out after " + str(TIMEOUT_TIME_SECS) + " second(s)\x1b[0m")
-
     print("")
 
     try:
@@ -358,6 +342,22 @@ def run_testcase(project_num, testcase_name):
 def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     if len(failed_testcases) == 0:
         print("\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m\x1b[92m You passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
+    else:
+        recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
+        print("\nHere is some additional info about failed testcases:")
+        for testcase_info in failed_testcases:
+            print("Testcase \x1b[96m" + testcase_info[0] + "\x1b[0m failed due to ", end="")
+            if not testcase_info[1]:
+                print("\x1b[91man output mismatch on line " + str(testcase_info[2]) + "\x1b[0m", end="")
+                if not testcase_info[3]:
+                    print(", and \x1b[93mmemory unsafety\x1b[0m")
+                else:
+                    print("")
+            elif not testcase_info[3]:
+                print("\x1b[93mmemory unsafety\x1b[0m")
+            elif not testcase_info[4]:
+                print("\x1b[91mtiming out after " + str(TIMEOUT_TIME_SECS) + " second(s)\x1b[0m")
+        print("")
 
     print("Here is a breakdown of your grade: ")
     print("Testcases passed: \x1b[96m" + str(len(testcases) - len(failed_testcases))+ " out of " + str(len(testcases)) + "\x1b[0m")
@@ -399,7 +399,6 @@ def unrecoverable_project_mistake(mistake_string, tip):
         except OSError:
             general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
     sys.exit(1)
-
 
 def general_unrecoverable_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
