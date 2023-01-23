@@ -6,7 +6,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 
 | Project | Number Of Testcases Available |
 |---------|-------------------------------|
-| Project 1 | 10 |
+| Project 1 | 13 |
 | Project 2 | 0 |
 | Project 3 | 0 |
 | Project 4 | 0 |

@@ -252,7 +252,7 @@ def run_testcases(project_num, testcases):
     #Wait for all testcases to finish, printing info about them as we go, and recording info about the ones that fail
     testcase_num = 0
     for testcase in testcases:
-        print("Running testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m... ", end="")
+        print("Running testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m... ", end="", flush=True)
 
         try:
             correct_output, mismatched_line, memory_safe = test_results_async[testcase_num].get(timeout=60)

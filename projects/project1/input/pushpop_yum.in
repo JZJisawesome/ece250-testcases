@@ -1,0 +1,20 @@
+CRT 100
+DEF x 123
+REM x
+DEF x 456
+DEF y 789
+REM x 123
+REM y 123
+DEF x 0
+DEF y 1
+DEF z 2
+REM y
+REM z
+REM x
+DEF y 1111
+DEF x 2222
+DEF z 3333
+REM y
+REM x
+REM z
+END
