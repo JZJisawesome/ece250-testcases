@@ -13,5 +13,6 @@
         {"name": "sanity", "author": "John Jekel"},
         {"name": "supports_doubles", "author": "John Jekel"},
         {"name": "support_valid_cpp_names", "author": "John Jekel"}
+        {"name": "test_REM", "author": "Azizul Chowdhury"}
     ]
 }
