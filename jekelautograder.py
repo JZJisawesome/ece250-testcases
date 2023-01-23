@@ -53,6 +53,7 @@ def main():
     summarize_and_grade(tarball_info[1], tarball_info[2], testcases, test_results)
 
     print("Whelp, that's all from me. Good luck on your project! - JZJ")
+    print("\x1b[1mP.S. Don't forget to contribute your testcases to https://github.com/JZJisawesome/ece250-testcases!\x1b[0m")
 
 def basic_sanity_checks():
     print("Performing some \x1b[4mbasic sanity checks\x1b[0m before we get started...")
