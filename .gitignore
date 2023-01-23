@@ -1,6 +1,8 @@
 *.c
+*.cc
 *.cpp
 *.h
+*.hh
 *.hpp
 *.tpp
 a.out
