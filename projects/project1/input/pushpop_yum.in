@@ -3,8 +3,8 @@ DEF x 123
 REM x
 DEF x 456
 DEF y 789
-REM x 123
-REM y 123
+REM x
+REM y
 DEF x 0
 DEF y 1
 DEF z 2
