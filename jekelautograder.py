@@ -5,6 +5,7 @@
 #Useful script for autograding your project with the testcases in the repository
 
 #Constants
+TIMEOUT_TIME_SECS = 60
 TESTING_DIR = "~/.jekelautograder"
 TARBALL_REQUIREMENTS_TIP = "Check out the requirements for tarball naming on LEARN and try again"
 RUNNING_FROM_CHECKOUT_REPO_TIP = "Are you running the script from the checked-out repository directory?"
@@ -257,24 +258,21 @@ def run_testcases(project_num, testcases):
     for testcase in testcases:
         print("Running testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m... ", end="", flush=True)
 
-        try:
-            correct_output, mismatched_line, memory_safe = test_results_async[testcase_num].get(timeout=60)
-        except multiprocessing.context.TimeoutError:
-            print("\x1b[91mTimed out :(\x1b[0m")
-            failed_testcases.append((testcase["name"], True, -1, True, False))
-            continue
+        correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get()
 
         #Print the status based on that
-        if not correct_output:
-           print("\x1b[91mLine " + str(mismatched_line + 1) + " mismatched the expected output :(\x1b[0m")
+        if not on_time:
+            print("\x1b[91mTimed out :(\x1b[0m")
+        elif not correct_output:
+            print("\x1b[91mLine " + str(mismatched_line + 1) + " mismatched the expected output :(\x1b[0m")
         elif not memory_safe:
-           print("\x1b[93mMemory unsafety detected :(\x1b[0m")
+            print("\x1b[93mMemory unsafety detected :(\x1b[0m")
         else:
-           print("\x1b[92mSuccessful! :)\x1b[0m")
+            print("\x1b[92mSuccessful! :)\x1b[0m")
 
         #Add the testcase to the failed_testcases list if it failed
-        if (not correct_output) or (not memory_safe):
-            failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe, True))
+        if (not correct_output) or (not memory_safe) or (not on_time):
+            failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe, on_time))
 
         testcase_num = testcase_num + 1
 
@@ -299,11 +297,12 @@ def run_testcase(project_num, testcase_name):
     testcase_input_file = open(testcases_path + "/input/" + testcase_name + ".in")
 
     test_subprocess = subprocess.Popen(["valgrind", "./a.out"], stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
-    test_subprocess.wait()
-    testcase_input_file.close()
 
     #Get the stdout and stderr of the process
-    test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate()
+    try:
+        test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate(timeout=TIMEOUT_TIME_SECS)
+    except subprocess.TimeoutExpired:
+        return True, -1, True, False
 
     #Loop through the lines to check if stdout matches what was expected
     stdout_as_lines = test_subprocess_stdout.decode().splitlines()
@@ -325,7 +324,9 @@ def run_testcase(project_num, testcase_name):
     else:
         memory_safe = False
 
-    return correct_output, mismatched_line, memory_safe
+    testcase_input_file.close()
+
+    return correct_output, mismatched_line, memory_safe, True
 
 def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     if len(failed_testcases) == 0:
