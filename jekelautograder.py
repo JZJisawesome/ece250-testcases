@@ -284,7 +284,7 @@ def run_testcases(project_num, testcases):
 
             #Add the testcase to the failed_testcases list if it failed
             if (not correct_output) or (not memory_safe) or (not on_time):
-                failed_testcases.append((testcase["name"], correct_output, mismatched_line, memory_safe, on_time))
+                failed_testcases.append((testcases[testcase_num]["name"], correct_output, mismatched_line, memory_safe, on_time))
 
             testcase_nums_left.remove(testcase_num)
 
