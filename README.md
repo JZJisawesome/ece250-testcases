@@ -1,5 +1,10 @@
 # ECE250 Testcases
 
+![](https://img.shields.io/badge/MacOS-supported!-green)
+![](https://img.shields.io/badge/GNU\/Linux-supported!-green)
+![](https://img.shields.io/badge/Windows-unsupported-red)
+
+
 This repository contains a collection of MIT-licensed testcases for each project in ECE250.
 
 | Project | Number Of Testcases Available |
