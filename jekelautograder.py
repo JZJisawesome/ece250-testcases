@@ -5,7 +5,7 @@
 #Useful script for autograding your project with the testcases in the repository
 
 #Constants
-TIMEOUT_TIME_SECS = 60
+DEFAULT_TIMEOUT_SECS = 30
 TESTING_DIR = "~/.jekelautograder"
 TARBALL_REQUIREMENTS_TIP = "Check out the requirements for tarball naming on LEARN and try again"
 RUNNING_FROM_CHECKOUT_REPO_TIP = "Are you running the script from the checked-out repository directory?"
@@ -261,7 +261,7 @@ def run_testcases(project_num, testcases):
     print("Using up to " + str(multiprocessing.cpu_count()) + " thread(s) to run testcases in parallel...")
     for testcase in testcases:
         print("[Running... ]: Testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m")
-        test_results_async.append(test_pool.apply_async(run_testcase, args=(project_num, testcase["name"])))
+        test_results_async.append(test_pool.apply_async(run_testcase, args=(project_num, testcase)))
         testcase_num = testcase_num + 1
 
     #Wait for all testcases to finish, printing info about them as we go, and recording info about the ones that fail
@@ -274,7 +274,7 @@ def run_testcases(project_num, testcases):
             if not test_results_async[testcase_num].ready():
                 continue
 
-            correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get()
+            correct_output, mismatched_line, memory_safe, on_time, run_time = test_results_async[testcase_num].get()
 
             #Print the status based on that
             print("\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
@@ -290,7 +290,7 @@ def run_testcases(project_num, testcases):
 
             #Add the testcase to the failed_testcases list if it failed
             if (not correct_output) or (not memory_safe) or (not on_time):
-                failed_testcases.append((testcases[testcase_num]["name"], correct_output, mismatched_line, memory_safe, on_time))
+                failed_testcases.append((testcases[testcase_num]["name"], correct_output, mismatched_line, memory_safe, on_time, run_time))
 
             testcase_nums_left.remove(testcase_num)
 
@@ -305,27 +305,34 @@ def run_testcases(project_num, testcases):
 
     return failed_testcases
 
-def run_testcase(project_num, testcase_name):
+def run_testcase(project_num, testcase):
     #Various paths
     testcases_path = "projects/project" + str(project_num)
     testing_path = os.path.expanduser(TESTING_DIR)
 
     #Open the testcase and pipe it to the process
-    testcase_input_file = open(testcases_path + "/input/" + testcase_name + ".in")
+    testcase_input_file = open(testcases_path + "/input/" + testcase["name"] + ".in")
 
     test_subprocess = subprocess.Popen(["valgrind", "./a.out"], stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
 
+    #Determine timeout time
+    if "timeout_time_secs" in testcase.keys():
+        #TODO ensure it is an integer
+        timeout_time_secs = testcase["timeout_time_secs"]
+    else:
+        timeout_time_secs = DEFAULT_TIMEOUT_SECS
+
     #Get the stdout and stderr of the process
     try:
-        test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate(timeout=TIMEOUT_TIME_SECS)
+        test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate(timeout=timeout_time_secs)
     except subprocess.TimeoutExpired:
         test_subprocess.kill()
         test_subprocess.wait()
-        return True, -1, True, False
+        return True, -1, True, False, timeout_time_secs
 
     #Loop through the lines to check if stdout matches what was expected
     stdout_as_lines = test_subprocess_stdout.decode().splitlines()
-    testcase_output_file = open(testcases_path + "/output/" + testcase_name + ".out")
+    testcase_output_file = open(testcases_path + "/output/" + testcase["name"] + ".out")
     expected_output_as_lines = testcase_output_file.read().splitlines()
     testcase_output_file.close()
 
@@ -345,7 +352,7 @@ def run_testcase(project_num, testcase_name):
 
     testcase_input_file.close()
 
-    return correct_output, mismatched_line, memory_safe, True
+    return correct_output, mismatched_line, memory_safe, True, timeout_time_secs#TODO replace last with total running time up to this point
 
 def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     if len(failed_testcases) == 0:
@@ -364,7 +371,7 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
             elif not testcase_info[3]:
                 print("\x1b[93mmemory unsafety\x1b[0m")
             elif not testcase_info[4]:
-                print("\x1b[91mtiming out after " + str(TIMEOUT_TIME_SECS) + " second(s)\x1b[0m")
+                print("\x1b[91mtiming out after " + str(testcase_info[5]) + " second(s)\x1b[0m")
         print("")
 
     print("Here is a breakdown of your grade: ")
