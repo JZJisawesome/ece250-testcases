@@ -1,10 +1,23 @@
 #!/usr/bin/env python3
-#The Jekel AutoGrader
-#Copyright (c) 2023 John Jekel and Aiden Fox Ivey
-#
-#Useful script for autograding your project with the testcases in the repository
 
-#Constants
+# Imports
+import json
+import multiprocessing
+import os
+import platform
+import re
+import shutil
+import subprocess
+import sys
+import tarfile
+import time
+
+# The Jekel AutoGrader
+# Copyright (c) 2023 John Jekel and Aiden Fox Ivey
+#
+# Useful script for autograding your project with the testcases in the repository
+
+# Constants
 TIMEOUT_TIME_SECS = 60
 TESTING_DIR = "~/.jekelautograder"
 TARBALL_REQUIREMENTS_TIP = "Check out the requirements for tarball naming on LEARN and try again"
@@ -13,25 +26,14 @@ FMT_INCORRECT_ERROR = "The format of your tarball's name is incorrect"
 COULD_NOT_LOCATE_ERROR_PREFIX = "Couldn't locate the projects/project"
 FIX_MANIFEST_TIP = "Fix the manifest, or leave an issue at https://github.com/JZJisawesome/ece250-testcases/issues"
 
-#A UWID is expected to be in the following format.
-#Up to 8 alphanumeric characters. Some number (1, inf) of
-#alphabetic characters, (0,4) numbers, and another
-#(1,inf) of alphabetic characters
+# A UWID is expected to be in the following format.
+# Up to 8 alphanumeric characters. Some number (1, inf) of
+# alphabetic characters, (0,4) numbers, and another
+# (1,inf) of alphabetic characters
 UWID_REGEX = r"^(?=.{3,8}$)(?=[a-z]+\d{0,4}[a-z]+$).+$"
 
-#Imports
-import json
-import multiprocessing
-import os
-import shutil
-import subprocess
-import sys
-import tarfile
-import time
-import platform
-import re
 
-#Functions
+# Functions
 def main():
     print("\x1b[95m     _      _        _      _         _         ____               _\x1b[0m")
     print("\x1b[95m    | | ___| | _____| |    / \\  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __\x1b[0m")
@@ -45,53 +47,68 @@ def main():
 
     tarball_info = get_info_about_tarball()
 
-    extract_tarball_and_compile(tarball_info[0], tarball_info[1], tarball_info[2])
+    extract_tarball_and_compile(
+        tarball_info[0], tarball_info[1], tarball_info[2])
 
     testcases = read_manifest(tarball_info[2])
 
     test_results = run_testcases(tarball_info[2], testcases)
 
-    summarize_and_grade(tarball_info[1], tarball_info[2], testcases, test_results)
+    summarize_and_grade(
+        tarball_info[1], tarball_info[2], testcases, test_results)
 
     print("Whelp, that's all from me. Good luck on your project! - JZJ")
     print("\x1b[1mP.S. Don't forget to contribute your testcases to https://github.com/JZJisawesome/ece250-testcases!\x1b[0m")
 
+
 def basic_sanity_checks():
-    print("Performing some \x1b[4mbasic sanity checks\x1b[0m before we get started...")
+    print(
+        "Performing some \x1b[4mbasic sanity checks\x1b[0m before we get started...")
 
     if not os.path.exists("projects"):
-        die("Couldn't locate the projects directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
+        die("Couldn't locate the projects directory",
+            RUNNING_FROM_CHECKOUT_REPO_TIP)
 
     for i in range(1, 4):
         if not os.path.exists("projects/project" + str(i)):
-            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + " directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
+            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) +
+                " directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
         if not os.path.exists("projects/project" + str(i) + "/manifest.json"):
-            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + "/manifest.json file", RUNNING_FROM_CHECKOUT_REPO_TIP)
+            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) +
+                "/manifest.json file", RUNNING_FROM_CHECKOUT_REPO_TIP)
         if not os.path.exists("projects/project" + str(i) + "/input"):
-            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + "/input directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
+            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) +
+                "/input directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
         if not os.path.exists("projects/project" + str(i) + "/output"):
-            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + "/output directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
+            die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) +
+                "/output directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
 
     if platform.uname().system == "Linux":
         if shutil.which("valgrind") is None:
-            die("Couldn't locate the \"valgrind\" executable in the PATH", "Do you have Valgrind installed?")
+            die("Couldn't locate the \"valgrind\" executable in the PATH",
+                "Do you have Valgrind installed?")
 
     if platform.uname().system == "Darwin":
         if shutil.which("leaks") is None:
-            die("Couldn't locate the \"leaks\" executable in the PATH", "Run xcode-select --install")
+            die("Couldn't locate the \"leaks\" executable in the PATH",
+                "Run xcode-select --install")
 
     print("Looking good, I think I'm set to go!\n")
 
+
 def get_info_about_tarball():
     if len(sys.argv) != 2:
-        general_unrecoverable_mistake("You didn't give me the argument(s) I was expecting!", "I only take a single argument, the path to the tarball that you'd like to test :)")
+        general_unrecoverable_mistake("You didn't give me the argument(s) I was expecting!",
+                                      "I only take a single argument, the path to the tarball that you'd like to test :)")
 
-    print("To begin, let's check your \x1b[4mtarball's file name and path\x1b[0m...")
+    print(
+        "To begin, let's check your \x1b[4mtarball's file name and path\x1b[0m...")
 
     raw_path = sys.argv[1]
 
     if not os.path.exists(raw_path):
-        general_unrecoverable_mistake("The tarball you specified dosn't exist!", "Double check the path you provided and give it another go")
+        general_unrecoverable_mistake("The tarball you specified dosn't exist!",
+                                      "Double check the path you provided and give it another go")
 
     normalized_path = os.path.normpath(sys.argv[1])
     tarball_name = os.path.basename(normalized_path)
@@ -99,38 +116,47 @@ def get_info_about_tarball():
     split_by_underscore = tarball_name.split("_")
 
     if len(split_by_underscore) != 2:
-        unrecoverable_project_mistake(FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
+        unrecoverable_project_mistake(
+            FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
 
     uwid = split_by_underscore[0]
     pattern = re.compile(UWID_REGEX)
 
     if not pattern.match(uwid):
-        unrecoverable_project_mistake("You're not using your up-to-eight-character UW ID", "Check out the requirements for tarball naming on LEARN and try again")
+        unrecoverable_project_mistake("You're not using your up-to-eight-character UW ID",
+                                      "Check out the requirements for tarball naming on LEARN and try again")
 
     split_last_part_by_dot = split_by_underscore[1].split(".")
 
     if len(split_last_part_by_dot) != 3:
-        unrecoverable_project_mistake(FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
+        unrecoverable_project_mistake(
+            FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
 
     project_num_str = split_last_part_by_dot[0]
 
     if (len(project_num_str) != 2) or (project_num_str[:1] != "p"):
-        unrecoverable_project_mistake(FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
+        unrecoverable_project_mistake(
+            FMT_INCORRECT_ERROR, TARBALL_REQUIREMENTS_TIP)
 
     try:
         project_num = int(project_num_str[1:2])
     except ValueError:
-        unrecoverable_project_mistake("The project number is missing", TARBALL_REQUIREMENTS_TIP)
+        unrecoverable_project_mistake(
+            "The project number is missing", TARBALL_REQUIREMENTS_TIP)
 
     if (project_num == 0) or (project_num > 4):
-        unrecoverable_project_mistake("The project number is invalid", TARBALL_REQUIREMENTS_TIP)
+        unrecoverable_project_mistake(
+            "The project number is invalid", TARBALL_REQUIREMENTS_TIP)
 
     if (split_last_part_by_dot[1] != "tar") or (split_last_part_by_dot[2] != "gz"):
-        unrecoverable_project_mistake("Bad file extension", TARBALL_REQUIREMENTS_TIP)
+        unrecoverable_project_mistake(
+            "Bad file extension", TARBALL_REQUIREMENTS_TIP)
 
-    print("Excellent! Based on the name of the tarball, \x1b[96m" + tarball_name + "\x1b[0m, I've deduced the following:")
+    print("Excellent! Based on the name of the tarball, \x1b[96m" +
+          tarball_name + "\x1b[0m, I've deduced the following:")
     print("Your UWID is: \x1b[96m" + uwid + "\x1b[0m")
-    print("Your tarball is for: \x1b[96mProject " + str(project_num) + "\x1b[0m")
+    print("Your tarball is for: \x1b[96mProject " +
+          str(project_num) + "\x1b[0m")
     if (uwid == "jzjekel"):
         print("You are my creator :)")
     print("")
@@ -142,89 +168,108 @@ def get_info_about_tarball():
     elif pftm == "Linux":
         print("It seems you're running GNU/Linux. We'll use Valgrind to check for memory leaks.")
     else:
-        general_unrecoverable_mistake("You're not running GNU/Linux or MacOS.", "Unfortunately those are the only two supported platforms right now.")
+        general_unrecoverable_mistake("You're not running GNU/Linux or MacOS.",
+                                      "Unfortunately those are the only two supported platforms right now.")
 
     return normalized_path, uwid, project_num
 
+
 def extract_tarball_and_compile(tarball_path, uwid, project_num):
-    print("Okay, now I'm going to \x1b[4mextract your tarball\x1b[0m to a temporary location...")
+    print(
+        "Okay, now I'm going to \x1b[4mextract your tarball\x1b[0m to a temporary location...")
 
     testing_path = os.path.expanduser(TESTING_DIR)
 
-    #Delete the testing directory if it already existed before
+    # Delete the testing directory if it already existed before
     if os.path.exists(testing_path):
         try:
             shutil.rmtree(testing_path)
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR,
+                            "Likely this is an issue with NFS; you can probably ignore this")
 
-    #Create the testing directory
+    # Create the testing directory
     try:
         os.mkdir(testing_path)
     except OSError:
-        die("Unable to create the temporary directory " + TESTING_DIR, "Is there a permissions issue in your home directory?")
+        die("Unable to create the temporary directory " + TESTING_DIR,
+            "Is there a permissions issue in your home directory?")
 
-    #Copy the tarball to the testing directory (we can assume both exist)
+    # Copy the tarball to the testing directory (we can assume both exist)
     new_tarball_path = testing_path + "/tarball.tar.gz"
     try:
         shutil.copyfile(tarball_path, new_tarball_path)
     except IsADirectoryError:
-        unrecoverable_project_mistake("Tarball is actually a directory", "Nice try breaking the autograder. Better luck next time :)")
+        unrecoverable_project_mistake(
+            "Tarball is actually a directory", "Nice try breaking the autograder. Better luck next time :)")
 
-    #Extract it
+    # Extract it
     try:
         tarball = tarfile.open(new_tarball_path)
     except tarfile.HeaderError:
-        unrecoverable_project_mistake("Corrupted tarball", "Recreate the tarball and try again")
+        unrecoverable_project_mistake(
+            "Corrupted tarball", "Recreate the tarball and try again")
     except tarfile.ReadError:
-        unrecoverable_project_mistake("Couldn't open the tarball for reading", "Do you have read permissions?")
+        unrecoverable_project_mistake(
+            "Couldn't open the tarball for reading", "Do you have read permissions?")
     except tarfile.CompressionError:
-        unrecoverable_project_mistake("Unsupported tarball compression method", "Your tarball should be gzip-compressed")
+        unrecoverable_project_mistake(
+            "Unsupported tarball compression method", "Your tarball should be gzip-compressed")
     try:
         tarball.extractall(testing_path)
     except tarfile.HeaderError:
         tarball.close()
-        unrecoverable_project_mistake("Corrupted tarball", "Recreate the tarball and try again")
+        unrecoverable_project_mistake(
+            "Corrupted tarball", "Recreate the tarball and try again")
     except tarfile.CompressionError:
         tarball.close()
-        unrecoverable_project_mistake("Problem when decompressing tarball", "Your tarball should be gzip-compressed; perhaps it is corrupt?")
+        unrecoverable_project_mistake("Problem when decompressing tarball",
+                                      "Your tarball should be gzip-compressed; perhaps it is corrupt?")
 
-    #Ensure the tarball dosn't contain any directories
+    # Ensure the tarball dosn't contain any directories
     for member in tarball.getmembers():
         if member.isdir():
-            unrecoverable_project_mistake("You have a least one directory in your tarball, which confuses the autograder!", "There should be no directories in the tarball whatsoever as mentioned by the ECE 250 teaching staff")
+            unrecoverable_project_mistake("You have a least one directory in your tarball, which confuses the autograder!",
+                                          "There should be no directories in the tarball whatsoever as mentioned by the ECE 250 teaching staff")
 
-    #Check for a design doc
+    # Check for a design doc
     print("Done! Let me just double check your \x1b[4mdesign doc\x1b[0m...")
     design_doc_name = uwid + "_design_p" + str(project_num) + ".pdf"
     if not design_doc_name in tarball.getnames():
-        recoverable_project_mistake("Your design doc is missing or named incorrectly", "It should be named \"" + design_doc_name + "\"")
+        recoverable_project_mistake(
+            "Your design doc is missing or named incorrectly", "It should be named \"" + design_doc_name + "\"")
     else:
         print("The name looks good! ", end="")
 
-    #Test the user's makefile
+    # Test the user's makefile
     print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
     if not "Makefile" in tarball.getnames():
         tarball.close()
-        unrecoverable_project_mistake("Your Makefile is missing!", "Please ensure your tarball includes a file called Makefile in the root and try again")
+        unrecoverable_project_mistake(
+            "Your Makefile is missing!", "Please ensure your tarball includes a file called Makefile in the root and try again")
 
-    #Ensure a.out wasn't bundled with the tarball accidentally
+    # Ensure a.out wasn't bundled with the tarball accidentally
     if "a.out" in tarball.getnames():
         tarball.close()
-        unrecoverable_project_mistake("Your tarball already contains an a.out binary", "Please ensure your tarball does not include any pre-compiled code whatsoever!")
+        unrecoverable_project_mistake("Your tarball already contains an a.out binary",
+                                      "Please ensure your tarball does not include any pre-compiled code whatsoever!")
     tarball.close()
 
     make_subprocess = subprocess.Popen(["make", "-j"], cwd=testing_path)
     make_subprocess.wait()
     if not os.path.exists(testing_path + "/a.out"):
-        unrecoverable_project_mistake("Your Makefile didn't produce a.out", "Please ensure there are no errors above, and that you haven't used GCC's -o option")
+        unrecoverable_project_mistake("Your Makefile didn't produce a.out",
+                                      "Please ensure there are no errors above, and that you haven't used GCC's -o option")
 
-    print("Sweet, your Makefile sucessfully \x1b[4mproduced an a.out binary\x1b[0m!\n")
+    print(
+        "Sweet, your Makefile sucessfully \x1b[4mproduced an a.out binary\x1b[0m!\n")
+
 
 def read_manifest(project_num):
-    print("Reading the manifest file for Project " + str(project_num) + " and \x1b[4mensuring I can find all of the testcases\x1b[0m...")
+    print("Reading the manifest file for Project " + str(project_num) +
+          " and \x1b[4mensuring I can find all of the testcases\x1b[0m...")
 
-    #We can already assume the manifest exists (it was checked earlier)
+    # We can already assume the manifest exists (it was checked earlier)
     testcases_path = "projects/project" + str(project_num)
     manifest_path = testcases_path + "/manifest.json"
     manifest_file = open(manifest_path)
@@ -235,47 +280,55 @@ def read_manifest(project_num):
 
     manifest_file.close()
 
-    #Ensure we found a "testcases" key in the manifest
+    # Ensure we found a "testcases" key in the manifest
     if not "testcases" in manifest:
         die("The manifest.json for the current project is missing a testcases array", FIX_MANIFEST_TIP)
 
-    #Check that all of the testcases in the manifest are sane and actually exist
+    # Check that all of the testcases in the manifest are sane and actually exist
     for testcase in manifest["testcases"]:
         if not "name" in testcase:
             die("A testcase in the manifest.json is missing a name.", FIX_MANIFEST_TIP)
         if not "author" in testcase:
-            die("The \"" + testcase["name"] + "\" testcase in the manifest.json is missing an author.", FIX_MANIFEST_TIP)
+            die("The \"" + testcase["name"] +
+                "\" testcase in the manifest.json is missing an author.", FIX_MANIFEST_TIP)
         if not os.path.exists(testcases_path + "/input/" + testcase["name"] + ".in"):
-            die("The input file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", FIX_MANIFEST_TIP)
+            die("The input file for the \"" +
+                testcase["name"] + "\" testcase in the manifest.json is missing", FIX_MANIFEST_TIP)
         if not os.path.exists(testcases_path + "/output/" + testcase["name"] + ".out"):
-            die("The output file for the \"" + testcase["name"] + "\" testcase in the manifest.json is missing", FIX_MANIFEST_TIP)
+            die("The output file for the \"" +
+                testcase["name"] + "\" testcase in the manifest.json is missing", FIX_MANIFEST_TIP)
 
-    print("Awesome, all " + str(len(manifest["testcases"])) + " testcase(s) in the manifest exist!\n")
+    print("Awesome, all " +
+          str(len(manifest["testcases"])) + " testcase(s) in the manifest exist!\n")
     return manifest["testcases"]
+
 
 def run_testcases(project_num, testcases):
     print("Alright, we're finally getting to the good part. Let's run some testcases!")
 
-    #Various paths we will be using later
+    # Various paths we will be using later
     testcases_path = "projects/project" + str(project_num)
     testing_path = os.path.expanduser(TESTING_DIR)
 
-    #List of failed testcases
+    # List of failed testcases
     failed_testcases = []
 
-    #Multiprocessing pool-related structures (limits max process to # of detected CPUs instead of launching every testcase at once)
+    # Multiprocessing pool-related structures (limits max process to # of detected CPUs instead of launching every testcase at once)
     test_pool = multiprocessing.Pool()
     test_results_async = []
 
-    #Launch all testcases using the pool
+    # Launch all testcases using the pool
     testcase_num = 0
-    print("Using up to " + str(multiprocessing.cpu_count()) + " thread(s) to run testcases in parallel...")
+    print("Using up to " + str(multiprocessing.cpu_count()) +
+          " thread(s) to run testcases in parallel...")
     for testcase in testcases:
-        print("[Running... ]: Testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) + ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m")
-        test_results_async.append(test_pool.apply_async(run_testcase, args=(project_num, testcase["name"])))
+        print("[Running... ]: Testcase " + str(testcase_num + 1) + " of " + str(len(testcases)) +
+              ": \"\x1b[96m" + testcase["name"] + "\x1b[0m\", by \x1b[95m" + testcase["author"] + "\x1b[0m")
+        test_results_async.append(test_pool.apply_async(
+            run_testcase, args=(project_num, testcase["name"])))
         testcase_num = testcase_num + 1
 
-    #Wait for all testcases to finish, printing info about them as we go, and recording info about the ones that fail
+    # Wait for all testcases to finish, printing info about them as we go, and recording info about the ones that fail
     testcase_nums_left = []
     for testcase_num in range(len(testcases)):
         testcase_nums_left.append(testcase_num)
@@ -285,10 +338,12 @@ def run_testcases(project_num, testcases):
             if not test_results_async[testcase_num].ready():
                 continue
 
-            correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get()
+            correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get(
+            )
 
-            #Print the status based on that
-            print("\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
+            # Print the status based on that
+            print("\x1b[" + str(len(testcases) -
+                  testcase_num) + "A\x1b[1C", end="")
             if not on_time:
                 print("\x1b[91mTimeout  :(\x1b[0m", end="")
             elif not correct_output:
@@ -297,23 +352,28 @@ def run_testcases(project_num, testcases):
                 print("\x1b[93mMemory   :(\x1b[0m", end="")
             else:
                 print("\x1b[92mSuccess! :)\x1b[0m", end="")
-            print("\x1b[" + str(len(testcases) - testcase_num) + "B\x1b[G", end="", flush=True)
+            print("\x1b[" + str(len(testcases) - testcase_num) +
+                  "B\x1b[G", end="", flush=True)
 
-            #Add the testcase to the failed_testcases list if it failed
+            # Add the testcase to the failed_testcases list if it failed
             if (not correct_output) or (not memory_safe) or (not on_time):
-                failed_testcases.append((testcases[testcase_num]["name"], correct_output, mismatched_line, memory_safe, on_time))
+                failed_testcases.append(
+                    (testcases[testcase_num]["name"], correct_output, mismatched_line, memory_safe, on_time))
 
             testcase_nums_left.remove(testcase_num)
 
-        time.sleep(0.01)#Don't completely burn CPU while we are polling
+        time.sleep(0.01)  # Don't completely burn CPU while we are polling
 
     if len(failed_testcases) != 0:
-        recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
+        recoverable_project_mistake("At least one of the testcases was unsuccessful",
+                                    "Try to run the problematic testcases manually to narrow down the issue in your code")
         print("\nHere is a summary of the test cases that failed:")
         for testcase_info in failed_testcases:
-            print("Testcase \x1b[96m" + testcase_info[0] + "\x1b[0m failed due to ", end="")
+            print("Testcase \x1b[96m" + testcase_info[0] +
+                  "\x1b[0m failed due to ", end="")
             if not testcase_info[1]:
-                print("\x1b[91man output mismatch on line " + str(testcase_info[2]) + "\x1b[0m", end="")
+                print("\x1b[91man output mismatch on line " +
+                      str(testcase_info[2]) + "\x1b[0m", end="")
                 if not testcase_info[3]:
                     print(", and \x1b[93mmemory unsafety\x1b[0m")
                 else:
@@ -321,24 +381,29 @@ def run_testcases(project_num, testcases):
             elif not testcase_info[3]:
                 print("\x1b[93mmemory unsafety\x1b[0m")
             elif not testcase_info[4]:
-                print("\x1b[91mtiming out after " + str(TIMEOUT_TIME_SECS) + " second(s)\x1b[0m")
+                print("\x1b[91mtiming out after " +
+                      str(TIMEOUT_TIME_SECS) + " second(s)\x1b[0m")
 
     print("")
 
     try:
-        shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+        # We no longer need the testing directory anymore!
+        shutil.rmtree(testing_path)
     except OSError:
-        general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
+        general_warning("Failed to remove the temporary directory " + TESTING_DIR,
+                        "Likely this is an issue with NFS; you can probably ignore this")
 
     return failed_testcases
 
+
 def run_testcase(project_num, testcase_name):
-    #Various paths
+    # Various paths
     testcases_path = "projects/project" + str(project_num)
     testing_path = os.path.expanduser(TESTING_DIR)
 
-    #Open the testcase and pipe it to the process
-    testcase_input_file = open(testcases_path + "/input/" + testcase_name + ".in")
+    # Open the testcase and pipe it to the process
+    testcase_input_file = open(
+        testcases_path + "/input/" + testcase_name + ".in")
 
     cmd_arr = []
 
@@ -347,17 +412,20 @@ def run_testcase(project_num, testcase_name):
     elif platform.uname().system == "Linux":
         cmd_arr = ["valgrind", "./a.out"]
 
-    test_subprocess = subprocess.Popen(cmd_arr, stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
+    test_subprocess = subprocess.Popen(
+        cmd_arr, stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
 
-    #Get the stdout and stderr of the process
+    # Get the stdout and stderr of the process
     try:
-        test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate(timeout=TIMEOUT_TIME_SECS)
+        test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate(
+            timeout=TIMEOUT_TIME_SECS)
     except subprocess.TimeoutExpired:
         return True, -1, True, False
 
-    #Loop through the lines to check if stdout matches what was expected
+    # Loop through the lines to check if stdout matches what was expected
     stdout_as_lines = test_subprocess_stdout.decode().splitlines()
-    testcase_output_file = open(testcases_path + "/output/" + testcase_name + ".out")
+    testcase_output_file = open(
+        testcases_path + "/output/" + testcase_name + ".out")
     expected_output_as_lines = testcase_output_file.read().splitlines()
     testcase_output_file.close()
 
@@ -369,7 +437,7 @@ def run_testcase(project_num, testcase_name):
             mismatched_line = i
             break
 
-    #Check stderr to see if Valgrind reported any errors
+    # Check stderr to see if Valgrind reported any errors
     if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode() or "0 leaks for 0 total leaked bytes" in test_subprocess_stdout.decode():
         memory_safe = True
     else:
@@ -379,85 +447,109 @@ def run_testcase(project_num, testcase_name):
 
     return correct_output, mismatched_line, memory_safe, True
 
+
 def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     if len(failed_testcases) == 0:
-        print("\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m\x1b[92m You passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
+        print("\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m\x1b[92m You passed every testcase I have for Project " +
+              str(project_num) + " with flying colors!\x1b[0m")
 
     print("Here is a breakdown of your grade: ")
-    print("Testcases passed: \x1b[96m" + str(len(testcases) - len(failed_testcases))+ " out of " + str(len(testcases)) + "\x1b[0m")
-    print("Testcases failed: \x1b[96m" + str(len(failed_testcases))+ " out of " + str(len(testcases)) + "\x1b[0m")
+    print("Testcases passed: \x1b[96m" + str(len(testcases) - len(
+        failed_testcases)) + " out of " + str(len(testcases)) + "\x1b[0m")
+    print("Testcases failed: \x1b[96m" + str(len(failed_testcases)
+                                             ) + " out of " + str(len(testcases)) + "\x1b[0m")
 
     failed_with_output_mismatches = 0
     failed_with_memory_unsafety = 0
     failed_with_timeout = 0
     for testcase in failed_testcases:
-        if not testcase[1]:#Corresponds to mismatched output
+        if not testcase[1]:  # Corresponds to mismatched output
             failed_with_output_mismatches = failed_with_output_mismatches + 1
-        if not testcase[3]:#Corresponds to memory unsafety
+        if not testcase[3]:  # Corresponds to memory unsafety
             failed_with_memory_unsafety = failed_with_memory_unsafety + 1
-        if not testcase[4]:#Corresponds to timeouts (not in on time)
+        if not testcase[4]:  # Corresponds to timeouts (not in on time)
             failed_with_timeout = failed_with_timeout + 1
 
-    print("Testcases with output mismatches: \x1b[96m" + str(failed_with_output_mismatches)+ " out of " + str(len(testcases)) + "\x1b[0m")
-    print("Testcases with memory unsafety: \x1b[96m" + str(failed_with_memory_unsafety)+ " out of " + str(len(testcases)) + "\x1b[0m")
-    print("Testcases that timed-out: \x1b[96m" + str(failed_with_timeout)+ " out of " + str(len(testcases)) + "\x1b[0m")
+    print("Testcases with output mismatches: \x1b[96m" + str(
+        failed_with_output_mismatches) + " out of " + str(len(testcases)) + "\x1b[0m")
+    print("Testcases with memory unsafety: \x1b[96m" + str(
+        failed_with_memory_unsafety) + " out of " + str(len(testcases)) + "\x1b[0m")
+    print("Testcases that timed-out: \x1b[96m" + str(
+        failed_with_timeout) + " out of " + str(len(testcases)) + "\x1b[0m")
 
-    print("\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
+    print("\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) -
+          len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
+
 
 def recoverable_project_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
-    print("\x1b[93;1mShoot, I might have found a mistake in your project: \x1b[0m\x1b[93;4m" + mistake_string + "\x1b[0m")
+    print("\x1b[93;1mShoot, I might have found a mistake in your project: \x1b[0m\x1b[93;4m" +
+          mistake_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mEvery shiny dream that fades and dies, generates the steam for two more tries!\x1b[0m")
     print("\x1b[90m---------- snip snip ----------\x1b[0m")
 
+
 def unrecoverable_project_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
-    print("\x1b[91;1mShoot, there's potentially a mistake in your project we can't ignore: \x1b[0m\x1b[91;4m" + mistake_string + "\x1b[0m")
+    print("\x1b[91;1mShoot, there's potentially a mistake in your project we can't ignore: \x1b[0m\x1b[91;4m" +
+          mistake_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mHappiness can be found even in the darkest of times, if one only remembers to turn on the the light.\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
     if os.path.exists(testing_path):
         try:
-            shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+            # We no longer need the testing directory anymore!
+            shutil.rmtree(testing_path)
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR,
+                            "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
 
 
 def general_unrecoverable_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
-    print("\x1b[91;1mShoot, I might have found a mistake: \x1b[0m\x1b[91;4m" + mistake_string + "\x1b[0m")
+    print("\x1b[91;1mShoot, I might have found a mistake: \x1b[0m\x1b[91;4m" +
+          mistake_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mFrom the ashes of disaster grow the roses of success!\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
     if os.path.exists(testing_path):
         try:
-            shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+            # We no longer need the testing directory anymore!
+            shutil.rmtree(testing_path)
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR,
+                            "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
+
 
 def general_warning(warning_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
-    print("\x1b[93;1mShoot, something didn't quite work: \x1b[0m\x1b[93;4m" + warning_string + "\x1b[0m")
+    print("\x1b[93;1mShoot, something didn't quite work: \x1b[0m\x1b[93;4m" +
+          warning_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mDo, or do not: there is no try.\x1b[0m")
     print("\x1b[90m---------- snip snip ----------\x1b[0m")
 
+
 def die(error_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
-    print("\x1b[91;1mShoot, an error occured: \x1b[0m\x1b[91;4m" + error_string + "\x1b[0m")
+    print("\x1b[91;1mShoot, an error occured: \x1b[0m\x1b[91;4m" +
+          error_string + "\x1b[0m")
     print("Maybe this tip will help: \x1b[92m" + tip + "\x1b[0m")
     print("\x1b[95mOh a spoonful of sugar helps the medicine go down, in the most delightful way!\x1b[0m")
     testing_path = os.path.expanduser(TESTING_DIR)
     if os.path.exists(testing_path):
         try:
-            shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
+            # We no longer need the testing directory anymore!
+            shutil.rmtree(testing_path)
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR,
+                            "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
 
-#On script entry, call main()
+
+# On script entry, call main()
 if __name__ == "__main__":
     main()
