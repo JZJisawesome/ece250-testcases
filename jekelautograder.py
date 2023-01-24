@@ -142,7 +142,7 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
         try:
             shutil.rmtree(testing_path)
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
 
     #Create the testing directory
     try:
@@ -314,7 +314,7 @@ def run_testcases(project_num, testcases):
     try:
         shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
     except OSError:
-        general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+        general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
 
     return failed_testcases
 
@@ -400,7 +400,7 @@ def unrecoverable_project_mistake(mistake_string, tip):
         try:
             shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
 
 
@@ -414,7 +414,7 @@ def general_unrecoverable_mistake(mistake_string, tip):
         try:
             shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
 
 def general_warning(warning_string, tip):
@@ -434,7 +434,7 @@ def die(error_string, tip):
         try:
             shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
 
 #On script entry, call main()
