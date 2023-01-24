@@ -87,10 +87,15 @@ def basic_sanity_checks():
             die("Couldn't locate the \"valgrind\" executable in the PATH",
                 "Do you have Valgrind installed?")
 
-    if platform.uname().system == "Darwin":
+        print("It seems you're running GNU/Linux. We'll use Valgrind to check for memory leaks.")
+    elif platform.uname().system == "Darwin":
         if shutil.which("leaks") is None:
             die("Couldn't locate the \"leaks\" executable in the PATH",
                 "Run xcode-select --install")
+        print("It seems you're running MacOS. We'll use Leaks to check for memory leaks.")
+    else:
+        general_unrecoverable_mistake("You're not running GNU/Linux or MacOS.",
+                                      "Unfortunately those are the only two supported platforms right now.")
 
     print("Looking good, I think I'm set to go!\n")
 
@@ -159,16 +164,6 @@ def get_info_about_tarball():
     if (uwid == "jzjekel"):
         print("You are my creator :)")
     print("")
-
-    ptfm = platform.uname().system
-
-    if ptfm == "Darwin":
-        print("It seems you're running MacOS. We'll use Leaks to check for memory leaks.")
-    elif ptfm == "Linux":
-        print("It seems you're running GNU/Linux. We'll use Valgrind to check for memory leaks.")
-    else:
-        general_unrecoverable_mistake("You're not running GNU/Linux or MacOS.",
-                                      "Unfortunately those are the only two supported platforms right now.")
 
     return normalized_path, uwid, project_num
 
