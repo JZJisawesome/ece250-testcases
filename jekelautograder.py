@@ -145,7 +145,10 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     try:
         os.mkdir(testing_path)
     except OSError:
-        die("Unable to create the temporary directory " + TESTING_DIR, "Is there a permissions issue in your home directory?")
+        if os.path.exists(testing_path):
+            general_warning("Unable to create the temporary directory, since it already exists", "Likely this is an issue with NFS; you can probably ignore this")
+        else:
+            die("Unable to create the temporary directory " + TESTING_DIR, "Is there a permissions issue in your home directory?")
 
     #Copy the tarball to the testing directory (we can assume both exist)
     new_tarball_path = testing_path + "/tarball.tar.gz"
@@ -313,6 +316,8 @@ def run_testcase(project_num, testcase_name):
     try:
         test_subprocess_stdout, test_subprocess_stderr = test_subprocess.communicate(timeout=TIMEOUT_TIME_SECS)
     except subprocess.TimeoutExpired:
+        test_subprocess.kill()
+        test_subprocess.wait()
         return True, -1, True, False
 
     #Loop through the lines to check if stdout matches what was expected
