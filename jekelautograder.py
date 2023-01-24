@@ -139,7 +139,10 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
 
     #Delete the testing directory if it already existed before
     if os.path.exists(testing_path):
-        shutil.rmtree(testing_path)
+        try:
+            shutil.rmtree(testing_path)
+        except OSError:
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
 
     #Create the testing directory
     try:
