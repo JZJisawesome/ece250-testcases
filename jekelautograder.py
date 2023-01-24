@@ -139,7 +139,10 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
 
     #Delete the testing directory if it already existed before
     if os.path.exists(testing_path):
-        shutil.rmtree(testing_path)
+        try:
+            shutil.rmtree(testing_path)
+        except OSError:
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
 
     #Create the testing directory
     try:
@@ -274,7 +277,7 @@ def run_testcases(project_num, testcases):
             correct_output, mismatched_line, memory_safe, on_time = test_results_async[testcase_num].get()
 
             #Print the status based on that
-            print("\x1b[s\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
+            print("\x1b[" + str(len(testcases) - testcase_num) + "A\x1b[1C", end="")
             if not on_time:
                 print("\x1b[91mTimeout  :(\x1b[0m", end="")
             elif not correct_output:
@@ -283,7 +286,7 @@ def run_testcases(project_num, testcases):
                 print("\x1b[93mMemory   :(\x1b[0m", end="")
             else:
                 print("\x1b[92mSuccess! :)\x1b[0m", end="")
-            print("\x1b[u", end="", flush=True)
+            print("\x1b[" + str(len(testcases) - testcase_num) + "B\x1b[G", end="", flush=True)
 
             #Add the testcase to the failed_testcases list if it failed
             if (not correct_output) or (not memory_safe) or (not on_time):
@@ -298,7 +301,7 @@ def run_testcases(project_num, testcases):
     try:
         shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
     except OSError:
-        general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+        general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
 
     return failed_testcases
 
@@ -402,7 +405,7 @@ def unrecoverable_project_mistake(mistake_string, tip):
         try:
             shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
 
 def general_unrecoverable_mistake(mistake_string, tip):
@@ -415,7 +418,7 @@ def general_unrecoverable_mistake(mistake_string, tip):
         try:
             shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
 
 def general_warning(warning_string, tip):
@@ -435,7 +438,7 @@ def die(error_string, tip):
         try:
             shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
         except OSError:
-            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Not sure, maybe this is a bug, or some issue on your system?")
+            general_warning("Failed to remove the temporary directory " + TESTING_DIR, "Likely this is an issue with NFS; you can probably ignore this")
     sys.exit(1)
 
 #On script entry, call main()

@@ -48,11 +48,11 @@ From https://github.com/JZJisawesome/ece250-testcases
 
 ## Automatic Testing
 
-The autograder implementation included in this repo, called the Jekel AutoGrader, must be run from the project root directory.
-Note down the path to your submission tarball, and open a terminal in the root. You can then test your tarball with
+The autograder implementation included in this repo, called the Jekel AutoGrader, **must be run from the repo root directory**.
+Note down the path to your submission tarball, and open a terminal **in the root of the repo**. You can then test your tarball with
 
 ```
-$ python3 jekelautograder.py path/to/your/tarball/example_p1.tar.gz
+$ python3 ./jekelautograder.py path/to/your/tarball/example_p1.tar.gz
      _      _        _      _         _         ____               _
     | | ___| | _____| |    / \  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __
  _  | |/ _ \ |/ / _ \ |   / _ \| | | | __/ _ \| |  _| '__/ _` |/ _` |/ _ \ '__|
@@ -80,6 +80,8 @@ The autograder will then test your tarball not only on the testcases for the cor
 
 Just like the real thing, the autograder will use Valgrind, so it is quite good at catching mistakes!
 
+(It uses Leaks on MacOS)
+
 ## Manual Testing
 
 This is useful if you are debugging an issue with your code that is triggered by a particular test case
@@ -97,6 +99,8 @@ $ valgrind ./a.out < path/to/testcase.in
 
 You can then compare the results to the corresponding file in the "output" folder to ensure your program produces the correct output!
 
+TODO instructions for manual testing with Leaks
+
 # Contributing
 
 By having your testcases included in this repository, you agree to having them released under the MIT License (of course you retain copyright).
@@ -104,7 +108,7 @@ You'll get a spot in the following "Contributors" section of the README for your
 
 Only input files with a corresponding expected output file will be accepted for inclusion.
 
-Just submit a PR to participate, or if you're a big enough contributor, I'll grant you maintainer status :)
+Just **submit a PR** to participate, or if you're a big enough contributor, I'll grant you maintainer status :)
 
 # Contributors
 
