@@ -72,8 +72,13 @@ def basic_sanity_checks():
         if not os.path.exists("projects/project" + str(i) + "/output"):
             die(COULD_NOT_LOCATE_ERROR_PREFIX + str(i) + "/output directory", RUNNING_FROM_CHECKOUT_REPO_TIP)
 
-    if shutil.which("valgrind") is None:
-        die("Couldn't locate the \"valgrind\" executable in the PATH", "Do you have Valgrind installed?")
+    if platform.uname().system == "Linux":
+        if shutil.which("valgrind") is None:
+            die("Couldn't locate the \"valgrind\" executable in the PATH", "Do you have Valgrind installed?")
+
+    if platform.uname().system == "Darwin":
+        if shutil.which("leaks") is None:
+            die("Couldn't locate the \"leaks\" executable in the PATH", "Run xcode-select --install")
 
     print("Looking good, I think I'm set to go!\n")
 
@@ -129,6 +134,15 @@ def get_info_about_tarball():
     if (uwid == "jzjekel"):
         print("You are my creator :)")
     print("")
+
+    ptfm = platform.uname().system
+
+    if ptfm == "Darwin":
+        print("It seems you're running MacOS. We'll use Leaks to check for memory leaks.")
+    elif pftm == "Linux":
+        print("It seems you're running GNU/Linux. We'll use Valgrind to check for memory leaks.")
+    else:
+        general_unrecoverable_mistake("You're not running GNU/Linux or MacOS.", "Unfortunately those are the only two supported platforms right now.")
 
     return normalized_path, uwid, project_num
 
@@ -326,7 +340,14 @@ def run_testcase(project_num, testcase_name):
     #Open the testcase and pipe it to the process
     testcase_input_file = open(testcases_path + "/input/" + testcase_name + ".in")
 
-    test_subprocess = subprocess.Popen(["valgrind", "./a.out"], stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
+    cmd_arr = []
+
+    if platform.uname().system == "Darwin":
+        cmd_arr = ["leaks", "--atExit", "--", "./a.out"]
+    elif platform.uname().system == "Linux":
+        cmd_arr = ["valgrind", "./a.out"]
+
+    test_subprocess = subprocess.Popen(cmd_arr, stdin=testcase_input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=testing_path)
 
     #Get the stdout and stderr of the process
     try:
@@ -349,7 +370,7 @@ def run_testcase(project_num, testcase_name):
             break
 
     #Check stderr to see if Valgrind reported any errors
-    if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode():
+    if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode() or "0 leaks for 0 total leaked bytes" in test_subprocess_stdout.decode():
         memory_safe = True
     else:
         memory_safe = False
