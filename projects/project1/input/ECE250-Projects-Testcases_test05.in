@@ -1,0 +1,10 @@
+CRT 3
+DEF x 10
+DEF y 20
+DEF z 30
+REM x
+REM y
+REM z
+ADD x y z
+SUB z y x
+END
