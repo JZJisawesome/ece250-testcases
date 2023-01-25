@@ -1,0 +1,24 @@
+CRT 4
+REM x
+DEF x 0
+DEF y 1
+REM y
+DEF y 3
+DEF y 3.2
+DEF z 4
+DEF p -4
+DEF c -21.2
+ADD x y a
+ADD x a z
+ADD a y z
+SUB s y a
+SUB x a z
+SUB a y z
+PRT y
+REM y
+REM y
+PRT y
+REM x
+REM z
+REM a
+END
