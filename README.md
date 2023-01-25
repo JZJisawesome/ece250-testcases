@@ -4,7 +4,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 
 | Project | Number Of Testcases Available |
 |---------|-------------------------------|
-| Project 1 | 16 |
+| Project 1 | 17 |
 | Project 2 | 0 |
 | Project 3 | 0 |
 | Project 4 | 0 |
@@ -128,3 +128,4 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | ECE 250 Teaching Staff | 3 | LEARN_test01, LEARN_test02, LEARN_test03 |
 | Farzan Mirshekari | 3 | ECE250-Projects-Testcases_test04, ECE250-Projects-Testcases_test05, ECE250-Projects-Testcases_test06 |
 | John Jekel (JZJ) | 6 | insanity, list_size_1, pushpop_yum, sanity, supports_double, support_valid_cpp_names |
+| Luc Edes | 1 | delete |
