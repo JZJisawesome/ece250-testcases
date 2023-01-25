@@ -7,6 +7,7 @@
         {"name": "ECE250-Projects-Testcases_test04", "author": "Farzan Mirshekari"},
         {"name": "ECE250-Projects-Testcases_test05", "author": "Farzan Mirshekari"},
         {"name": "ECE250-Projects-Testcases_test06", "author": "Farzan Mirshekari", "timeout_time_secs": 600},
+        {"name": "edge_cases", "author": "Nathan Cheng"},
         {"name": "LEARN_test01", "author": "ECE 250 Teaching Staff"},
         {"name": "LEARN_test02", "author": "ECE 250 Teaching Staff"},
         {"name": "LEARN_test03", "author": "ECE 250 Teaching Staff"},
@@ -16,7 +17,6 @@
         {"name": "sanity", "author": "John Jekel"},
         {"name": "supports_doubles", "author": "John Jekel"},
         {"name": "support_valid_cpp_names", "author": "John Jekel"},
-        {"name": "test_REM", "author": "Azizul Chowdhury"},
-	{"name": "edge_cases", "author": "Nathan Cheng"}
+        {"name": "test_REM", "author": "Azizul Chowdhury"}
     ]
 }
