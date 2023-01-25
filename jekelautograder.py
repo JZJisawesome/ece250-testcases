@@ -345,7 +345,7 @@ def run_testcase(project_num, testcase):
             break
 
     #Check stderr to see if Valgrind reported any errors
-    if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode() and not "Invalid" in test_subprocess_stderr.decode() and not "uninit" in test_subprocess_stderr.decode() and not "Process terminating" in test_subprocess_stderr.decode() and not "Mismatched" in test_subprocess_stderr.decode() and not "overlap in mem" in test_subprocess_stderr.decode() and not "fishy" in test_subprocess_stderr.decode():
+    if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode() and "ERROR SUMMARY: 0 errors from 0 contexts" in test_subprocess_stderr.decode() and not "Invalid" in test_subprocess_stderr.decode() and not "uninit" in test_subprocess_stderr.decode() and not "Process terminating" in test_subprocess_stderr.decode() and not "Mismatched" in test_subprocess_stderr.decode() and not "overlap in mem" in test_subprocess_stderr.decode() and not "fishy" in test_subprocess_stderr.decode() and not "not within mapped region" in test_subprocess_stderr.decode():
         memory_safe = True
     else:
         memory_safe = False
