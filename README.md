@@ -1,4 +1,4 @@
-# ECE250 Testcases
+# ECE250 Testcases and Autograder
 
 ![](https://img.shields.io/badge/MacOS-supported!-green)
 ![](https://img.shields.io/badge/GNU\/Linux-supported!-green)
@@ -6,6 +6,8 @@
 
 
 This repository contains a collection of MIT-licensed testcases for each project in ECE250.
+
+It also contains an Autograder for testing your submission tarball, well, automatically!
 
 | Project | Number Of Testcases Available |
 |---------|-------------------------------|
