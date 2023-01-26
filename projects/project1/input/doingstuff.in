@@ -14,4 +14,4 @@ DEF thisshouldexist -2.54
 ADD v0 v1 v4
 PRT thisshouldexist
 DEF thisshouldalsonotexist
-EXIT
+END
