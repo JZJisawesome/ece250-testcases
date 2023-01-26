@@ -4,7 +4,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 
 | Project | Number Of Testcases Available |
 |---------|-------------------------------|
-| Project 1 | 18 |
+| Project 1 | 20 (19 active in manifest) |
 | Project 2 | 0 |
 | Project 3 | 0 |
 | Project 4 | 0 |
@@ -130,3 +130,5 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | John Jekel (JZJ) | 6 | insanity, list_size_1, pushpop_yum, sanity, supports_double, support_valid_cpp_names |
 | Luc Edes | 1 | delete |
 | Nathan Cheng | 1 | edge_cases |
+| Nick Chan | 1 | doingstuff |
+| Tri Dao | 1 | test_DEF |
