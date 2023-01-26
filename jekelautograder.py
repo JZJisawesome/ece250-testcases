@@ -163,6 +163,8 @@ def get_info_about_tarball():
           str(project_num) + "\x1b[0m")
     if (uwid == "jzjekel"):
         print("You are my creator :)")
+    if (uwid == "laledes"):
+        print("DADDY <3")
     print("")
 
     return normalized_path, uwid, project_num
