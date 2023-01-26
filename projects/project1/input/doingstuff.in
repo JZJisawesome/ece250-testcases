@@ -1,0 +1,17 @@
+CRT 5
+DEF v0 1.8
+DEF v1 3.2
+DEF v2 134.1
+DEF v3 5.3
+DEF v4 -2.2
+DEF v4 -2.2
+DEF v4 10
+DEF thisshouldntexist 0
+REM thisshouldntexist
+REM v4
+REM v4
+DEF thisshouldexist -2.54
+ADD v0 v1 v4
+PRT thisshouldexist
+DEF thisshouldalsonotexist
+EXIT
