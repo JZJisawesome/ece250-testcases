@@ -15,6 +15,7 @@
         {"name": "list_size_1", "author": "John Jekel"},
         {"name": "pushpop_yum", "author": "John Jekel"},
         {"name": "sanity", "author": "John Jekel"},
+        {"name": "specificboy", "author": "Chris (HyperFire12#3764)"},
         {"name": "supports_doubles", "author": "John Jekel"},
         {"name": "support_valid_cpp_names", "author": "John Jekel"},
         {"name": "test_DEF", "author": "Tri Dao"},
