@@ -2,5 +2,6 @@ CRT 3
 DEF x 5
 DEF z 2
 ADD x y z
+SUB x y z
 PRT z
 END
