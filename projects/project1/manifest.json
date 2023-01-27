@@ -7,7 +7,7 @@
         {"name": "doingstuff", "author": "Nick Chan"},
         {"name": "ECE250-Projects-Testcases_test04", "author": "Farzan Mirshekari"},
         {"name": "ECE250-Projects-Testcases_test05", "author": "Farzan Mirshekari"},
-        {"name": "edge_cases_lab_inst", "author": "Alex Tsarapkine"},
+        {"name": "edge_cases_mem_leak", "author": "Alex Tsarapkine"},
         {"name": "edge_cases", "author": "Nathan Cheng"},
         {"name": "insanity", "author": "John Jekel", "timeout_time_secs": 60},
         {"name": "LEARN_test01", "author": "ECE 250 Teaching Staff"},
