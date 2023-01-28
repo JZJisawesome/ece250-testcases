@@ -5,7 +5,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project | Number Of Testcases Available |
 |---------|-------------------------------|
 | Project 1 | 21 (20 active in manifest) |
-| Project 2 | 0 |
+| Project 2 | 4 (4 active in manifest) |
 | Project 3 | 0 |
 | Project 4 | 0 |
 
@@ -133,3 +133,9 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Nathan Cheng | 1 | edge_cases |
 | Nick Chan | 1 | doingstuff |
 | Tri Dao | 1 | test_DEF |
+
+## Project 1
+
+| Contributor | Number Of Testcases Contributed | Testcase Names |
+|-------------|---------------------------------|-------|
+| ECE 250 Teaching Staff | 4 | LEARN_test01open, LEARN_test01ordered, LEARN_test02ordered, LEARN_test03ordered |
