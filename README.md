@@ -134,7 +134,7 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Nick Chan | 1 | doingstuff |
 | Tri Dao | 1 | test_DEF |
 
-## Project 1
+## Project 2
 
 | Contributor | Number Of Testcases Contributed | Testcase Names |
 |-------------|---------------------------------|-------|
