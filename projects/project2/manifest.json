@@ -18,6 +18,17 @@
         {"name": "respect_capacity1_open", "author": "JZJ"},
         {"name": "respect_capacity1_ordered", "author": "JZJ"},
         {"name": "sanity_open", "author": "JZJ"},
-        {"name": "sanity_ordered", "author": "JZJ"}
+        {"name": "sanity_ordered", "author": "JZJ"},
+        {"name": "ag_testcase_01", "author": "ag"},
+        {"name": "ag_testcase_02", "author": "ag"},
+        {"name": "ag_testcase_03", "author": "ag"},
+        {"name": "ag_testcase_04", "author": "ag"},
+        {"name": "ag_testcase_05", "author": "ag"},
+        {"name": "ag_testcase_06", "author": "ag"},
+        {"name": "ag_testcase_07", "author": "ag"},
+        {"name": "ag_testcase_08", "author": "ag"},
+        {"name": "ag_testcase_09", "author": "ag"},
+        {"name": "ag_testcase_10", "author": "ag"}
+
     ]
 }
