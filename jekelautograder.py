@@ -33,7 +33,7 @@ import re
 
 #Functions
 def main():
-    print("\x1b[?25l\x1b]0;Jekel AutoGrader\x07", end="")
+    print("\x1b]0;Jekel AutoGrader\x07", end="")
     print("\x1b[95m     _      _        _      _         _         ____               _\x1b[0m")
     print("\x1b[95m    | | ___| | _____| |    / \\  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __\x1b[0m")
     print("\x1b[95m _  | |/ _ \\ |/ / _ \\ |   / _ \\| | | | __/ _ \\| |  _| '__/ _` |/ _` |/ _ \\ '__|\x1b[0m")
@@ -131,6 +131,8 @@ def get_info_about_tarball():
     print("Your tarball is for: \x1b[96mProject " + str(project_num) + "\x1b[0m")
     if (uwid == "jzjekel"):
         print("You are my creator :)")
+    elif ((uwid == "abfoxive") or (uwid == "fmirshek")):
+        print("You are an AutoGrader maintainer :)")
     print("")
 
     return normalized_path, uwid, project_num
@@ -359,8 +361,15 @@ def run_testcase(project_num, testcase):
     return correct_output, mismatched_line, memory_safe, True, timeout_time_secs#TODO replace last with total running time up to this point
 
 def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
+    if (uwid == "jzjekel"):
+        uwid = "JZJ"
+    elif (uwid == "abfoxive"):
+        uwid = "Aiden"
+    elif (uwid == "fmirshek"):
+        uwid = "Farzan"
+
     if len(failed_testcases) == 0:
-        if (uwid == "jzjekel"):
+        if ((uwid == "JZJ") or (uwid == "Farzan")):
             print("\x1b#6\x1b#3\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m")
             print("\x1b#6\x1b#4\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m")
             print("\x1b[92mYou passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
@@ -402,7 +411,7 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     print("Testcases with memory unsafety: \x1b[96m" + str(failed_with_memory_unsafety)+ " out of " + str(len(testcases)) + "\x1b[0m")
     print("Testcases that timed-out: \x1b[96m" + str(failed_with_timeout)+ " out of " + str(len(testcases)) + "\x1b[0m")
 
-    if (uwid == "jzjekel"):
+    if ((uwid == "JZJ") or (uwid == "Farzan")):
         print("\x1b#6\x1b#3\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m")
         print("\x1b#6\x1b#4\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
     else:
