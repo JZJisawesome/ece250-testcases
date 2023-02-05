@@ -339,7 +339,7 @@ def run_testcase(project_num, testcase):
     correct_output = True
     mismatched_line = -1
     for i in range(len(expected_output_as_lines)):
-        if (i >= len(stdout_as_lines)) or (stdout_as_lines[i] != expected_output_as_lines[i]):
+        if (i >= len(stdout_as_lines)) or (stdout_as_lines[i].rstrip() != expected_output_as_lines[i].rstrip()):
             correct_output = False
             mismatched_line = i
             break
