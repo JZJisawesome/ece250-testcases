@@ -18,6 +18,8 @@
         {"name": "oob_open", "author": "JZJ"},
         {"name": "oob_ordered", "author": "JZJ"},
         {"name": "printer", "author": "JZJ"},
+        {"name": "respect_capacity_open", "author": "JZJ"},
+        {"name": "respect_capacity_ordered", "author": "JZJ"},
         {"name": "respect_capacity1_open", "author": "JZJ"},
         {"name": "respect_capacity1_ordered", "author": "JZJ"},
         {"name": "sanity_open", "author": "JZJ"},
