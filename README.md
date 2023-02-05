@@ -5,7 +5,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project | Number Of Testcases Available |
 |---------|-------------------------------|
 | Project 1 | 21 (20 active in manifest) |
-| Project 2 | 12 (11 active in manifest) |
+| Project 2 | 15 (14 active in manifest) |
 | Project 3 | 0 |
 | Project 4 | 0 |
 
@@ -140,5 +140,5 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 |-------------|---------------------------------|-------|
 | ECE 250 Teaching Staff | 4 | LEARN_test01open, LEARN_test01ordered, LEARN_test02ordered, LEARN_test03ordered |
 | Farzan Mirshekari | 3 | ECE250-Projects-Testcases_test02open, ECE250-Projects-Testcases_test03open, ECE250-Projects-Testcases_test04ordered |
-| John Jekel (JZJ) | 3 | respect_capacity_open, sanity_open, sanity_ordered |
+| John Jekel (JZJ) | 6 | insanity_open, insanity_ordered, respect_capacity_open, respect_capacity_ordered, sanity_open, sanity_ordered |
 | Ryan (RyEggGit) | 2 | linkingtest, memorytest |
