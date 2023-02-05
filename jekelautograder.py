@@ -33,6 +33,7 @@ import re
 
 #Functions
 def main():
+    print("\x1b[?25l\x1b]0;Jekel AutoGrader\x07", end="")
     print("\x1b[95m     _      _        _      _         _         ____               _\x1b[0m")
     print("\x1b[95m    | | ___| | _____| |    / \\  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __\x1b[0m")
     print("\x1b[95m _  | |/ _ \\ |/ / _ \\ |   / _ \\| | | | __/ _ \\| |  _| '__/ _` |/ _` |/ _ \\ '__|\x1b[0m")
@@ -55,6 +56,8 @@ def main():
 
     print("Whelp, that's all from me. Good luck on your project! - JZJ")
     print("\x1b[1mP.S. Don't forget to contribute your testcases to https://github.com/JZJisawesome/ece250-testcases!\x1b[0m")
+
+    print("\x1b[?25h\x07", end="")
 
 def basic_sanity_checks():
     print("Performing some \x1b[4mbasic sanity checks\x1b[0m before we get started...")
@@ -357,7 +360,12 @@ def run_testcase(project_num, testcase):
 
 def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     if len(failed_testcases) == 0:
-        print("\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m\x1b[92m You passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
+        if (uwid == "jzjekel"):
+            print("\x1b#6\x1b#3\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m")
+            print("\x1b#6\x1b#4\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m")
+            print("\x1b[92mYou passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
+        else:
+            print("\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m\x1b[92m You passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
     else:
         recoverable_project_mistake("At least one of the testcases was unsuccessful", "Try to run the problematic testcases manually to narrow down the issue in your code")
         print("\nHere is some additional info about failed testcases:")
@@ -394,7 +402,11 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     print("Testcases with memory unsafety: \x1b[96m" + str(failed_with_memory_unsafety)+ " out of " + str(len(testcases)) + "\x1b[0m")
     print("Testcases that timed-out: \x1b[96m" + str(failed_with_timeout)+ " out of " + str(len(testcases)) + "\x1b[0m")
 
-    print("\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
+    if (uwid == "jzjekel"):
+        print("\x1b#6\x1b#3\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m")
+        print("\x1b#6\x1b#4\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
+    else:
+        print("\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
 
 def recoverable_project_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
