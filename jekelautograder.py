@@ -296,7 +296,8 @@ def run_testcases(project_num, testcases):
 
         time.sleep(0.01)#Don't completely burn CPU while we are polling
 
-    print("")
+    print("\x1b[90mNote: If some testcases still show as \"Running...\" at this point, this is just a display issue\x1b[0m")
+    print("\x1b[90mThis usually happens if your terminal is too small or you resize it while running the script\x1b[0m\n")
 
     try:
         shutil.rmtree(testing_path)#We no longer need the testing directory anymore!
