@@ -9,11 +9,15 @@
         {"name": "LEARN_test02ordered", "author": "ECE 250 Teaching Staff"},
         {"name": "LEARN_test03ordered", "author": "ECE 250 Teaching Staff"},
         {"name": "linkingtest", "author": "Ryan (RyEggGit)"},
+        {"name": "insanity_open", "author": "JZJ", "timeout_time_secs": 60},
+        {"name": "insanity_ordered", "author": "JZJ", "timeout_time_secs": 60},
         {"name": "integer_limits_open", "author": "JZJ"},
         {"name": "integer_limits_ordered", "author": "JZJ"},
         {"name": "oob_open", "author": "JZJ"},
         {"name": "oob_ordered", "author": "JZJ"},
         {"name": "respect_capacity1_open", "author": "JZJ"},
-        {"name": "respect_capacity1_ordered", "author": "JZJ"}
+        {"name": "respect_capacity1_ordered", "author": "JZJ"},
+        {"name": "sanity_open", "author": "JZJ"},
+        {"name": "sanity_ordered", "author": "JZJ"}
     ]
 }
