@@ -24,25 +24,26 @@ Once you're logged into an eceubuntu server (or a local Unix/Linux system of you
 ```
 $ git clone https://github.com/JZJisawesome/ece250-testcases
 Cloning into 'ece250-testcases'...
-remote: Enumerating objects: 12, done.
-remote: Counting objects: 100% (12/12), done.
-remote: Compressing objects: 100% (8/8), done.
-remote: Total 12 (delta 1), reused 8 (delta 0), pack-reused 0
-Receiving objects: 100% (12/12), done.
-Resolving deltas: 100% (1/1), done.
+remote: Enumerating objects: 738, done.
+remote: Counting objects: 100% (302/302), done.
+remote: Compressing objects: 100% (217/217), done.
+remote: Total 738 (delta 134), reused 208 (delta 78), pack-reused 436
+Receiving objects: 100% (738/738), 644.47 KiB | 3.08 MiB/s, done.
+Resolving deltas: 100% (366/366), done.
 ```
 
 If you already have a checkout but want to get the latest testcases and AutoGrader fixes, you can do this instead (from within your previous clone):
 
 ```
 $ git pull
-remote: Enumerating objects: 49, done.
-remote: Counting objects: 100% (49/49), done.
-remote: Compressing objects: 100% (19/19), done.
-remote: Total 33 (delta 17), reused 30 (delta 14), pack-reused 0
-Unpacking objects: 100% (33/33), 6.58 KiB | 612.00 KiB/s, done.
+remote: Enumerating objects: 246, done.
+remote: Counting objects: 100% (245/245), done.
+remote: Compressing objects: 100% (164/164), done.
+remote: Total 235 (delta 116), reused 169 (delta 66), pack-reused 0
+Receiving objects: 100% (235/235), 99.48 KiB | 1.36 MiB/s, done.
+Resolving deltas: 100% (116/116), completed with 5 local objects.
 From https://github.com/JZJisawesome/ece250-testcases
-   beb9fdb..2c1b6de  main                 -> origin/main
+   8820b46..0e35dfb  main       -> origin/main
 [...]
 ```
 
