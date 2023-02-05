@@ -4,6 +4,9 @@
         {"name": "LEARN_test01ordered", "author": "ECE 250 Teaching Staff"},
         {"name": "LEARN_test02ordered", "author": "ECE 250 Teaching Staff"},
         {"name": "LEARN_test03ordered", "author": "ECE 250 Teaching Staff"},
-        {"name": "linkingtest", "author": "Ryan (RyEggGit)"}
+        {"name": "linkingtest", "author": "Ryan (RyEggGit)"},
+        {"name": "respect_capacity_open", "author": "JZJ"},
+        {"name": "sanity_open", "author": "JZJ"},
+        {"name": "sanity_ordered", "author": "JZJ"}
     ]
 }
