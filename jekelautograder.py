@@ -130,9 +130,17 @@ def get_info_about_tarball():
     print("Your UWID is: \x1b[96m" + uwid + "\x1b[0m")
     print("Your tarball is for: \x1b[96mProject " + str(project_num) + "\x1b[0m")
     if (uwid == "jzjekel"):
-        print("You are my creator :)")
+        print("\x1b[1mYou are my creator :)\x1b[0m")
     elif ((uwid == "abfoxive") or (uwid == "fmirshek")):
-        print("You are an AutoGrader maintainer :)")
+        print("\x1b[1mYou are an AutoGrader maintainer :)\x1b[0m")
+    elif (uwid == "laledes"):
+        print("\x1b[1mMacOS support is coming, I promise...\x1b[0m")
+    elif (uwid == "jfitchet"):
+        print("\x1b[1mCs get degrees!\x1b[0m")
+    elif (uwid == "example"):
+        print("\x1b[1mYou know you don't have to copy and paste everything exactly from the README, right?\x1b[0m")
+        print("\x1b[1mUnless of course your UWID is actually example, in which case, hello!\x1b[0m")
+
     print("")
 
     return normalized_path, uwid, project_num
@@ -367,6 +375,10 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
         uwid = "Aiden"
     elif (uwid == "fmirshek"):
         uwid = "Farzan"
+    elif (uwid == "jfitchet"):
+        uwid = "Josh"
+    elif (uwid == "laledes"):
+        uwid = "Luc"
 
     if len(failed_testcases) == 0:
         if (uwid == "JZJ"):
