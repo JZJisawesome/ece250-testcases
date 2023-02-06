@@ -369,7 +369,7 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
         uwid = "Farzan"
 
     if len(failed_testcases) == 0:
-        if ((uwid == "JZJ") or (uwid == "Farzan")):
+        if (uwid == "JZJ"):
             print("\x1b#6\x1b#3\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m")
             print("\x1b#6\x1b#4\x1b[92;5;1mCongratulations " + uwid + "!\x1b[0m")
             print("\x1b[92mYou passed every testcase I have for Project " + str(project_num) + " with flying colors!\x1b[0m")
@@ -411,7 +411,7 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     print("Testcases with memory unsafety: \x1b[96m" + str(failed_with_memory_unsafety)+ " out of " + str(len(testcases)) + "\x1b[0m")
     print("Testcases that timed-out: \x1b[96m" + str(failed_with_timeout)+ " out of " + str(len(testcases)) + "\x1b[0m")
 
-    if ((uwid == "JZJ") or (uwid == "Farzan")):
+    if (uwid == "JZJ"):
         print("\x1b#6\x1b#3\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m")
         print("\x1b#6\x1b#4\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
     else:
