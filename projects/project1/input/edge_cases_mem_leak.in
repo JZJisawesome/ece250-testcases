@@ -1,0 +1,8 @@
+CRT 1
+DEF x 4
+PRT x
+REM x
+PRT x
+DEF x 5
+PRT x
+END
