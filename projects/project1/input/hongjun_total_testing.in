@@ -1,0 +1,38 @@
+CRT 4
+DEF x 3
+DEF y 4
+DEF z 7
+DEF a 9
+DEF a -9
+DEF c -9
+ADD x z y
+PRT y
+ADD x x x
+REM a
+DEF x -6
+PRT x
+SUB z x y
+PRT a
+PRT y
+REM a
+DEF a 9
+PRT a
+SUB a y y
+PRT y
+REM a
+SUB a y a
+REM x
+REM y
+REM z
+PRT x
+PRT y
+PRT z
+DEF i -99
+DEF j 77
+DEF k 66
+DEF l 55
+PRT i
+PRT j
+PRT k
+PRT l
+END
