@@ -148,4 +148,5 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | John Jekel (JZJ) | 13 | insanity_open, insanity_ordered, integer_limits_open, integer_limits_ordered, oob_open, oob_ordered, printer, respect_capacity_open, respect_capacity_ordered, respect_capacity1_open, respect_capacity1_ordered, sanity_open, sanity_ordered |
 | Nick Chan | 1 | nc_open01 |
 | Reezan Visram | 1 | ECE250-Projects-Testcases_test04ordered |
-| Ryan (RyEggGit) | 1 | linkingtest |
+| Ryan (RyEggGit) | 1 | linkingtest |.
+| Mihir | 1 | integer_limits_open_for_integers, integer_limits_ordered_for_integers
