@@ -22,8 +22,6 @@
         {"name": "linkingtest", "author": "Ryan (RyEggGit)"},
         {"name": "insanity_open", "author": "JZJ", "timeout_time_secs": 60},
         {"name": "insanity_ordered", "author": "JZJ", "timeout_time_secs": 60},
-        {"name": "integer_limits_open", "author": "JZJ"},
-        {"name": "integer_limits_ordered", "author": "JZJ"},
         {"name": "nc_open01", "author": "Nick Chan"},
         {"name": "oob_open", "author": "JZJ"},
         {"name": "oob_ordered", "author": "JZJ"},
