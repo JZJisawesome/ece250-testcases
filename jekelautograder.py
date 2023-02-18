@@ -50,6 +50,9 @@ def main():
 
     testcases = read_manifest(tarball_info[2])
 
+    if tarball_info[2] == 3:
+        project3_specific_logic()
+
     test_results = run_testcases(tarball_info[2], testcases)
 
     summarize_and_grade(tarball_info[1], tarball_info[2], testcases, test_results)
@@ -255,6 +258,10 @@ def read_manifest(project_num):
     print("Awesome, all " + str(len(manifest["testcases"])) + " testcase(s) in the manifest exist!\n")
     return manifest["testcases"]
 
+def project3_specific_logic():
+    print("Performing \x1b[4mProject 3-specific setup\x1b[0m...")
+    die("Custom logic needed to handle the corpus for Project 3 is not currently implemented", "John is working on it!")
+
 def run_testcases(project_num, testcases):
     print("Alright, we're finally getting to the good part. Let's run some testcases!")
 
@@ -424,10 +431,10 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
     print("Testcases that timed-out: \x1b[96m" + str(failed_with_timeout)+ " out of " + str(len(testcases)) + "\x1b[0m")
 
     if (uwid == "JZJ"):
-        print("\x1b#6\x1b#3\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m")
-        print("\x1b#6\x1b#4\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
+        print("\x1b#6\x1b#3\x1b[95mYour JekelScore(TM) is", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "%\x1b[0m")
+        print("\x1b#6\x1b#4\x1b[95mYour JekelScore(TM) is", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "%\x1b[0m\n")
     else:
-        print("\x1b[95mYour JekelScore(TM) is %", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + "\x1b[0m\n")
+        print("\x1b[95mYour JekelScore(TM) is", str((float(len(testcases) - len(failed_testcases)) / float(len(testcases))) * 100) + " %\x1b[0m\n")
 
 def recoverable_project_mistake(mistake_string, tip):
     print("\x1b[90m\n---------- snip snip ----------\x1b[0m")
