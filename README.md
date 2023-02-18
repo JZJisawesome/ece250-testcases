@@ -168,7 +168,7 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 
 | Contributor | Number Of Testcases Contributed | Testcase Names |
 |-------------|---------------------------------|----------------|
-| John Jekel (JZJ) | 13 | multiload, sanity |
+| John Jekel (JZJ) | 2 | multiload, sanity |
 
 ## Project 4
 
