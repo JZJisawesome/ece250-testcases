@@ -51,7 +51,7 @@ def main():
     testcases = read_manifest(tarball_info[2])
 
     if tarball_info[2] == 3:
-        project3_specific_logic()
+        project3_corpus_logic()
 
     test_results = run_testcases(tarball_info[2], testcases)
 
@@ -217,6 +217,15 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     if "a.out" in tarball.getnames():
         tarball.close()
         unrecoverable_project_mistake("Your tarball already contains an a.out binary", "Please ensure your tarball does not include any pre-compiled code whatsoever!")
+
+    #Project 3-specific checks
+    if project_num == 3:
+        if not "trietest.cpp" in tarball.getnames():
+            recoverable_project_mistake("Project 3 requires that you have a file named \"trietest.cpp\" containing main()", "Please create this file and move your main() function to it")
+        if "corpus.txt" in tarball.getnames():
+            unrecoverable_project_mistake("Found corpus.txt in your tarball!", "The corpus will be provided during autograding, you aren't allowed to include it in your tarball")
+
+    #We no longer need to access the tarball
     tarball.close()
 
     make_subprocess = subprocess.Popen(["make", "-j"], cwd=testing_path)
@@ -258,8 +267,8 @@ def read_manifest(project_num):
     print("Awesome, all " + str(len(manifest["testcases"])) + " testcase(s) in the manifest exist!\n")
     return manifest["testcases"]
 
-def project3_specific_logic():
-    print("Performing \x1b[4mProject 3-specific setup\x1b[0m...")
+def project3_corpus_logic():
+    print("Working around \x1b[4mcorpus licensing issues\x1b[0m for Project 3...")
     die("Custom logic needed to handle the corpus for Project 3 is not currently implemented", "John is working on it!")
 
 def run_testcases(project_num, testcases):
