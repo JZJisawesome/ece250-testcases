@@ -12,6 +12,8 @@ RUNNING_FROM_CHECKOUT_REPO_TIP = "Are you running the script from the checked-ou
 FMT_INCORRECT_ERROR = "The format of your tarball's name is incorrect"
 COULD_NOT_LOCATE_ERROR_PREFIX = "Couldn't locate the projects/project"
 FIX_MANIFEST_TIP = "Fix the manifest, or leave an issue at https://github.com/JZJisawesome/ece250-testcases/issues"
+PROJECT3_CORPUS_URL = "http://textfiles.com/games/REVIEWS/careurp.rev"
+PROJECT3_CORPUS_NAME = "corpus.txt"
 
 #A UWID is expected to be in the following format.
 #Up to 8 alphanumeric characters. Some number (1, inf) of
@@ -29,6 +31,7 @@ import sys
 import tarfile
 import time
 import platform
+import requests
 import re
 
 #Functions
@@ -48,10 +51,10 @@ def main():
 
     extract_tarball_and_compile(tarball_info[0], tarball_info[1], tarball_info[2])
 
-    testcases = read_manifest(tarball_info[2])
-
     if tarball_info[2] == 3:
         project3_corpus_logic()
+
+    testcases = read_manifest(tarball_info[2])
 
     test_results = run_testcases(tarball_info[2], testcases)
 
@@ -212,8 +215,8 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
         print("Since this is Project 3, I'll now \x1b[4mperform Project 3-specific checks\x1b[0m...")
         if not "trietest.cpp" in tarball.getnames():
             recoverable_project_mistake("Project 3 requires that you have a file named \"trietest.cpp\" containing main()", "Please create this file and move your main() function to it")
-        if "corpus.txt" in tarball.getnames():
-            unrecoverable_project_mistake("Found corpus.txt in your tarball!", "The corpus will be provided during autograding, you aren't allowed to include it in your tarball")
+        if PROJECT3_CORPUS_NAME in tarball.getnames():
+            unrecoverable_project_mistake("Found " + PROJECT3_CORPUS_NAME + " in your tarball!", "The corpus will be provided during autograding, you aren't allowed to include it in your tarball")
 
     #Test the user's makefile
     print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
@@ -253,6 +256,8 @@ def read_manifest(project_num):
     #Ensure we found a "testcases" key in the manifest
     if not "testcases" in manifest:
         die("The manifest.json for the current project is missing a testcases array", FIX_MANIFEST_TIP)
+    if len(manifest["testcases"]) == 0:
+        die("No testcases are avaliable for the current project yet!", "Please contribute testcases, and do a git pull to grab the most recent ones!")
 
     #Check that all of the testcases in the manifest are sane and actually exist
     for testcase in manifest["testcases"]:
@@ -270,7 +275,35 @@ def read_manifest(project_num):
 
 def project3_corpus_logic():
     print("Working around \x1b[4mcorpus licensing issues\x1b[0m for Project 3...")
-    die("Custom logic needed to handle the corpus for Project 3 is not currently implemented", "John is working on it!")
+    print("\x1b[4mDownloading the original corpus\x1b[0m from textfiles.com...")
+    og_corpus_request = requests.get(PROJECT3_CORPUS_URL, allow_redirects=True)
+    og_corpus = og_corpus_request.content.decode()
+
+    print("Done! Modifying the corpus to \x1b[4mmatch the one on LEARN\x1b[0m...")
+    learn_corpus = og_corpus
+    learn_corpus = learn_corpus.replace("\n ", '\n')
+    learn_corpus = learn_corpus.replace("11", 'ELEVEN')
+    learn_corpus = learn_corpus.replace("25", 'TWENTY FIVE')
+    learn_corpus = learn_corpus.replace("sex", 'GENDER')
+    learn_corpus = learn_corpus.replace("Mac II.", "MAC")
+    learn_corpus = learn_corpus.replace("512K Macs", "FIVE HUNDRED AND TWELVE KILOBYTE MACS")
+    learn_corpus = learn_corpus.replace("512KE", "FIVE HUNDRED AND TWELVE")
+    learn_corpus = learn_corpus.replace("512K ", "FIVE HUNDRED AND TWELVE KILOBYTES ")
+    learn_corpus = learn_corpus.replace("SE, ", '')
+    learn_corpus = learn_corpus.replace("the Mac IIx, Mac IIcx, and Mac IIci,", " THE OTHER TWO MACS")
+    for character in "?'.\"();,!012345678":
+        learn_corpus = learn_corpus.replace(character, '')
+    for character in "-":
+        learn_corpus = learn_corpus.replace(character, ' ')
+    learn_corpus = learn_corpus.partition("*****")[0]
+    learn_corpus = learn_corpus.upper()
+    learn_corpus = learn_corpus[2:]
+    learn_corpus = learn_corpus[:-4]
+
+    print("Modifications successful! \x1b[4mSaving the corpus to disk\x1b[0m so your code can use it...")
+    open(os.path.expanduser(TESTING_DIR) + "/" + PROJECT3_CORPUS_NAME, "w").write(learn_corpus)
+
+    print("")
 
 def run_testcases(project_num, testcases):
     print("Alright, we're finally getting to the good part. Let's run some testcases!")
