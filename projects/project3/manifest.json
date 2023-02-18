@@ -1,5 +1,6 @@
 {
     "testcases": [
+        {"name": "invalid", "author": "JZJ"},
         {"name": "multiload", "author": "JZJ"},
         {"name": "sanity", "author": "JZJ"}
     ]

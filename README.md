@@ -108,6 +108,7 @@ TODO instructions for manual testing with Leaks
 
 | Testcase | Description |
 |----------|-------------|
+| invalid | Tests how you handle invalid input for i, c, and e. |
 | multiload | Performs multiple loads and clears, using empty and size to ensure everything worked |
 | sanity | JZJ's classic sanity test. Just a single line: "exit" |
 
@@ -120,7 +121,7 @@ TODO
 By having your testcases included in this repository, you agree to having them released under the MIT License (of course you retain copyright).
 You'll get a spot in the following "Contributors" section of the README for your contributions, indicating which test files are yours.
 
-Only input files with a corresponding expected output file will be accepted for inclusion.
+Only input files with a corresponding expected output file will be accepted for inclusion. Furthermore, as of Project 3, you must also provide a description of your testcase in this README.
 
 Just **submit a PR** to participate, or if you're a big enough contributor, I'll grant you maintainer status :)
 
