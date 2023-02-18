@@ -207,6 +207,14 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     else:
         print("The name looks good! ", end="")
 
+    #Project 3-specific checks
+    if project_num == 3:
+        print("Since this is Project 3, I'll now \x1b[4mperform Project 3-specific checks\x1b[0m...")
+        if not "trietest.cpp" in tarball.getnames():
+            recoverable_project_mistake("Project 3 requires that you have a file named \"trietest.cpp\" containing main()", "Please create this file and move your main() function to it")
+        if "corpus.txt" in tarball.getnames():
+            unrecoverable_project_mistake("Found corpus.txt in your tarball!", "The corpus will be provided during autograding, you aren't allowed to include it in your tarball")
+
     #Test the user's makefile
     print("Now I'll \x1b[4mtest your Makefile\x1b[0m...")
     if not "Makefile" in tarball.getnames():
@@ -217,13 +225,6 @@ def extract_tarball_and_compile(tarball_path, uwid, project_num):
     if "a.out" in tarball.getnames():
         tarball.close()
         unrecoverable_project_mistake("Your tarball already contains an a.out binary", "Please ensure your tarball does not include any pre-compiled code whatsoever!")
-
-    #Project 3-specific checks
-    if project_num == 3:
-        if not "trietest.cpp" in tarball.getnames():
-            recoverable_project_mistake("Project 3 requires that you have a file named \"trietest.cpp\" containing main()", "Please create this file and move your main() function to it")
-        if "corpus.txt" in tarball.getnames():
-            unrecoverable_project_mistake("Found corpus.txt in your tarball!", "The corpus will be provided during autograding, you aren't allowed to include it in your tarball")
 
     #We no longer need to access the tarball
     tarball.close()
