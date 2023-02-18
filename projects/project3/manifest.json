@@ -3,6 +3,8 @@
         {"name": "alphabetic_print", "author": "JZJ"},
         {"name": "invalid", "author": "JZJ"},
         {"name": "multiload", "author": "JZJ"},
-        {"name": "sanity", "author": "JZJ"}
+        {"name": "sanity", "author": "JZJ"},
+        {"name": "spellcheck_correct", "author": "JZJ"},
+        {"name": "spellcheck_incorrect", "author": "JZJ"}
     ]
 }

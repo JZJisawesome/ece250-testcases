@@ -6,7 +6,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 |---------|-------------------------------|
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
-| Project 3 | 4 (4 active in manifest) |
+| Project 3 | 6 (6 active in manifest) |
 | Project 4 | 0 |
 
 
@@ -112,6 +112,8 @@ TODO instructions for manual testing with Leaks
 | invalid | Tests how you handle invalid input for i, c, and e. |
 | multiload | Performs multiple loads and clears, using empty and size to ensure everything worked |
 | sanity | JZJ's classic sanity test. Just a single line: "exit" |
+| spellcheck_correct | Loads the corpus, and spellchecks every word, which should print "correct" each time. |
+| spellcheck_incorrect | Loads the corpus, and spellchecks several wrong words, trying to cover several edge cases when searching for suggestions. |
 
 ## Project 4
 
@@ -170,7 +172,7 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 
 | Contributor | Number Of Testcases Contributed | Testcase Names |
 |-------------|---------------------------------|----------------|
-| John Jekel (JZJ) | 4 | alphabetic_print, invalid, multiload, sanity |
+| John Jekel (JZJ) | 6 | alphabetic_print, invalid, multiload, sanity, spellcheck_correct, spellcheck_incorrect |
 
 ## Project 4
 
