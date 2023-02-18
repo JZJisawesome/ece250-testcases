@@ -1,0 +1,20 @@
+load
+size
+i APPLE
+i BANANA
+i CHERRY
+p
+c APP
+c BAN
+c CHERRY
+spellcheck APPO
+spellcheck CHRRY
+spellcheck BA
+spellcheck ZEBRA
+e APPLE
+c APP
+size
+clear
+empty
+size
+exit
