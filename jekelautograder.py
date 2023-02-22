@@ -36,6 +36,16 @@ import re
 
 #Functions
 def main():
+    print("\x1b[36m ____              _   _              __  __                                     _");
+    print("\x1b[36m| __ )  ___   ___ | |_| | ___  __ _  |  \\/  | __ _ _ __ _ __ ___   ___  ___  ___| |_");
+    print("\x1b[36m|  _ \\ / _ \\ / _ \\| __| |/ _ \\/ _` | | |\\/| |/ _` | '__| '_ ` _ \\ / _ \\/ __|/ _ \\ __|");
+    print("\x1b[36m| |_) | (_) | (_) | |_| |  __/ (_| | | |  | | (_| | |  | | | | | | (_) \\__ \\  __/ |_");
+    print("\x1b[36m|____/ \\___/ \\___/ \\__|_|\\___|\\__, | |_|  |_|\\__,_|_|  |_| |_| |_|\\___/|___/\\___|\\__|");
+    print("\x1b[36m                              |___/\x1b[0m");
+    print("\x1b[90m---------- snip snip ----------\x1b[0m")
+    print("\x1b[1mOops, wrong title, just a sec...\x1b[0m")
+    print("\x1b[90m---------- snip snip ----------\x1b[0m")
+
     print("\x1b]0;Jekel AutoGrader\x07", end="")
     print("\x1b[95m     _      _        _      _         _         ____               _\x1b[0m")
     print("\x1b[95m    | | ___| | _____| |    / \\  _   _| |_ ___  / ___|_ __ __ _  __| | ___ _ __\x1b[0m")
@@ -44,6 +54,8 @@ def main():
     print("\x1b[95m \\___/ \\___|_|\\_\\___|_| /_/   \\_\\__,_|\\__\\___/ \\____|_|  \\__,_|\\__,_|\\___|_|    for ECE 250\x1b[0m")
 
     print("\x1b[90mCopyright (c) 2023 John Jekel and Aiden Fox Ivey\x1b[0m\n")
+
+    print("You saw \x1b[1mnothing!\x1b[0m\n")
 
     basic_sanity_checks()
 
