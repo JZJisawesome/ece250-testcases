@@ -1,0 +1,19 @@
+load
+i APPLE
+i BANANA
+i ORANGE
+p
+size
+c A
+c OR
+c APP
+c BANANA
+e ORANGE
+p
+e GRAPE
+spellcheck BANAN
+spellcheck GRA
+clear
+size
+empty
+exit

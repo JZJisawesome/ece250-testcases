@@ -1,0 +1,13 @@
+load
+c CAR
+i car
+i card
+i care
+c CA
+c CAR
+c CARD
+c CARR
+e car
+c CAR
+p
+exit
