@@ -1,0 +1,35 @@
+i AA
+i AAAAAAA
+e AA
+p
+size
+i BB
+i BBBBBBB
+i BBBB
+e BBBB
+p
+size
+i C
+i CC
+e C
+i CCC
+p
+size
+i DDDDDDDD
+i DDDDEFGHIJKLMNOP
+e DDDDDDDD
+p
+size
+i EEEEEEEEEE
+i E
+i EFG
+e EFG
+p
+size
+i F
+i FF
+i FFF
+e FF
+p
+size
+exit
