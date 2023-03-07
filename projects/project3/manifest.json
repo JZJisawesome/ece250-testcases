@@ -18,6 +18,7 @@
         {"name": "prefix_example_from_spec", "author": "JZJ"},
         {"name": "prefix_peril", "author": "JZJ"},
         {"name": "sanity", "author": "JZJ"},
+        {"name": "single_letters", "author": "Adam Goldman"},
         {"name": "spellcheck_correct", "author": "JZJ"},
         {"name": "spellcheck_example_from_spec", "author": "JZJ"},
         {"name": "spellcheck_no_suggestions", "author": "JZJ"},
