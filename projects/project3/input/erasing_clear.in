@@ -1,0 +1,12 @@
+load
+p
+empty
+size
+clear
+p
+e EUROPE
+i RECEIVED
+e I
+e RECEIVED
+i IF
+exit
