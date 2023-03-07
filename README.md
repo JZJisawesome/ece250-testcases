@@ -125,6 +125,7 @@ TODO instructions for manual testing with Leaks
 | spellcheck_example_from_spec | Tests the example situation mentioned in the spec on LEARN, with YOU, YOUN, YOUNG, and YOUR. |
 | spellcheck_no_suggestions | Loads the corpus, and spellchecks several wrong words that have no suggestions. This is an edge case: newlines should be printed, **not all of the words**. |
 | spellcheck_incorrect | Loads the corpus, and spellchecks several wrong words, trying to cover several edge cases when searching for suggestions. |
+| erasing_clear | Loads the corpus and clears it, then prints, inserts and removes to the empty trie. |
 
 ## Project 4
 
