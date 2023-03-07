@@ -6,7 +6,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 |---------|-------------------------------|
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
-| Project 3 | 22 (22 active in manifest) |
+| Project 3 | 22 (21 active in manifest) |
 | Project 4 | 0 |
 
 

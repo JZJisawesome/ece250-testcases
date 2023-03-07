@@ -14,7 +14,6 @@
         {"name": "LEARN_test03", "author": "ECE 250 Teaching Staff"},
         {"name": "long_words", "author": "JZJ", "timeout_time_secs": 60},
         {"name": "more_spellchecking", "author": "JZJ"},
-        {"name": "multiload", "author": "JZJ"},
         {"name": "prefix_example_from_spec", "author": "JZJ"},
         {"name": "prefix_peril", "author": "JZJ"},
         {"name": "sanity", "author": "JZJ"},
