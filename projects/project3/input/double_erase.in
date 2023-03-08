@@ -1,0 +1,7 @@
+i WORD
+i WORDLE
+p
+e WORD
+p
+e WORD
+exit
