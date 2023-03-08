@@ -153,8 +153,6 @@ def get_info_about_tarball():
         print("\x1b[1mYou are an AutoGrader maintainer :)\x1b[0m")
     elif (uwid == "laledes"):
         print("\x1b[1mMacOS support is coming, I promise...\x1b[0m")
-    elif (uwid == "jfitchet"):
-        print("\x1b[1mCs get degrees!\x1b[0m")
     elif (uwid == "example"):
         print("\x1b[1mYou know you don't have to copy and paste everything exactly from the README, right?\x1b[0m")
         print("\x1b[1mUnless of course your UWID is actually example, in which case, hello!\x1b[0m")
@@ -437,8 +435,6 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
         uwid = "Aiden"
     elif (uwid == "fmirshek"):
         uwid = "Farzan"
-    elif (uwid == "jfitchet"):
-        uwid = "Josh"
     elif (uwid == "laledes"):
         uwid = "Luc"
 
