@@ -1,0 +1,28 @@
+empty
+c A
+i ZACKCRAMER
+empty
+c ZACK
+c ZACKCRAMER
+i ZACK
+e ZACK
+e ZACK
+empty
+size
+c Z
+i MATTHEWHARRIS
+i MATTHEWROBBINS
+c MATTHEW
+i MATTHEW
+i MAGDYSALAMA
+i IVANCALERO
+i ANWARHASAN
+i MATTHEW
+size
+c MA
+e MATTHEWROBBINS
+c MA
+clear
+empty
+size
+exit

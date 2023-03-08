@@ -1,0 +1,27 @@
+empty 1
+not found
+success
+empty 0
+count is 1
+count is 1
+success
+success
+failure
+empty 0
+number of words is 1
+count is 1
+success
+success
+count is 2
+success
+success
+success
+success
+failure
+number of words is 7
+count is 4
+success
+count is 3
+success
+empty 1
+number of words is 0
