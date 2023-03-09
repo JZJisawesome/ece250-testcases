@@ -6,7 +6,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 |---------|-------------------------------|
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 36 (36 active in manifest) |
-| Project 3 | 25 (25 active in manifest) |
+| Project 3 | 26 (26 active in manifest) |
 | Project 4 | 0 |
 
 
@@ -121,6 +121,7 @@ TODO instructions for manual testing with Leaks
 | long_words | Tests words that are much longer than normal. |
 | more_spellchecking | A few additional spellcheck commands I sort of accidentally came up with while trying to create spellcheck_no_suggestions. |
 | multiload | Performs multiple loads and clears, using empty and size to ensure everything worked |
+| nested_erase | Inserts a word and another word embedded in the previous word and erases both words. |
 | prefix_example_from_spec | Tests the example situation mentioned in the spec on LEARN, with CAR, CARD, and CARMEN. |
 | prefix_peril | Tries the "c" comman in a bunch of situations, trying to invoke edgecases (ex. no prefixes available, the prefix is a valid word, the prefix is near the root, etc). |
 | sanity | JZJ's classic sanity test. Just a single line: "exit" |
@@ -193,7 +194,7 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | John Jekel (JZJ) | 15 | alphabetic_print, dont_erase_too_much, im_empty_inside, insanity, invalid, long_words, more_spellchecking, multiload, prefix_example_from_spec, prefix_peril, sanity, spellcheck_correct, spellcheck_example_from_spec, spellcheck_no_suggestions, spellcheck_incorrect |
 | Josh Quittner | 1 | erasing_clear |
 | Nick Chan | 1 | can_you_count |
-| Mihir | 1 | double_erase
+| Mihir | 2 | double_erase, nested_erase
 
 ## Project 4
 
