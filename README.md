@@ -114,6 +114,7 @@ TODO instructions for manual testing with Leaks
 | dont_erase_too_much | Erases words and ensures you don't accidentally erase other ones by mistake. Also makes sure your size variable remains consistent with the number of words present. |
 | double_erase | Erases a word twice and ensures the behaviour is as expected |
 | erasing_clear | Loads the corpus and clears it, then prints, inserts and removes to the empty trie. |
+| illegal_insert | Input an word with both valid and invalid characters and ensure the valid letters are not inserted |
 | insanity | JZJ's classic insanity test. This is the biggest one yet (almost 1 MB), but it shouldn't take that long since the trie is pretty efficient as data structures go! |
 | im_empty_inside | Tests to ensure commands work properly when the trie is empty. |
 | invalid | Tests how you handle invalid input for i, c, and e. |

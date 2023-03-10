@@ -8,6 +8,7 @@
         {"name": "dont_erase_too_much", "author": "JZJ"},
         {"name": "double_erase", "author": "Mihir"},
         {"name": "erasing_clear", "author": "Josh Quittner"},
+        {"name": "illegal_insert", "author": "Brandon Vo"},
         {"name": "im_empty_inside", "author": "JZJ"},
         {"name": "insanity", "author": "JZJ", "timeout_time_secs": 60},
         {"name": "invalid", "author": "JZJ"},
