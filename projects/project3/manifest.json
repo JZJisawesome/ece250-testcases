@@ -26,6 +26,7 @@
         {"name": "spellcheck_correct", "author": "JZJ"},
         {"name": "spellcheck_example_from_spec", "author": "JZJ"},
         {"name": "spellcheck_no_suggestions", "author": "JZJ"},
-        {"name": "spellcheck_incorrect", "author": "JZJ"}
+        {"name": "spellcheck_incorrect", "author": "JZJ"},
+        {"name": "YodaErase", "author": "Chimera"}
     ]
 }
