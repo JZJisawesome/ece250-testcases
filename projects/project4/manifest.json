@@ -1,4 +1,6 @@
 {
     "testcases": [
+        {"name": "LEARN_smallGraph", "author": "ECE 250 Teaching Staff"},
+        {"name": "LEARN_testFull", "author": "ECE 250 Teaching Staff"}
     ]
 }

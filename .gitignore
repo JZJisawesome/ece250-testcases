@@ -12,3 +12,4 @@ a.out
 *tar*
 *.gz
 *corpus.txt
+*__pycache__*

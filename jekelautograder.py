@@ -34,17 +34,10 @@ import platform
 import requests
 import re
 
+from comparison_utils import *
+
 #Functions
 def main():
-    print("\x1b[36m ____              _   _              __  __                                     _");
-    print("\x1b[36m| __ )  ___   ___ | |_| | ___  __ _  |  \\/  | __ _ _ __ _ __ ___   ___  ___  ___| |_");
-    print("\x1b[36m|  _ \\ / _ \\ / _ \\| __| |/ _ \\/ _` | | |\\/| |/ _` | '__| '_ ` _ \\ / _ \\/ __|/ _ \\ __|");
-    print("\x1b[36m| |_) | (_) | (_) | |_| |  __/ (_| | | |  | | (_| | |  | | | | | | (_) \\__ \\  __/ |_");
-    print("\x1b[36m|____/ \\___/ \\___/ \\__|_|\\___|\\__, | |_|  |_|\\__,_|_|  |_| |_| |_|\\___/|___/\\___|\\__|");
-    print("\x1b[36m                              |___/\x1b[0m");
-    print("\x1b[90m---------- snip snip ----------\x1b[0m")
-    print("\x1b[1mOops, wrong title, just a sec...\x1b[0m")
-    print("\x1b[90m---------- snip snip ----------\x1b[0m")
 
     print("\x1b]0;Jekel AutoGrader\x07", end="")
     print("\x1b[95m     _      _        _      _         _         ____               _\x1b[0m")
@@ -53,9 +46,7 @@ def main():
     print("\x1b[95m| |_| |  __/   <  __/ |  / ___ \\ |_| | || (_) | |_| | | | (_| | (_| |  __/ |\x1b[0m")
     print("\x1b[95m \\___/ \\___|_|\\_\\___|_| /_/   \\_\\__,_|\\__\\___/ \\____|_|  \\__,_|\\__,_|\\___|_|    for ECE 250\x1b[0m")
 
-    print("\x1b[90mCopyright (c) 2023 John Jekel and Aiden Fox Ivey\x1b[0m\n")
-
-    print("You saw \x1b[1mnothing!\x1b[0m\n")
+    print("\x1b[90mCopyright (c) 2023 John Jekel, Aiden Fox Ivey, and ECE 250 Teaching Staff\x1b[0m\n")
 
     basic_sanity_checks()
 
@@ -65,6 +56,8 @@ def main():
 
     if tarball_info[2] == 3:
         project3_corpus_logic()
+    elif tarball_info[2] == 4:
+        project4_dataset_logic()
 
     testcases = read_manifest(tarball_info[2])
 
@@ -315,6 +308,17 @@ def project3_corpus_logic():
 
     print("")
 
+def project4_dataset_logic():
+    print("\x1b[4mConfiguring datasets\x1b[0m for Project 4...")
+
+    #Copy all of the dataset files in the project4/datasets directory into the testing directory 
+    datasets_path = "projects/project4/datasets"
+    for dataset in os.listdir(datasets_path):
+        shutil.copy(datasets_path + "/" + dataset, os.path.expanduser(TESTING_DIR))
+
+    print("Successfully \x1b[4mcopied all datasets into the temporary directory\x1b[0m for testing!")
+    print("")
+
 def run_testcases(project_num, testcases):
     print("Alright, we're finally getting to the good part. Let's run some testcases!")
 
@@ -404,19 +408,99 @@ def run_testcase(project_num, testcase):
         test_subprocess.wait()
         return True, -1, True, False, timeout_time_secs
 
-    #Loop through the lines to check if stdout matches what was expected
+    #Verify the stdout matches what was expected
     stdout_as_lines = test_subprocess_stdout.decode().splitlines()
     testcase_output_file = open(testcases_path + "/output/" + testcase["name"] + ".out")
     expected_output_as_lines = testcase_output_file.read().splitlines()
     testcase_output_file.close()
-
     correct_output = True
     mismatched_line = -1
-    for i in range(len(expected_output_as_lines)):
-        if (i >= len(stdout_as_lines)) or (stdout_as_lines[i].rstrip() != expected_output_as_lines[i].rstrip()):
-            correct_output = False
-            mismatched_line = i
-            break
+
+    if project_num != 4:
+        #Loop through the lines to check if stdout matches what was expected
+        for i in range(len(expected_output_as_lines)):
+            if (i >= len(stdout_as_lines)) or (stdout_as_lines[i].strip() != expected_output_as_lines[i].strip()):
+                correct_output = False
+                mismatched_line = i
+                break
+    else:#Project 4 checks output differently
+        testcase_input_file = open(testcases_path + "/input/" + testcase["name"] + ".in")
+        input_as_lines = testcase_input_file.read().splitlines()
+        testcase_input_file.close()
+        for i in range(len(expected_output_as_lines)):
+            #Check if we ran out of lines; if we did, then this is a mismatch
+            if i >= len(stdout_as_lines):
+                correct_output = False
+                mismatched_line = i
+                break
+            else:
+                #Rename variables to suit the code taken from compare.py
+                f1Lines = expected_output_as_lines
+                f2Lines = stdout_as_lines
+                inputLines = input_as_lines
+
+                #TESTING
+                #print("f1Lines: '" + str(f1Lines[i]) + "'; f2Lines: '" + str(f2Lines[i]) + "'; inputLines: '" + str(inputLines[i]) + "'")
+
+                #NOTE: This code is based on the compare.py script provided by the ECE 250 teaching staff on LEARN. Thanks! :)
+                inputCommand = get_first_value(inputLines[i])
+                
+                #Upon encountering LOAD, the output must be "success" always. Check for spelling errors
+                #Upon encountering "INSERT", the output isn't so simple but also is just a string with potential spelling errors
+                #Upon encountering "DELETE", same as INSERT
+                if inputCommand == "LOAD" or inputCommand == "INSERT" or inputCommand == "DELETE":
+                    if not (string_match(f1Lines[i].strip(),f2Lines[i].strip(),compute_threshold(f1Lines[i].strip(),1))):
+                        correct_output = False
+                        mismatched_line = i
+                        break
+                
+                """
+                    Upon "PRINT", there are two possibilities: either the string is purely numeric, at which point we search
+                    ignoring order, or there are non-numeric characters in it, at which point we search for equality of strings
+                """
+                if inputCommand == "PRINT":
+                    if(is_numeric_string(f1Lines[i])):
+                        if not (is_sorted_list_equal(f1Lines[i],f2Lines[i])):
+                            correct_output = False
+                            mismatched_line = i
+                            break
+                    else:
+                        if not (string_match(f1Lines[i].strip(),f2Lines[i].strip(),compute_threshold(f1Lines[i].strip(),1))):
+                            correct_output = False
+                            mismatched_line = i
+                            break
+                    
+                if inputCommand == "COST":
+                    #The strings have to match to a single character, but if that character is a number all numbers must match
+                    if not (string_match(f1Lines[i].strip(),f2Lines[i].strip(),compute_threshold(f1Lines[i].strip(),1)) and check_numbers_match(f2Lines[i].strip(),f1Lines[i].strip())):
+                        correct_output = False
+                        mismatched_line = i
+                        break
+                        
+                if inputCommand == "MST":
+                    #First, check for numeric strings - MAYBE TO DO: perhaps we also should check if f2Lines has a number
+                    #of fields divisible by 3?
+                    if(is_numeric_string(f1Lines[i]) and is_numeric_string(f2Lines[i])):
+                        #Both are numeric, so we shall sort them into triples
+                        try:
+                            tripSolution = parse_numeric_triples(f1Lines[i])
+                            tripStudent = parse_numeric_triples(f2Lines[i])
+                            sort_numeric_triples(tripSolution)
+                            sort_numeric_triples(tripStudent)
+                            if not (same_triples(tripSolution,tripStudent)):
+                                correct_output = False
+                                mismatched_line = i
+                                break
+                        except ValueError:#Can occur if does not have a number of fields divisible by 3
+                            correct_output = False
+                            mismatched_line = i
+                            break
+                    else:
+                        if not (string_match(f1Lines[i].strip(),f2Lines[i].strip(),compute_threshold(f1Lines[i].strip(),1))):
+                            #it is either "failure" or "illegal argument"
+                            correct_output = False
+                            mismatched_line = i
+                            break
 
     #Check stderr to see if Valgrind reported any errors
     if "All heap blocks were freed -- no leaks are possible" in test_subprocess_stderr.decode() and "ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)" in test_subprocess_stderr.decode() and not "Invalid" in test_subprocess_stderr.decode() and not "uninit" in test_subprocess_stderr.decode() and not "Process terminating" in test_subprocess_stderr.decode() and not "Mismatched" in test_subprocess_stderr.decode() and not "overlap in mem" in test_subprocess_stderr.decode() and not "fishy" in test_subprocess_stderr.decode() and not "not within mapped region" in test_subprocess_stderr.decode():
@@ -451,7 +535,7 @@ def summarize_and_grade(uwid, project_num, testcases, failed_testcases):
         for testcase_info in failed_testcases:
             print("Testcase \x1b[96m" + testcase_info[0] + "\x1b[0m failed due to ", end="")
             if not testcase_info[1]:
-                print("\x1b[91man output mismatch on line " + str(testcase_info[2]) + "\x1b[0m", end="")
+                print("\x1b[91man output mismatch near line " + str(testcase_info[2] + 1) + "\x1b[0m", end="")
                 if not testcase_info[3]:
                     print(", and \x1b[93mmemory unsafety\x1b[0m")
                 else:
