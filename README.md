@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 3 (3 active in manifest) + 1 dataset(s)|
+| Project 4 | 5 (5 active in manifest) + 2 datasets |
 
 
 # Sweet, but how do I use them?
@@ -139,12 +139,15 @@ TODO instructions for manual testing with Leaks
 
 | Testcase | Description |
 |----------|-------------|
+| im_empty_inside_again | Tests to ensure your graph behaves well when it is empty |
 | LEARN_{smallGraph, testFull} | Tests provided by the ECE 250 Teaching Staff (from LEARN). Note LEARN_testFull uses the LEARN_bigGraph dataset. |
 | sanity | JZJ's classic sanity test. Just a single line: "END" |
+| tiny_circles | Tests to ensure your graph behaves well even when edges are inserted between a node and itself (dosn't test MST or COST). |
 
 | Dataset | Description |
 |---------|-------------|
-| LEARN_bigGraph | Dataset provided by the ECE 250 Teaching Staff (from LEARN). |
+| empty.in | A dataset with no edges in it |
+| LEARN_bigGraph.in | Dataset provided by the ECE 250 Teaching Staff (from LEARN). |
 
 # Contributing
 
@@ -215,4 +218,4 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Contributor | Number Of Testcases Contributed | Testcase Names | Number of Datasets Contributed | Dataset Names |
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph |
-| John Jekel (JZJ) | 1 | sanity | 1 | empty |
+| John Jekel (JZJ) | 1 | im_empty_inside_again, sanity, tiny_circles | 1 | empty |
