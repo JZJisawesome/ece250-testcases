@@ -442,9 +442,6 @@ def run_testcase(project_num, testcase):
                 f2Lines = stdout_as_lines
                 inputLines = input_as_lines
 
-                #TESTING
-                #print("f1Lines: '" + str(f1Lines[i]) + "'; f2Lines: '" + str(f2Lines[i]) + "'; inputLines: '" + str(inputLines[i]) + "'")
-
                 #NOTE: This code is based on the compare.py script provided by the ECE 250 teaching staff on LEARN. Thanks! :)
                 inputCommand = get_first_value(inputLines[i])
                 

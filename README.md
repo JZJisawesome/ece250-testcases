@@ -59,7 +59,7 @@ $ python3 ./jekelautograder.py path/to/your/tarball/example_p1.tar.gz
  _  | |/ _ \ |/ / _ \ |   / _ \| | | | __/ _ \| |  _| '__/ _` |/ _` |/ _ \ '__|
 | |_| |  __/   <  __/ |  / ___ \ |_| | || (_) | |_| | | | (_| | (_| |  __/ |
  \___/ \___|_|\_\___|_| /_/   \_\__,_|\__\___/ \____|_|  \__,_|\__,_|\___|_|    for ECE 250
-Copyright (c) 2023 John Jekel and Aiden Fox Ivey
+Copyright (c) 2023 John Jekel, Aiden Fox Ivey, and ECE 250 Teaching Staff
 
 Performing some basic sanity checks before we get started...
 Looking good, I think I'm set to go!
@@ -154,7 +154,7 @@ TODO instructions for manual testing with Leaks
 By having your testcases included in this repository, you agree to having them released under the MIT License (of course you retain copyright).
 You'll get a spot in the following "Contributors" section of the README for your contributions, indicating which test files are yours.
 
-Only input files with a corresponding expected output file will be accepted for inclusion. Furthermore, as of Project 3, you must also provide a description of your testcase in this README.
+Only input files with a corresponding expected output file will be accepted for inclusion. Furthermore, as of Project 3, you must also provide a description of your testcase (and datasets) in this README.
 
 Just **submit a PR** to participate, or if you're a big enough contributor, I'll grant you maintainer status :)
 
