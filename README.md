@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 2 (2 active in manifest) |
+| Project 4 | 3 (3 active in manifest) + 1 dataset(s)|
 
 
 # Sweet, but how do I use them?
@@ -140,6 +140,7 @@ TODO instructions for manual testing with Leaks
 | Testcase | Description |
 |----------|-------------|
 | LEARN_{smallGraph, testFull} | Tests provided by the ECE 250 Teaching Staff (from LEARN). Note LEARN_testFull uses the LEARN_bigGraph dataset. |
+| sanity | JZJ's classic sanity test. Just a single line: "END" |
 
 | Dataset | Description |
 |---------|-------------|
@@ -214,3 +215,4 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Contributor | Number Of Testcases Contributed | Testcase Names | Number of Datasets Contributed | Dataset Names |
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph |
+| John Jekel (JZJ) | 1 | sanity | 1 | empty |

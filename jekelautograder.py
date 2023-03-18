@@ -48,6 +48,9 @@ def main():
 
     print("\x1b[90mCopyright (c) 2023 John Jekel, Aiden Fox Ivey, and ECE 250 Teaching Staff\x1b[0m\n")
 
+    print("Also known as the \x1b[1mJOHN JEKEL GITHUB THING\x1b[0m\n")
+
+
     basic_sanity_checks()
 
     tarball_info = get_info_about_tarball()
