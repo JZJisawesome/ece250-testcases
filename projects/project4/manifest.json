@@ -1,12 +1,15 @@
 {
     "testcases": [
         {"name": "im_empty_inside_again", "author": "JZJ"},
+	{"name": "integer_limits", "author": "JZJ"},
+	{"name": "invalid", "author": "JZJ"},
         {"name": "LEARN_smallGraph", "author": "ECE 250 Teaching Staff"},
         {"name": "LEARN_testFull", "author": "ECE 250 Teaching Staff"},
         {"name": "sanity", "author": "JZJ"},
         {"name": "tiny_circles", "author": "JZJ"},
         {"name": "tiny_circles_the_sequel", "author": "JZJ"},
         {"name": "tiny_circles_trilogy", "author": "JZJ"},
+	{"name": "vertex_weight_limits", "author": "JZJ"},
 	{"name": "weird_filename", "author": "JZJ"}
     ]
 }
