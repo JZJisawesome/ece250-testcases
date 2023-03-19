@@ -5,6 +5,8 @@
         {"name": "LEARN_testFull", "author": "ECE 250 Teaching Staff"},
         {"name": "sanity", "author": "JZJ"},
         {"name": "tiny_circles", "author": "JZJ"},
-        {"name": "tiny_circles_the_sequel", "author": "JZJ"}
+        {"name": "tiny_circles_the_sequel", "author": "JZJ"},
+        {"name": "tiny_circles_trilogy", "author": "JZJ"},
+	{"name": "weird_filename", "author": "JZJ"}
     ]
 }
