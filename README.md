@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 5 (5 active in manifest) + 2 datasets |
+| Project 4 | 6 (6 active in manifest) + 7 datasets |
 
 
 # Sweet, but how do I use them?
@@ -142,12 +142,14 @@ TODO instructions for manual testing with Leaks
 | im_empty_inside_again | Tests to ensure your graph behaves well when it is empty |
 | LEARN_{smallGraph, testFull} | Tests provided by the ECE 250 Teaching Staff (from LEARN). Note LEARN_testFull uses the LEARN_bigGraph dataset. |
 | sanity | JZJ's classic sanity test. Just a single line: "END" |
-| tiny_circles | Tests to ensure your graph behaves well even when edges are inserted between a node and itself (dosn't test MST or COST). |
+| tiny_circles | Tests to ensure your graph behaves well even when edges are inserted between a node and itself (doesn't test MST or COST). |
+| tiny_circles_the_sequel | Like tiny_circles, but focuses on testing MST and COST |
 
 | Dataset | Description |
 |---------|-------------|
-| empty.in | A dataset with no edges in it |
+| empty.in | The dataset with no edges in it |
 | LEARN_bigGraph.in | Dataset provided by the ECE 250 Teaching Staff (from LEARN). |
+| jzj_standard_{big, insanity, medium, normal, tiny} | JZJ's standard datasets (of various sizes) used by his testcases (and free for others to use for their testcases too!) |
 
 # Contributing
 
@@ -218,4 +220,4 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Contributor | Number Of Testcases Contributed | Testcase Names | Number of Datasets Contributed | Dataset Names |
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph |
-| John Jekel (JZJ) | 1 | im_empty_inside_again, sanity, tiny_circles | 1 | empty |
+| John Jekel (JZJ) | 4 | im_empty_inside_again, sanity, tiny_circles, tiny_circles_the_sequel | 6 | empty, jzj_standard_big, jzj_standard_insanity, jzj_standard_medium, jzj_standard_normal, jzj_standard_tiny |
