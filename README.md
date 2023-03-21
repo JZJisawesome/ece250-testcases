@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 11 (11 active in manifest) + 8 datasets |
+| Project 4 | 8 (8 active in manifest) + 8 datasets |
 
 
 # Sweet, but how do I use them?
@@ -146,7 +146,7 @@ TODO instructions for manual testing with Leaks
 | sanity | JZJ's classic sanity test. Just a single line: "END" |
 | tiny_circles | Tests to ensure your graph behaves well even when edges are inserted between a node and itself (doesn't test MST or COST). Inspiration from Sam Graham, thanks! :) |
 | tiny_circles_the_sequel | Like tiny_circles, but focuses on testing MST and COST |
-| tiny_circles_trilogy | The final story in the tiny_circles_... saga. What happens if you insert the same tiny circles **multiple times?** | 
+| tiny_circles_trilogy | The final story in the tiny_circles_... saga. What happens if you insert the same tiny circles **multiple times?** |
 | vertex_weight_limits | Tests to ensure your code works correctly even when vertex numbers and weights are near their minimums and maximums. |
 | weird_filename | Loads the_dataset_with_the_really_really_really_longAndALSOweirdname..., and does little else. I guarantee you won't pass this on your first attempt (I certainly didn't). |
 
