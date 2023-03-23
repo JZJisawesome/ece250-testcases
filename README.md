@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 9 (8 active in manifest) + 9 datasets |
+| Project 4 | 8 (7 active in manifest) + 8 datasets |
 
 
 # Sweet, but how do I use them?
@@ -145,7 +145,6 @@ TODO instructions for manual testing with Leaks
 | invalid | Tests to ensure your code correctly rejects invalid vertex numbers and weights |
 | LEARN_{smallGraph, testFull} | Tests provided by the ECE 250 Teaching Staff (from LEARN). Note LEARN_testFull uses the LEARN_bigGraph dataset. |
 | sanity | JZJ's classic sanity test. Just a single line: "END" |
-| starburst | Loads the starburst.in dataset and deletes the center of the star. This causes 1000 verticies to be removed with a single command. |
 | vertex_weight_limits | Tests to ensure your code works correctly even when vertex numbers and weights are near their minimums and maximums. |
 
 | Dataset | Description |
@@ -154,7 +153,6 @@ TODO instructions for manual testing with Leaks
 | fm_CLRS_example.in | The graph example from Chapter 23 of CLRS, used by the fm_01 testcase. |
 | LEARN_bigGraph.in | Dataset provided by the ECE 250 Teaching Staff (from LEARN). |
 | jzj_standard_{big, insanity, medium, normal, tiny}.in | JZJ's standard datasets (of various sizes) used by his testcases (and free for others to use for their testcases too!) |
-| starburst.in | The dataset for the starburst testcase. A single vertex is connected to 999 others through 999 edges. These are the only edges in the whole graph. |
 
 # Contributing
 
@@ -226,4 +224,4 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
 | Farzan Mirshekari | 1 | fm_01 | 1 | fm_CLRS_example.in |
-| John Jekel (JZJ) | 6 | im_empty_inside_again, integer_limits, invalid, sanity, starburst, vertex_weight_limits | 7 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in, starburst.in |
+| John Jekel (JZJ) | 5 | im_empty_inside_again, integer_limits, invalid, sanity, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
