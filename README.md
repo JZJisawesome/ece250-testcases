@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 8 (7 active in manifest) + 8 datasets |
+| Project 4 | 9 (8 active in manifest) + 9 datasets |
 
 
 # Sweet, but how do I use them?
@@ -223,5 +223,5 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Contributor | Number Of Testcases Contributed | Testcase Names | Number of Datasets Contributed | Dataset Names |
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
-| Farzan Mirshekari | 1 | fm_01 | 1 | fm_CLRS_example.in |
+| Farzan Mirshekari | 2 | fm_01, fm_02 | 2 | fm_CLRS_example.in,  |
 | John Jekel (JZJ) | 5 | im_empty_inside_again, integer_limits, invalid, sanity, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
