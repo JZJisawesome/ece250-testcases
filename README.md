@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 8 (7 active in manifest) + 8 datasets |
+| Project 4 | 9 (7 active in manifest) + 8 datasets |
 
 
 # Sweet, but how do I use them?
@@ -104,11 +104,6 @@ TODO instructions for manual testing with Leaks
 
 # Testcase Descriptions
 
-## Project 4
-| Testcase | Description |
-|----------|-------------|
-| fm_01 | Loads the graph example from Chapter 23 of CLRS. A standard check for the MST and cost calculations.
-
 ## Project 3
 
 | Testcase | Description |
@@ -144,20 +139,22 @@ TODO instructions for manual testing with Leaks
 
 | Testcase | Description |
 |----------|-------------|
+| fm_01 | Loads the graph example from Chapter 23 of CLRS. A standard check for the MST and cost calculations. |
 | im_empty_inside_again | Tests to ensure your graph behaves well when it is empty |
 | integer_limits | Tests to ensure your code can handle input near the signed integer limits |
 | invalid | Tests to ensure your code correctly rejects invalid vertex numbers and weights |
 | LEARN_{smallGraph, testFull} | Tests provided by the ECE 250 Teaching Staff (from LEARN). Note LEARN_testFull uses the LEARN_bigGraph dataset. |
 | sanity | JZJ's classic sanity test. Just a single line: "END" |
+| starburst | Loads the starburst.in dataset and deletes the center of the star. This causes 1000 verticies to be removed with a single command. |
 | vertex_weight_limits | Tests to ensure your code works correctly even when vertex numbers and weights are near their minimums and maximums. |
-| weird_filename | Loads the_dataset_with_the_really_really_really_longAndALSOweirdname..., and does little else. I guarantee you won't pass this on your first attempt (I certainly didn't). |
 
 | Dataset | Description |
 |---------|-------------|
 | empty.in | The dataset with no edges in it |
+| fm_CLRS_example.in | The graph example from Chapter 23 of CLRS, used by the fm_01 testcase. |
 | LEARN_bigGraph.in | Dataset provided by the ECE 250 Teaching Staff (from LEARN). |
 | jzj_standard_{big, insanity, medium, normal, tiny}.in | JZJ's standard datasets (of various sizes) used by his testcases (and free for others to use for their testcases too!) |
-| the_dataset_with_the_really_really_really_longAndALSOweirdname... | The dataset whose only purpose is for use with the weird_filename testcase. It has numbers, symbols, a space in the middle, and almost maxes out the maximum file length limit on Linux :) |
+| starburst.in | The dataset for the starburst testcase. A single vertex is connected to 999 others through 999 edges. These are the only edges in the whole graph. |
 
 # Contributing
 
@@ -228,4 +225,5 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Contributor | Number Of Testcases Contributed | Testcase Names | Number of Datasets Contributed | Dataset Names |
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
-| John Jekel (JZJ) | 6 | im_empty_inside_again, integer_limits, invalid, sanity, vertex_weight_limits, weird_filename | 7 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in, the_dataset_with_the_really_really_really_longAndALSOweirdname... |
+| Farzan Mirshekari | 1 | fm_01 | 1 | fm_CLRS_example.in |
+| John Jekel (JZJ) | 6 | im_empty_inside_again, integer_limits, invalid, sanity, starburst, vertex_weight_limits | 7 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in, starburst.in |

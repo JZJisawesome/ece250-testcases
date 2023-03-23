@@ -1,0 +1,9 @@
+LOAD starburst.in
+PRINT 1
+MST
+COST
+DELETE 1
+PRINT 1
+MST
+COST
+END

@@ -9,7 +9,7 @@ a.out
 *.bak
 *Makefile
 *_design_*
-*tar*
+*.tar*
 *.gz
 *corpus.txt
 *__pycache__*
