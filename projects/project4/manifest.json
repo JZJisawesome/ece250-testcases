@@ -6,6 +6,7 @@
 	{"name": "LEARN_smallGraph", "author": "ECE 250 Teaching Staff"},
 	{"name": "LEARN_testFull", "author": "ECE 250 Teaching Staff"},
 	{"name": "sanity", "author": "JZJ"},
-	{"name": "vertex_weight_limits", "author": "JZJ"}
+	{"name": "vertex_weight_limits", "author": "JZJ"},
+	{"name": "fm_02", "author": "Farzan Mirshekari"}
     ]
 }
