@@ -1,0 +1,4 @@
+LOAD fm_CLRS_example.in
+MST
+COST
+END

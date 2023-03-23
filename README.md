@@ -104,6 +104,11 @@ TODO instructions for manual testing with Leaks
 
 # Testcase Descriptions
 
+## Project 4
+| Testcase | Description |
+|----------|-------------|
+| fm_01 | Loads the graph example from Chapter 23 of CLRS. A standard check for the MST and cost calculations.
+
 ## Project 3
 
 | Testcase | Description |
