@@ -140,6 +140,7 @@ TODO instructions for manual testing with Leaks
 | Testcase | Description |
 |----------|-------------|
 | fm_01 | Loads the graph example from Chapter 23 of CLRS. A standard check for the MST and cost calculations. |
+| fm_03 | Ensure the MST is updated correctly when a connected graph has a vertex deleted such that it becomes disconnected, and then the relevant edge is re-added with a different weight. |
 | im_empty_inside_again | Tests to ensure your graph behaves well when it is empty |
 | integer_limits | Tests to ensure your code can handle input near the signed integer limits |
 | invalid | Tests to ensure your code correctly rejects invalid vertex numbers and weights |
@@ -151,6 +152,7 @@ TODO instructions for manual testing with Leaks
 |---------|-------------|
 | empty.in | The dataset with no edges in it |
 | fm_CLRS_example.in | The graph example from Chapter 23 of CLRS, used by the fm_01 testcase. |
+| fm_dataset_02.in | Dataset used by fm_03. |
 | LEARN_bigGraph.in | Dataset provided by the ECE 250 Teaching Staff (from LEARN). |
 | jzj_standard_{big, insanity, medium, normal, tiny}.in | JZJ's standard datasets (of various sizes) used by his testcases (and free for others to use for their testcases too!) |
 
@@ -223,5 +225,5 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Contributor | Number Of Testcases Contributed | Testcase Names | Number of Datasets Contributed | Dataset Names |
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
-| Farzan Mirshekari | 2 | fm_01, fm_02 | 2 | fm_CLRS_example.in,  |
+| Farzan Mirshekari | 3 | fm_01, fm_02, fm_03 | 3 | fm_CLRS_example.in, fm_dataset_02.in |
 | John Jekel (JZJ) | 5 | im_empty_inside_again, integer_limits, invalid, sanity, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
