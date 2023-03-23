@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 7 (6 active in manifest) + 7 datasets |
+| Project 4 | 7 (5 active in manifest) + 7 datasets |
 
 
 # Sweet, but how do I use them?
