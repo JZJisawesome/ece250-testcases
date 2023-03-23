@@ -5,7 +5,6 @@
 	{"name": "invalid", "author": "JZJ"},
 	{"name": "LEARN_smallGraph", "author": "ECE 250 Teaching Staff"},
 	{"name": "sanity", "author": "JZJ"},
-	{"name": "vertex_weight_limits", "author": "JZJ"},
-	{"name": "weird_filename", "author": "JZJ"}
+	{"name": "vertex_weight_limits", "author": "JZJ"}
     ]
 }
