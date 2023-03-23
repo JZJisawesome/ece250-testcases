@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 9 (8 active in manifest) + 9 datasets |
+| Project 4 | 10 (9 active in manifest) + 9 datasets |
 
 
 # Sweet, but how do I use them?
@@ -140,15 +140,18 @@ TODO instructions for manual testing with Leaks
 | Testcase | Description |
 |----------|-------------|
 | fm_01 | Loads the graph example from Chapter 23 of CLRS. A standard check for the MST and cost calculations. |
+| fm_02 | Ensure the cost function actually calls MST in order to calculate the cost each time (it dosn't just cache the value from the last MST call). |
 | im_empty_inside_again | Tests to ensure your graph behaves well when it is empty |
 | integer_limits | Tests to ensure your code can handle input near the signed integer limits |
 | invalid | Tests to ensure your code correctly rejects invalid vertex numbers and weights |
 | LEARN_{smallGraph, testFull} | Tests provided by the ECE 250 Teaching Staff (from LEARN). Note LEARN_testFull uses the LEARN_bigGraph dataset. |
 | sanity | JZJ's classic sanity test. Just a single line: "END" |
+| update_adjacent_adjacency_lists | Ensure that, when you remove a vertex, the adjacency lists of verticies that were adjacent to the vertex are updated too. |
 | vertex_weight_limits | Tests to ensure your code works correctly even when vertex numbers and weights are near their minimums and maximums. |
 
 | Dataset | Description |
 |---------|-------------|
+| fm_dataset_01.in | Dataset for use with the fm_02 testcase |
 | empty.in | The dataset with no edges in it |
 | fm_CLRS_example.in | The graph example from Chapter 23 of CLRS, used by the fm_01 testcase. |
 | LEARN_bigGraph.in | Dataset provided by the ECE 250 Teaching Staff (from LEARN). |
@@ -223,5 +226,5 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | Contributor | Number Of Testcases Contributed | Testcase Names | Number of Datasets Contributed | Dataset Names |
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
-| Farzan Mirshekari | 2 | fm_01, fm_02 | 2 | fm_CLRS_example.in,  |
-| John Jekel (JZJ) | 5 | im_empty_inside_again, integer_limits, invalid, sanity, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
+| Farzan Mirshekari | 2 | fm_01, fm_02 | 2 | fm_CLRS_example.in, fm_dataset_01.in |
+| John Jekel (JZJ) | 6 | im_empty_inside_again, integer_limits, invalid, sanity, vertex_weight_limits, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
