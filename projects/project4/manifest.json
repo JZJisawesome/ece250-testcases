@@ -1,6 +1,5 @@
 {
     "testcases": [
-	{"name": "fm_01", "author": "Farzan Mirshekari"},
         {"name": "im_empty_inside_again", "author": "JZJ"},
         {"name": "invalid", "author": "JZJ"},
         {"name": "integer_limits", "author": "JZJ"},
