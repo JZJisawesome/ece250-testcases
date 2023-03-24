@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 14 (13 active in manifest) + 10 datasets |
+| Project 4 | 15 (14 active in manifest) + 10 datasets |
 
 
 # Sweet, but how do I use them?
@@ -144,6 +144,7 @@ TODO instructions for manual testing with Leaks
 | fm_01 | Loads the graph example from Chapter 23 of CLRS. A standard check for the MST and cost calculations. |
 | fm_02 | Ensure the cost function actually calls MST in order to calculate the cost each time (it dosn't just cache the value from the last MST call). |
 | fm_03 | Ensure the MST is updated correctly when a connected graph has a vertex deleted such that it becomes disconnected, and then the relevant edge is re-added with a different weight. |
+| heavy_graph | Sort of an extension to integer_limits/vertex_weight_limits. Ensures your MST and COST don't break down if the cost of the MST is the signed integer maximum. |
 | im_empty_inside_again | Tests to ensure your graph behaves well when it is empty |
 | integer_limits | Tests to ensure your code can handle input near the signed integer limits |
 | invalid | Tests to ensure your code correctly rejects invalid vertex numbers and weights |
@@ -232,4 +233,4 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
 | Farzan Mirshekari | 3 | fm_01, fm_02, fm_03 | 3 | fm_CLRS_example.in, fm_dataset_01.in, fm_dataset_02.in |
-| John Jekel (JZJ) | 9 | double_insert, delete_missing, im_empty_inside_again, integer_limits, invalid, print_missing, sanity, update_adjacent_adjacency_lists, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
+| John Jekel (JZJ) | 10 | double_insert, delete_missing, heavy_graph, im_empty_inside_again, integer_limits, invalid, print_missing, sanity, update_adjacent_adjacency_lists, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
