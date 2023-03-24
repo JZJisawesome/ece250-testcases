@@ -1,5 +1,7 @@
 {
     "testcases": [
+	{"name": "delete_missing", "author": "JZJ"},
+	{"name": "double_insert", "author": "JZJ"},
 	{"name": "fm_02", "author": "Farzan Mirshekari"},
 	{"name": "fm_03", "author": "Farzan Mirshekari"},
         {"name": "im_empty_inside_again", "author": "JZJ"},
@@ -7,6 +9,7 @@
         {"name": "integer_limits", "author": "JZJ"},
 	{"name": "LEARN_smallGraph", "author": "ECE 250 Teaching Staff"},
 	{"name": "LEARN_testFull", "author": "ECE 250 Teaching Staff"},
+	{"name": "print_missing", "author": "JZJ"},
 	{"name": "sanity", "author": "JZJ"},
 	{"name": "update_adjacent_adjacency_lists", "author": "JZJ"},
 	{"name": "vertex_weight_limits", "author": "JZJ"}
