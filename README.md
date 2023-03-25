@@ -144,6 +144,7 @@ TODO instructions for manual testing with Leaks
 | fm_01 | Loads the graph example from Chapter 23 of CLRS. A standard check for the MST and cost calculations. |
 | fm_02 | Ensure the cost function actually calls MST in order to calculate the cost each time (it dosn't just cache the value from the last MST call). |
 | fm_03 | Ensure the MST is updated correctly when a connected graph has a vertex deleted such that it becomes disconnected, and then the relevant edge is re-added with a different weight. |
+| fm_04 | A large testcase by Farzan |
 | heavy_graph | Sort of an extension to integer_limits/vertex_weight_limits. Ensures your MST and COST don't break down if the cost of the MST is the signed integer maximum. |
 | im_empty_inside_again | Tests to ensure your graph behaves well when it is empty |
 | integer_limits | Tests to ensure your code can handle input near the signed integer limits |
@@ -160,6 +161,7 @@ TODO instructions for manual testing with Leaks
 | fm_CLRS_example.in | The graph example from Chapter 23 of CLRS, used by the fm_01 testcase. |
 | fm_dataset_01.in | Dataset for use with the fm_02 testcase |
 | fm_dataset_02.in | Dataset used by fm_03. |
+| fm_fairly_massive_dataset.in | A large dataset used by fm_04 |
 | LEARN_bigGraph.in | Dataset provided by the ECE 250 Teaching Staff (from LEARN). |
 | jzj_standard_{big, insanity, medium, normal, tiny}.in | JZJ's standard datasets (of various sizes) used by his testcases (and free for others to use for their testcases too!) |
 
