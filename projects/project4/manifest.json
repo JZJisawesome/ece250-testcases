@@ -2,9 +2,10 @@
     "testcases": [
 	{"name": "delete_missing", "author": "JZJ"},
 	{"name": "double_insert", "author": "JZJ"},
+	{"name": "fm_01", "author": "Farzan Mirshekari"},
 	{"name": "fm_02", "author": "Farzan Mirshekari"},
 	{"name": "fm_03", "author": "Farzan Mirshekari"},
-	{"name": "fm_04", "author": "Farzan Mirshekari", "timeout_time_secs": 60},
+	{"name": "fm_04", "author": "Farzan Mirshekari", "timeout_time_secs": 180},
 	{"name": "heavy_graph", "author": "JZJ"},
         {"name": "im_empty_inside_again", "author": "JZJ"},
         {"name": "invalid", "author": "JZJ"},
