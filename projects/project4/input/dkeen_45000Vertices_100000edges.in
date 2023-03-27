@@ -1,0 +1,7 @@
+LOAD dkeen_45000Vertices_100000edges_dataset.in
+PRINT 20336
+DELETE 1
+COST 
+INSERT 1 20336 1
+COST
+END
