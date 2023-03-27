@@ -242,4 +242,4 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
 | Farzan Mirshekari | 4 | fm_01, fm_02, fm_03, fm_04 | 3 | fm_CLRS_example.in, fm_dataset_01.in, fm_dataset_02.in, fm_fairly_massive_dataset.in |
 | John Jekel (JZJ) | 10 | delete_missing, double_insert, heavy_graph, im_empty_inside_again, integer_limits, invalid, print_missing, sanity, update_adjacent_adjacency_lists, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
-| Nick Chan | 3 | nc_01, nc_02, nc_03 |
+| Nick Chan | 3 | nc_01, nc_02, nc_03 | 0 | N/A |
