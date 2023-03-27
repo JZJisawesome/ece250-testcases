@@ -19,5 +19,6 @@
 	{"name": "sanity", "author": "JZJ"},
 	{"name": "update_adjacent_adjacency_lists", "author": "JZJ"},
 	{"name": "vertex_weight_limits", "author": "JZJ"}
+	{"name": "simple_small_graph", "author": "Sushant Gangwani"}    
     ]
 }
