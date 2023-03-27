@@ -1,6 +1,7 @@
 {
     "testcases": [
 	{"name": "delete_missing", "author": "JZJ"},
+	{"name": "dkeen_45000Vertices_100000edges", "author": "Dylan Keen", "timeout_time_secs": 1200},
 	{"name": "double_insert", "author": "JZJ"},
 	{"name": "fm_01", "author": "Farzan Mirshekari"},
 	{"name": "fm_02", "author": "Farzan Mirshekari"},

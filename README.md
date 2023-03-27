@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 16 (16 active in manifest) + 11 datasets |
+| Project 4 | 17 (17 active in manifest) + 11 datasets |
 
 
 # Sweet, but how do I use them?
@@ -140,6 +140,7 @@ TODO instructions for manual testing with Leaks
 | Testcase | Description |
 |----------|-------------|
 | delete_missing | Ensures your code prints "failure" when you try to print vertices adjacent to a vertex that does not exist. | 
+| dkeen_45000Vertices_100000edges.in | A test to put your code through its paces with 45000 verticies and 100000 edges! Also checks that COST works after deleting and inserting a vertex. |
 | double_insert | Ensures your code prints "failure" when you try to insert an edge twice; and that the original weight it kept if you attempt to do so. | 
 | fm_01 | Loads the graph example from Chapter 23 of CLRS. A standard check for the MST and cost calculations. |
 | fm_02 | Ensure the cost function actually calls MST in order to calculate the cost each time (it dosn't just cache the value from the last MST call). |
@@ -157,6 +158,7 @@ TODO instructions for manual testing with Leaks
 
 | Dataset | Description |
 |---------|-------------|
+| dkeen_45000Vertices_100000edges_dataset.in | A dataset with 45000 verticies and 100000 edges! | 
 | empty.in | The dataset with no edges in it |
 | fm_CLRS_example.in | The graph example from Chapter 23 of CLRS, used by the fm_01 testcase. |
 | fm_dataset_01.in | Dataset for use with the fm_02 testcase |
@@ -233,6 +235,7 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 
 | Contributor | Number Of Testcases Contributed | Testcase Names | Number of Datasets Contributed | Dataset Names |
 |-------------|---------------------------------|----------------|--------------------------------|---------------|
+| Dylan Keen | 1 | dkeen_45000Vertices_100000edges.in | 1 | dkeen_45000Vertices_100000edges_dataset.in |
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
 | Farzan Mirshekari | 4 | fm_01, fm_02, fm_03, fm_04 | 3 | fm_CLRS_example.in, fm_dataset_01.in, fm_dataset_02.in, fm_fairly_massive_dataset.in |
 | John Jekel (JZJ) | 10 | delete_missing, double_insert, heavy_graph, im_empty_inside_again, integer_limits, invalid, print_missing, sanity, update_adjacent_adjacency_lists, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
