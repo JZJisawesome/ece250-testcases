@@ -7,7 +7,7 @@ This repository contains a collection of MIT-licensed testcases for each project
 | Project 1 | 23 (22 active in manifest) |
 | Project 2 | 34 (34 active in manifest) |
 | Project 3 | 31 (30 active in manifest) |
-| Project 4 | 19 (19 active in manifest) + 12 datasets |
+| Project 4 | 20 (20 active in manifest) + 12 datasets |
 
 
 # Sweet, but how do I use them?
@@ -151,6 +151,7 @@ TODO instructions for manual testing with Leaks
 | integer_limits | Tests to ensure your code can handle input near the signed integer limits |
 | invalid | Tests to ensure your code correctly rejects invalid vertex numbers and weights |
 | LEARN_{smallGraph, testFull} | Tests provided by the ECE 250 Teaching Staff (from LEARN). Note LEARN_testFull uses the LEARN_bigGraph dataset. |
+| nc_01 | TODO description |
 | nc_02 | TODO description |
 | nc_03 | TODO description |
 | print_missing | Ensures your code prints "failure" when you try to print vertices adjacent to a vertex that does not exist |
@@ -241,4 +242,4 @@ Just **submit a PR** to participate, or if you're a big enough contributor, I'll
 | ECE 250 Teaching Staff | 2 | LEARN_smallGraph, LEARN_testFull | 1 | LEARN_bigGraph.in |
 | Farzan Mirshekari | 4 | fm_01, fm_02, fm_03, fm_04 | 3 | fm_CLRS_example.in, fm_dataset_01.in, fm_dataset_02.in, fm_fairly_massive_dataset.in |
 | John Jekel (JZJ) | 10 | delete_missing, double_insert, heavy_graph, im_empty_inside_again, integer_limits, invalid, print_missing, sanity, update_adjacent_adjacency_lists, vertex_weight_limits | 6 | empty.in, jzj_standard_big.in, jzj_standard_insanity.in, jzj_standard_medium.in, jzj_standard_normal.in, jzj_standard_tiny.in |
-| Nick Chan | 2 | nc_02, nc_03 | 0 | N/A |
+| Nick Chan | 3 | nc_01, nc_02, nc_03 | 0 | N/A |
