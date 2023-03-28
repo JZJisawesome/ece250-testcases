@@ -18,8 +18,8 @@
 	{"name": "nc_03", "author": "Nick Chan"},
 	{"name": "print_missing", "author": "JZJ"},
 	{"name": "sanity", "author": "JZJ"},
+	{"name": "tc_01", "author": "Sushant Gangwani"},
 	{"name": "update_adjacent_adjacency_lists", "author": "JZJ"},
 	{"name": "vertex_weight_limits", "author": "JZJ"}
-	{"name": "simple_small_graph", "author": "Sushant Gangwani"}    
     ]
 }
